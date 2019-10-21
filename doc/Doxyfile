@@ -1,0 +1,17 @@
+PROJECT_NAME		= "LinkPred"
+PROJECT_NUMBER		= ..
+STRIP_FROM_PATH		= /home/said/Dropbox/Said/dev/LinkPred \
+			  /home/said/Dropbox/Said/dev/LinkPred
+INPUT			=  \
+			  /home/said/Dropbox/Said/dev/LinkPred \
+			  /home/said/Dropbox/Said/dev/LinkPred
+FILE_PATTERNS		= *.h \
+                          *.hpp
+RECURSIVE		= YES
+EXCLUDE_PATTERNS	= */plfit/* \
+			  */cg/* \
+			  */hrgpredictor/* \
+			  */sbmpredictor/* \
+			  */hyppredictor/* \
+			  fibheap.hpp			
+USE_MDFILE_AS_MAINPAGE = 
