@@ -297,13 +297,13 @@ public:
 		}
 
 		auto begin = net->nonEdgesBegin()
-		+ (net->getNbNonEdges() / nbProcs) * procID
-		+ std::min(static_cast<std::size_t>(procID),
-				net->getNbNonEdges() % nbProcs);
+				+ (net->getNbNonEdges() / nbProcs) * procID
+				+ std::min(static_cast<std::size_t>(procID),
+						net->getNbNonEdges() % nbProcs);
 		auto end = net->nonEdgesBegin()
-		+ (net->getNbNonEdges() / nbProcs) * (procID + 1)
-		+ std::min(static_cast<std::size_t>(procID + 1),
-				net->getNbNonEdges() % nbProcs);
+				+ (net->getNbNonEdges() / nbProcs) * (procID + 1)
+				+ std::min(static_cast<std::size_t>(procID + 1),
+						net->getNbNonEdges() % nbProcs);
 #else
 		auto begin = net->nonEdgesBegin();
 		auto end = net->nonEdgesEnd();
@@ -324,10 +324,7 @@ public:
 	 * @param e The edge.
 	 * @return The score of e.
 	 */
-	virtual double score(EdgeType const & e) {
-		throw std::runtime_error("Method 'score' not implemented");
-		return 0;
-	}
+	virtual double score(EdgeType const & e) = 0;
 
 	/**
 	 * Finds the k negative edges with the top score. Ties are broken randomly.
@@ -346,10 +343,10 @@ public:
 #pragma omp critical(initLMapQueueArray)
 			{
 #endif
-		mqs.push_back(LMapQueue<EdgeType, double>(k));
+				mqs.push_back(LMapQueue<EdgeType, double>(k));
 #ifdef WITH_OPENMP
-	}
-}
+			}
+		}
 #endif
 
 		// Computing loop start, end and step in case of distributed processing

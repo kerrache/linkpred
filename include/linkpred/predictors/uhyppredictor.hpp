@@ -32,6 +32,7 @@
 #include <memory>
 
 namespace LinkPred {
+constexpr double MathPI = 3.141592653589793238462643383279502884L; /**< Pi. */
 
 /**
  * @brief Hypermap predictor.
@@ -356,6 +357,29 @@ public:
 	 * Learning.
 	 */
 	virtual void learn();
+
+	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		auto coordsi = nodesCoord.at(NetworkT::start(e));
+		auto coordsj = nodesCoord.at(NetworkT::end(e));
+
+		double dtheta = std::abs(coordsi.first - coordsj.first);
+		if (dtheta > MathPI) {
+			dtheta = 2 * MathPI - dtheta;
+		}
+		double ri = coordsi.second;
+		double rj = coordsj.second;
+		double dist = (1 / zeta)
+				* std::acosh(
+						(std::cosh(zeta * ri) * std::cosh(zeta * rj))
+								- (std::sinh(zeta * ri) * std::sinh(zeta * rj)
+										* std::cos(dtheta)));
+		return 1 / (1 + std::exp((zeta / (2 * T)) * dist));
+	}
 
 	/**
 	 * Predict the links.

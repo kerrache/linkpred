@@ -21,14 +21,15 @@
 #include <linkpred/predictors/uhyppredictor.hpp>
 #include "linkpred/utils/randomgen.hpp"
 #include "linkpred/utils/log.hpp"
+#ifdef WITH_OPENMP
 #include <omp.h>
+#endif
 #include "linkpred/utils/utilities.hpp"
 #include <fstream>
 #include <cmath>
 #include <algorithm>
 
 namespace LinkPred {
-constexpr double MathPI = 3.141592653589793238462643383279502884L; /**< Pi. */
 
 template<typename NetworkT, typename EdgesRandomIteratorT,
 		typename ScoresRandomIteratorT, typename EdgesRandomOutputIteratorT> void UHYPPredictor<

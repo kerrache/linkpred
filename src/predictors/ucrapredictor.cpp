@@ -47,8 +47,8 @@ template<typename NetworkT, typename EdgesRandomIteratorT,
 		std::vector<typename NetworkT::EdgeType> ce; // Common neighbors of both nodes
 		net->getCommonNeighbors(srcNode, endNode, std::back_inserter(ce));
 		std::vector<typename NetworkT::NodeIdType> ns;
-		for (auto it = ce.cbegin(); it != ce.cend(); ++it) {
-			ns.push_back(NetworkT::end(*it));
+		for (auto cnit = ce.cbegin(); cnit != ce.cend(); ++cnit) {
+			ns.push_back(NetworkT::end(*cnit));
 		}
 		std::vector<std::size_t> degs; // Internal degree of each of the neighbors
 		for (auto it1 = ns.cbegin(); it1 != ns.cend(); ++it1) {
@@ -82,7 +82,7 @@ template<typename NetworkT, typename EdgesRandomIteratorT,
 #pragma omp critical(initLMapQueueArray)
 		{
 #endif
-			mqs.push_back(LMapQueue<EdgeType, double>(l));
+	mqs.push_back(LMapQueue<EdgeType, double>(l));
 #ifdef WITH_OPENMP
 		}
 	}

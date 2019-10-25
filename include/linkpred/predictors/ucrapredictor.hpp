@@ -110,6 +110,38 @@ public:
 	}
 
 	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		auto srcNode = NetworkT::start(e);
+		auto endNode = NetworkT::end(e);
+
+		std::vector<typename NetworkT::EdgeType> ce; // Common neighbors of both nodes
+		net->getCommonNeighbors(srcNode, endNode, std::back_inserter(ce));
+		std::vector<typename NetworkT::NodeIdType> ns;
+		for (auto cnit = ce.cbegin(); cnit != ce.cend(); ++cnit) {
+			ns.push_back(NetworkT::end(*cnit));
+		}
+		std::vector<std::size_t> degs; // Internal degree of each of the neighbors
+		for (auto it1 = ns.cbegin(); it1 != ns.cend(); ++it1) {
+			std::size_t nb = 0;
+			for (auto it2 = ns.cbegin(); it2 != ns.cend(); ++it2) {
+				if (net->isEdge(*it1, *it2)) {
+					nb++;
+				}
+			}
+			degs.push_back(nb);
+		}
+		double sc = 0;
+		for (std::size_t i = 0; i < ns.size(); i++) {
+			sc += (double) degs[i] / net->getDeg(ns[i]);
+		}
+		return sc;
+	}
+
+	/**
 	 * Predict the links.
 	 * @param begin Beginning of the links to be predicted.
 	 * @param end end of the links to be predicted.

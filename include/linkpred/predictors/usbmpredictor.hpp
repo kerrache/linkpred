@@ -118,6 +118,17 @@ public:
 	virtual void learn();
 
 	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		auto i = NetworkT::start(e);
+		auto j = NetworkT::end(e);
+		return scores[nodesMap[i]->num][nodesMap[j]->num];
+	}
+
+	/**
 	 * Predict the links.
 	 * @param begin Beginning of the links to be predicted.
 	 * @param end end of the links to be predicted.

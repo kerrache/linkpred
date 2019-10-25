@@ -111,6 +111,15 @@ public:
 	}
 
 	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		return 0;
+	}
+
+	/**
 	 * Predict the links.
 	 * @param begin Beginning of the links to be predicted.
 	 * @param end end of the links to be predicted.

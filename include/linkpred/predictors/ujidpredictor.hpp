@@ -108,6 +108,21 @@ public:
 	}
 
 	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		auto srcNode = NetworkT::start(e);
+		auto endNode = NetworkT::end(e);
+		double degI = net->getDeg(srcNode);
+		double degJ = net->getDeg(endNode);
+		double nbCN = net->getNbCommonNeighbors(srcNode, endNode);
+		return nbCN
+				/ (degI + degJ - nbCN + std::numeric_limits<double>::epsilon());
+	}
+
+	/**
 	 * Predict the links.
 	 * @param begin Beginning of the links to be predicted.
 	 * @param end end of the links to be predicted.

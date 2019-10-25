@@ -326,10 +326,7 @@ public:
 	 * @param e The edge.
 	 * @return The score of e.
 	 */
-	virtual double score(EdgeType const & e) {
-		throw std::runtime_error("Method 'score' not implemented");
-		return 0;
-	}
+	virtual double score(EdgeType const & e) = 0;
 
 	/**
 	 * Finds the k negative edges with the top score. Ties are broken randomly.

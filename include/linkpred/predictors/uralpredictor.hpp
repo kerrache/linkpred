@@ -109,6 +109,23 @@ public:
 	}
 
 	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		auto srcNode = NetworkT::start(e);
+		auto endNode = NetworkT::end(e);
+		std::vector<NodeIdType> cn;
+		net->getCommonNeighbors(srcNode, endNode, std::back_inserter(cn));
+		double sum = 0;
+		for (auto it = cn.begin(); it != cn.end(); ++it) {
+			sum += 1.0 / net->getDeg(*it);
+		}
+		return sum;
+	}
+
+	/**
 	 * Predict the links.
 	 * @param begin Beginning of the links to be predicted.
 	 * @param end end of the links to be predicted.
@@ -131,7 +148,8 @@ public:
 	 * Destructor.
 	 */
 	virtual ~URALPredictor() = default;
-};
+}
+;
 }
 /* namespace LinkPred */
 

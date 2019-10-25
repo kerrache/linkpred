@@ -137,6 +137,14 @@ public:
 	 * Learn.
 	 */
 	virtual void learn();
+	/**
+	 * Compute the score of a single edge.
+	 * @param e The edge.
+	 * @return The score of e.
+	 */
+	virtual double score(EdgeType const & e) {
+		return scores.at(e);
+	}
 
 	/**
 	 * Predict the links.
