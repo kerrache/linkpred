@@ -20,6 +20,7 @@
 
 /**
  * \file
+ * @ingroup Utils
  * @brief Contains the implementation of a random number generator.
  */
 

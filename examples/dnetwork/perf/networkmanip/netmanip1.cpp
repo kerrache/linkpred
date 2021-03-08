@@ -18,10 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
-int main(int argc, char*argv[]) {
+int main() {
 	int n = 5;
 	auto net = std::make_shared<DNetwork<unsigned int>>();
 	for (int i = 1; i <= n; i++) {
@@ -31,8 +31,8 @@ int main(int argc, char*argv[]) {
 	}
 	net->assemble();
 	std::cout << "Assembled\n";
-	auto testData = NetworkManipulator<DNetwork<unsigned int>>::createTestData(net, 0.4, 0.3, false,
-			true, 0, true, 0, FN, TN, 777);
+	auto testData = NetworkManipulator<DNetwork<unsigned int>>::createTestData(
+			net, 0.4, 0.3, false, true, 0, true, 0, FN, TN, 777);
 	testData.genPos();
 	testData.genNeg();
 	std::cout << "Original network:\n";

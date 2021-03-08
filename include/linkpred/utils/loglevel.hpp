@@ -20,11 +20,12 @@
 
 /**
  * \file
+ * @ingroup Utils
  * @brief Contains the definition of log levels.
  */
 
-#ifndef INCLUDE_LOGLEVEL_HPP_
-#define INCLUDE_LOGLEVEL_HPP_
+#ifndef LOGLEVEL_HPP_
+#define LOGLEVEL_HPP_
 
 namespace LinkPred {
 

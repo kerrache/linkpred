@@ -1,0 +1,17 @@
+<map id="include/linkpred/ml/simmeasures/simmeasures.hpp" name="include/linkpred/ml/simmeasures/simmeasures.hpp">
+<area shape="rect" id="node1" title="Includes the headers related to similarity measures." alt="" coords="386,5,597,47"/>
+<area shape="rect" id="node2" href="$simmeasure_8hpp.html" title="Contains the interface of a similarity measure." alt="" coords="408,184,575,225"/>
+<area shape="rect" id="node10" href="$cosinesim_8hpp.html" title="Contains the implementation of cosine similarity." alt="" coords="27,95,194,136"/>
+<area shape="rect" id="node11" href="$dotprod_8hpp.html" title="Contains the implementation of the dot product similarity measure." alt="" coords="218,95,384,136"/>
+<area shape="rect" id="node12" href="$l1sim_8hpp.html" title="Contains the implementation of L1 similarity." alt="" coords="408,95,575,136"/>
+<area shape="rect" id="node13" href="$l2sim_8hpp.html" title="Contains the implementation of L2 similarity." alt="" coords="599,95,766,136"/>
+<area shape="rect" id="node14" href="$lpsim_8hpp.html" title="Contains the implementation of LP similarity." alt="" coords="790,95,956,136"/>
+<area shape="rect" id="node15" href="$pearson_8hpp.html" title="Contains the implementation of Perason similarity." alt="" coords="980,95,1147,136"/>
+<area shape="rect" id="node3" href="$vec_8hpp.html" title="Contains the implementation of a vector (in the sense of linear algebra)." alt="" coords="378,273,504,315"/>
+<area shape="rect" id="node7" title=" " alt="" coords="617,363,676,389"/>
+<area shape="rect" id="node4" title=" " alt="" coords="130,363,197,389"/>
+<area shape="rect" id="node5" title=" " alt="" coords="221,363,293,389"/>
+<area shape="rect" id="node6" title=" " alt="" coords="317,363,386,389"/>
+<area shape="rect" id="node8" title=" " alt="" coords="411,363,471,389"/>
+<area shape="rect" id="node9" title=" " alt="" coords="495,363,592,389"/>
+</map>

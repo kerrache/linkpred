@@ -20,6 +20,8 @@
 #include <math.h>
 #include "linkpred/numerical/plfit/kolmogorov.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 double plfit_kolmogorov(double z) {
 	const double fj[4] = { -2, -8, -18, -32 };
@@ -66,3 +68,5 @@ double plfit_ks_test_two_sample_p(double d, size_t n1, size_t n2) {
 	return plfit_kolmogorov(d * sqrt(n1 * n2 / ((double) (n1 + n2))));
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

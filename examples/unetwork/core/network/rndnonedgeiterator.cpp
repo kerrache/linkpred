@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <map>
 
@@ -26,34 +26,37 @@ using namespace LinkPred;
 
 int main(int argc, char*argv[]) {
 	if (argc != 5) {
-		std::cerr << "Bad arguments\nUsage:" << argv[0] << " netFileName ratio nbTests seed"
-				<< std::endl;
+		std::cerr << "Bad arguments\nUsage:" << argv[0]
+				<< " netFileName ratio nbTests seed" << std::endl;
 		exit(1);
 	}
 	std::string netFileName(argv[1]);
 	double ratio = std::atof(argv[2]);
-	int nbTests =  std::atoi(argv[3]);
-	long int seed =  std::atol(argv[4]);
-			
+	int nbTests = std::atoi(argv[3]);
+	long int seed = std::atol(argv[4]);
+
 	if (ratio < 0 || ratio > 1) {
-		throw std::invalid_argument("Illegal value for ratio: ratio must satisfy 0 <= ratio <= 1");
-	}	
+		throw std::invalid_argument(
+				"Illegal value for ratio: ratio must satisfy 0 <= ratio <= 1");
+	}
 	std::cout << "Reading network...\n";
 	auto net = UNetwork<>::read(netFileName, false, true);
 	std::cout << "done.\n";
-	std::cout <<"n: " << net->getNbNodes() << " m: " << net->getNbEdges() << std::endl; 
+	std::cout << "n: " << net->getNbNodes() << " m: " << net->getNbEdges()
+			<< std::endl;
 	net->print();
-	
+
 	{
 		RandomGen rng(seed);
-		
-		std::map<typename UNetwork<>::EdgeType, int> freq;
+
+		std::map<typename UNetwork<>::Edge, int> freq;
 		for (auto it = net->nonEdgesBegin(); it != net->nonEdgesEnd(); ++it) {
 			freq[*it] = 0;
 		}
 
-		for (int i = 0; i < nbTests; i++) {		
-			for (auto it = net->rndNonEdgesBegin(ratio, rng.getInt()); it != net->rndNonEdgesEnd(); ++it) { // pre-increment
+		for (int i = 0; i < nbTests; i++) {
+			for (auto it = net->rndNonEdgesBegin(ratio, rng.getInt());
+					it != net->rndNonEdgesEnd(); ++it) { // pre-increment
 				auto e = *it;
 				auto fit = freq.find(e);
 				if (fit == freq.end()) {
@@ -64,20 +67,23 @@ int main(int argc, char*argv[]) {
 			}
 		}
 		for (auto it = freq.begin(); it != freq.end(); ++it) {
-			std::cout << net->getLabel(net->start(it->first)) << "\t" << net->getLabel(net->end(it->first)) << "\t" << (double) it->second / nbTests << std::endl;
+			std::cout << net->getLabel(net->start(it->first)) << "\t"
+					<< net->getLabel(net->end(it->first)) << "\t"
+					<< (double) it->second / nbTests << std::endl;
 		}
 	}
 
 	{
 		RandomGen rng(seed);
-		
-		std::map<typename UNetwork<>::EdgeType, int> freq;
+
+		std::map<typename UNetwork<>::Edge, int> freq;
 		for (auto it = net->nonEdgesBegin(); it != net->nonEdgesEnd(); ++it) {
 			freq[*it] = 0;
 		}
 
-		for (int i = 0; i < nbTests; i++) {		
-			for (auto it = net->rndNonEdgesBegin(ratio, rng.getInt()); it != net->rndNonEdgesEnd(); it++) { // post-increment
+		for (int i = 0; i < nbTests; i++) {
+			for (auto it = net->rndNonEdgesBegin(ratio, rng.getInt());
+					it != net->rndNonEdgesEnd(); it++) { // post-increment
 				auto e = *it;
 				auto fit = freq.find(e);
 				if (fit == freq.end()) {
@@ -88,7 +94,9 @@ int main(int argc, char*argv[]) {
 			}
 		}
 		for (auto it = freq.begin(); it != freq.end(); ++it) {
-			std::cout << net->getLabel(net->start(it->first)) << "\t" << net->getLabel(net->end(it->first)) << "\t" << (double) it->second / nbTests << std::endl;
+			std::cout << net->getLabel(net->start(it->first)) << "\t"
+					<< net->getLabel(net->end(it->first)) << "\t"
+					<< (double) it->second / nbTests << std::endl;
 		}
 	}
 	return 0;

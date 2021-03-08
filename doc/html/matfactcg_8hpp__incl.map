@@ -1,0 +1,9 @@
+<map id="include/linkpred/graphalg/encoders/matfact/matfactcg.hpp" name="include/linkpred/graphalg/encoders/matfact/matfactcg.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of the optimization problem associated with matrix factorization." alt="" coords="214,5,429,47"/>
+<area shape="rect" id="node2" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="5,102,141,129"/>
+<area shape="rect" id="node3" title=" " alt="" coords="166,95,295,136"/>
+<area shape="rect" id="node4" href="$randomgen_8hpp.html" title="Contains the implementation of a random number generator." alt="" coords="319,102,507,129"/>
+<area shape="rect" id="node7" title=" " alt="" coords="532,102,591,129"/>
+<area shape="rect" id="node5" title=" " alt="" coords="334,184,399,211"/>
+<area shape="rect" id="node6" title=" " alt="" coords="424,184,493,211"/>
+</map>

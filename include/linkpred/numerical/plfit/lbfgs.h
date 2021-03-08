@@ -33,6 +33,8 @@
 extern "C" {
 #endif/*__cplusplus*/
 
+namespace LinkPred {
+
 namespace PLFit {
 /*
  * The default precision of floating point values is 64bit (double).
@@ -495,6 +497,8 @@ lbfgsfloatval_t* lbfgs_malloc(int n);
 void lbfgs_free(lbfgsfloatval_t *x);
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 /** @} */
 

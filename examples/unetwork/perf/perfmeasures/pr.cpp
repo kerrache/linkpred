@@ -18,9 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	std::string netFileName(argv[1]);
 	if (argc != 2) {
@@ -30,6 +31,7 @@ int main(int argc, char*argv[]) {
 	auto fullNet = UNetwork<>::read(netFileName, false, true);
 	auto testData = NetworkManipulator<>::createTestData(fullNet, 0.3, 0, true,
 			true, 0, true, 0, FN, TN, 777);
+	testData.lock();
 	auto predictor = std::make_shared<UHRGPredictor<>>(testData.getObsNet(),
 			333);
 	predictor->init();

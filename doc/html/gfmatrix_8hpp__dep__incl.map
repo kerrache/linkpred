@@ -1,0 +1,11 @@
+<map id="include/linkpred/numerical/linear/gfmatrix.hpp" name="include/linkpred/numerical/linear/gfmatrix.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of a full matrix." alt="" coords="103,5,275,47"/>
+<area shape="rect" id="node2" href="$numerical_8hpp.html" title="Includes the headers related to numerical algorithms." alt="" coords="5,184,177,225"/>
+<area shape="rect" id="node4" href="$ufbmpredictor_8hpp.html" title="Contains the implementation of the fast blocking model link predictor." alt="" coords="176,95,369,136"/>
+<area shape="rect" id="node3" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="101,541,239,568"/>
+<area shape="rect" id="node5" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="201,184,376,225"/>
+<area shape="rect" id="node6" href="$predictors_8hpp.html" title="Includes the headers of link predictors." alt="" coords="197,273,370,315"/>
+<area shape="rect" id="node7" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="207,363,351,404"/>
+<area shape="rect" id="node9" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="375,363,519,404"/>
+<area shape="rect" id="node8" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="207,452,351,493"/>
+</map>

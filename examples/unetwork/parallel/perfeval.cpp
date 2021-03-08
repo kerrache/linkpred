@@ -18,9 +18,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
+using namespace LinkPred::Utils;
 int main(int argc, char*argv[]) {
 	if (argc != 4) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0]
@@ -45,7 +47,7 @@ int main(int argc, char*argv[]) {
 		perf.addPerfMeasure(std::make_shared<ROC<>>());
 		perf.addPerfMeasure(std::make_shared<PR<>>());
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		perf.setParallel(true); // Enable parallelism
 #endif
 		perf.eval();

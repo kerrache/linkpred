@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <chrono>
 
@@ -34,7 +34,8 @@ int main(int argc, char*argv[]) {
 	std::cout << "Reading network...\n";
 	auto net = UNetwork<>::read(netFileName, false, true);
 	std::cout << "done.\n";
-	std::cout <<"n: " << net->getNbNodes() << " m: " << net->getNbEdges() << std::endl; 
+	std::cout << "n: " << net->getNbNodes() << " m: " << net->getNbEdges()
+			<< std::endl;
 	//net->print();
 	//std::cout << "Negative links:\n";
 	{
@@ -50,8 +51,8 @@ int main(int argc, char*argv[]) {
 		auto end = std::chrono::steady_clock::now();
 		auto diff = end - start;
 		std::cerr << "#Time: "
-				<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
-				<< std::endl;
+				<< std::chrono::duration<double, std::milli>(diff).count()
+				<< " ms" << std::endl;
 		std::cout << cpt << " negative links " << std::endl;
 	}
 	//std::cout << "Negative links:\n";
@@ -68,8 +69,8 @@ int main(int argc, char*argv[]) {
 		auto end = std::chrono::steady_clock::now();
 		auto diff = end - start;
 		std::cerr << "#Time: "
-				<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
-				<< std::endl;
+				<< std::chrono::duration<double, std::milli>(diff).count()
+				<< " ms" << std::endl;
 		std::cout << cpt << " negative links " << std::endl;
 	}
 	{
@@ -86,8 +87,8 @@ int main(int argc, char*argv[]) {
 		auto end = std::chrono::steady_clock::now();
 		auto diff = end - start;
 		std::cerr << "#Time: "
-				<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
-				<< std::endl;
+				<< std::chrono::duration<double, std::milli>(diff).count()
+				<< " ms" << std::endl;
 		std::cout << cpt << " negative links " << std::endl;
 	}
 	{
@@ -104,8 +105,8 @@ int main(int argc, char*argv[]) {
 		auto end = std::chrono::steady_clock::now();
 		auto diff = end - start;
 		std::cerr << "#Time: "
-				<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
-				<< std::endl;
+				<< std::chrono::duration<double, std::milli>(diff).count()
+				<< " ms" << std::endl;
 		std::cout << cpt << " negative links " << std::endl;
 	}
 	return 0;

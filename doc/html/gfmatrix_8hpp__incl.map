@@ -1,0 +1,10 @@
+<map id="include/linkpred/numerical/linear/gfmatrix.hpp" name="include/linkpred/numerical/linear/gfmatrix.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of a full matrix." alt="" coords="27,5,199,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,184,65,211"/>
+<area shape="rect" id="node3" title=" " alt="" coords="90,184,149,211"/>
+<area shape="rect" id="node4" href="$vec_8hpp.html" title="Contains the implementation of a vector (in the sense of linear algebra)." alt="" coords="151,95,277,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="389,184,455,211"/>
+<area shape="rect" id="node6" title=" " alt="" coords="479,184,551,211"/>
+<area shape="rect" id="node7" title=" " alt="" coords="173,184,242,211"/>
+<area shape="rect" id="node8" title=" " alt="" coords="267,184,364,211"/>
+</map>

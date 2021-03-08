@@ -32,6 +32,8 @@
 
 __BEGIN_DECLS
 
+namespace LinkPred {
+
 namespace PLFit {
 /**
  * Enum specifying what the search should do when the function is not U-shaped.
@@ -143,6 +145,8 @@ unsigned short int gss_get_warning_flag();
 void gss_parameter_init(gss_parameter_t *param);
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 __END_DECLS
 

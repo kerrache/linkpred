@@ -1,0 +1,52 @@
+<map id="include/linkpred/predictors/predictors.hpp" name="include/linkpred/predictors/predictors.hpp">
+<area shape="rect" id="node1" title="Includes the headers of link predictors." alt="" coords="4225,5,4398,47"/>
+<area shape="rect" id="node2" href="$directed_8hpp.html" title="Includes the headers of link predictors for directed networks." alt="" coords="5643,95,5790,136"/>
+<area shape="rect" id="node24" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="2787,184,2961,225"/>
+<area shape="rect" id="node3" href="$dadapredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="5627,184,5806,225"/>
+<area shape="rect" id="node4" href="$dlpredictor_8hpp.html" title="Contains the interface of a link predictor." alt="" coords="5873,273,6033,315"/>
+<area shape="rect" id="node14" href="$dcnepredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="5830,184,6009,225"/>
+<area shape="rect" id="node15" href="$dhdipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="4835,184,5009,225"/>
+<area shape="rect" id="node16" href="$dhpipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="5033,184,5208,225"/>
+<area shape="rect" id="node17" href="$djidpredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="5233,184,5403,225"/>
+<area shape="rect" id="node18" href="$dlcppredictor_8hpp.html" title="Contains the implementation of a directed LCP link predictor." alt="" coords="5428,184,5603,225"/>
+<area shape="rect" id="node19" href="$dlhnpredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="6033,184,6208,225"/>
+<area shape="rect" id="node20" href="$dpatpredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="6232,184,6407,225"/>
+<area shape="rect" id="node21" href="$dpstpredictor_8hpp.html" title="Contains the implementation of a link predictor that prestores the scores of edges." alt="" coords="6483,184,6657,225"/>
+<area shape="rect" id="node22" href="$dsaipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="6681,184,6856,225"/>
+<area shape="rect" id="node23" href="$dsoipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="4636,184,4811,225"/>
+<area shape="rect" id="node7" title=" " alt="" coords="4161,452,4230,479"/>
+<area shape="rect" id="node5" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="6222,527,6358,553"/>
+<area shape="rect" id="node6" href="$dnetwork_8hpp.html" title="Contains the implementation of a directed network data structure." alt="" coords="6076,363,6229,404"/>
+<area shape="rect" id="node8" title=" " alt="" coords="6358,452,6433,479"/>
+<area shape="rect" id="node9" title=" " alt="" coords="5915,452,5969,479"/>
+<area shape="rect" id="node10" href="$lmapqueue_8hpp.html" title="Contains the implementation of a templated map&#45;priority queue with limit on the capacity." alt="" coords="6127,452,6333,479"/>
+<area shape="rect" id="node11" title=" " alt="" coords="5819,527,5865,553"/>
+<area shape="rect" id="node12" title=" " alt="" coords="6140,527,6197,553"/>
+<area shape="rect" id="node13" title=" " alt="" coords="5651,452,5729,479"/>
+<area shape="rect" id="node25" href="$uesmpredictor_8hpp.html" title="Contains the implementation of an encoder&#45;similarity measure link predictor." alt="" coords="3485,273,3681,315"/>
+<area shape="rect" id="node26" href="$ulpredictor_8hpp.html" title="Contains the interface of a link predictor." alt="" coords="3496,363,3671,404"/>
+<area shape="rect" id="node27" href="$ueclpredictor_8hpp.html" title="Contains the implementation of an encoder&#45;classifier link predictor." alt="" coords="3705,273,3893,315"/>
+<area shape="rect" id="node28" href="$uadapredictor_8hpp.html" title="Contains the implementation of an Adamic Adar index link predictor." alt="" coords="3918,273,4110,315"/>
+<area shape="rect" id="node29" href="$ucnepredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="4134,273,4326,315"/>
+<area shape="rect" id="node30" href="$ucrapredictor_8hpp.html" title="Contains the implementation of the Cannistraci Resource Allocation link predictor." alt="" coords="4350,273,4539,315"/>
+<area shape="rect" id="node31" href="$ucstpredictor_8hpp.html" title="Contains the implementation of a constant link predictor." alt="" coords="4563,273,4753,315"/>
+<area shape="rect" id="node32" href="$ufbmpredictor_8hpp.html" title="Contains the implementation of the fast blocking model link predictor." alt="" coords="3048,273,3241,315"/>
+<area shape="rect" id="node33" href="$uhdipredictor_8hpp.html" title="Contains the implementation of a hub depromoted index link predictor." alt="" coords="4777,273,4965,315"/>
+<area shape="rect" id="node34" href="$uhpipredictor_8hpp.html" title="Contains the implementation of a hub promoted index link predictor." alt="" coords="429,273,617,315"/>
+<area shape="rect" id="node35" href="$uhrgpredictor_8hpp.html" title="Contains the implementation of the HRG link predictor." alt="" coords="5203,273,5393,315"/>
+<area shape="rect" id="node36" href="$uhyppredictor_8hpp.html" title="Contains the implementation of the hypermap link predictor." alt="" coords="858,273,1050,315"/>
+<area shape="rect" id="node37" href="$ujidpredictor_8hpp.html" title="Contains the implementation of a Jackard index link predictor." alt="" coords="1074,273,1258,315"/>
+<area shape="rect" id="node38" href="$ukabpredictor_8hpp.html" title="Contains the implementation of a scalable popularity&#45;similarity link predictor." alt="" coords="1282,273,1474,315"/>
+<area shape="rect" id="node39" href="$ulcppredictor_8hpp.html" title="Contains the implementation of a local path link predictor." alt="" coords="1499,273,1687,315"/>
+<area shape="rect" id="node40" href="$ulhnpredictor_8hpp.html" title="Contains the implementation of a Leicht&#45;Holme&#45;Newman index link predictor." alt="" coords="1711,273,1899,315"/>
+<area shape="rect" id="node41" href="$unedpredictor_8hpp.html" title="Contains the implementation of a link prediction algorithm based on the degrees of neighbors." alt="" coords="1923,273,2115,315"/>
+<area shape="rect" id="node42" href="$upatpredictor_8hpp.html" title="Contains the implementation of a preferential attachment link predictor." alt="" coords="2139,273,2329,315"/>
+<area shape="rect" id="node43" href="$upstpredictor_8hpp.html" title="Contains the implementation of a link predictor that prestores the scores of edges." alt="" coords="2353,273,2542,315"/>
+<area shape="rect" id="node44" href="$uralpredictor_8hpp.html" title="Contains the implementation of a resource allocation link predictor." alt="" coords="2567,273,2752,315"/>
+<area shape="rect" id="node45" href="$urndpredictor_8hpp.html" title="Contains the implementation of a random link predictor." alt="" coords="4990,273,5179,315"/>
+<area shape="rect" id="node46" href="$usaipredictor_8hpp.html" title="Contains the implementation of a Salton index link predictor." alt="" coords="217,273,405,315"/>
+<area shape="rect" id="node47" href="$usbmpredictor_8hpp.html" title="Contains the implementation of the stochastic block model link predictor." alt="" coords="2776,273,2972,315"/>
+<area shape="rect" id="node48" href="$ushppredictor_8hpp.html" title="Contains the implementation of a shortest path link predictor." alt="" coords="642,273,834,315"/>
+<area shape="rect" id="node49" href="$usoipredictor_8hpp.html" title="Contains the implementation of a Sorensen index link predictor." alt="" coords="5,273,193,315"/>
+<area shape="rect" id="node50" href="$usumpredictor_8hpp.html" title="Contains the implementation of a sum&#45;of&#45;degrees link predictor." alt="" coords="3265,273,3461,315"/>
+</map>

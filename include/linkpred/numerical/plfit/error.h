@@ -20,6 +20,8 @@
 #ifndef __ERROR_H__
 #define __ERROR_H__
 
+namespace LinkPred {
+
 namespace PLFit {
 enum {
 	PLFIT_SUCCESS = 0,
@@ -73,5 +75,7 @@ void plfit_error_handler_printignore(const char *reason, const char *file,
 		int line, int plfit_errno);
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif /* __ERROR_H__ */

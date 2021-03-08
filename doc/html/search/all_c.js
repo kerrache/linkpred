@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['m_506',['m',['../structLinkPred_1_1Simp_1_1Evaluator_1_1Factory_1_1HYPParams.html#a023f057b48def78b5fc5bdceeac77691',1,'LinkPred::Simp::Evaluator::Factory::HYPParams']]],
+  ['makeconstant_507',['makeConstant',['../classLinkPred_1_1Vec.html#a7b5965077b4066cf7449f5b5fe4117ed',1,'LinkPred::Vec']]],
+  ['makeedge_508',['makeEdge',['../classLinkPred_1_1DNetwork.html#abc43c3b319f622de56f17116cb9cb0bf',1,'LinkPred::DNetwork::makeEdge()'],['../classLinkPred_1_1UNetwork.html#a402cbec800ca640765a270aaae05a679',1,'LinkPred::UNetwork::makeEdge()']]],
+  ['matfact_509',['MatFact',['../classLinkPred_1_1MatFact.html',1,'LinkPred::MatFact&lt; Network &gt;'],['../classLinkPred_1_1MatFact.html#aa5311927ad61b62830f3f16b5b48ce68',1,'LinkPred::MatFact::MatFact(std::shared_ptr&lt; Network const &gt; net, long int seed)'],['../classLinkPred_1_1MatFact.html#a0fefed8432d684b637209d5d1f5394c4',1,'LinkPred::MatFact::MatFact(MatFact const &amp;that)=default'],['../classLinkPred_1_1MatFact.html#adb78501e089fb87c7864cc80ce268e47',1,'LinkPred::MatFact::MatFact(MatFact &amp;&amp;that)=default']]],
+  ['matfact_2ehpp_510',['matfact.hpp',['../matfact_8hpp.html',1,'']]],
+  ['matfactcg_511',['MatFactCG',['../classLinkPred_1_1MatFactCG.html',1,'LinkPred::MatFactCG'],['../classLinkPred_1_1MatFactCG.html#ac100ee064450d629b888d9889ceaa4d0',1,'LinkPred::MatFactCG::MatFactCG(long int nbNodes, std::vector&lt; MatFactPbData &gt; const &amp;pbData, int dim, double lambda, long int seed)'],['../classLinkPred_1_1MatFactCG.html#af11d63a0439b015bb85a8097ff9b9e3b',1,'LinkPred::MatFactCG::MatFactCG(const MatFactCG &amp;that)=delete'],['../classLinkPred_1_1MatFactCG.html#a0bd43665620255c140d19f1ea1a9e583',1,'LinkPred::MatFactCG::MatFactCG(MatFactCG &amp;&amp;that)=delete']]],
+  ['matfactcg_2ehpp_512',['matfactcg.hpp',['../matfactcg_8hpp.html',1,'']]],
+  ['matfactpbdata_513',['MatFactPbData',['../structLinkPred_1_1MatFactPbData.html',1,'LinkPred']]],
+  ['mathpi_514',['MathPI',['../namespaceLinkPred.html#a75fd65b6b598ca1c3be837a9ec44fe69',1,'LinkPred']]],
+  ['max_515',['max',['../classLinkPred_1_1Vec.html#ab5291e2c4ea63ee1c6f101503383a13a',1,'LinkPred::Vec::max() const'],['../classLinkPred_1_1Vec.html#adbf8c81e1c647daa248b81d831cb9547',1,'LinkPred::Vec::max(int lim) const']]],
+  ['maxiter_516',['maxIter',['../structLinkPred_1_1Simp_1_1Evaluator_1_1Factory_1_1FBMParams.html#a4cf74a027c374a8a48b070bb73ae165b',1,'LinkPred::Simp::Evaluator::Factory::FBMParams::maxIter()'],['../structLinkPred_1_1Simp_1_1Evaluator_1_1Factory_1_1SBMParams.html#ab67c213215d4e13426d7802e246e5f7e',1,'LinkPred::Simp::Evaluator::Factory::SBMParams::maxIter()']]],
+  ['mds_517',['MDS',['../classLinkPred_1_1MDS.html',1,'LinkPred::MDS'],['../classLinkPred_1_1MDS.html#a3e4c50689d59f3901ebc8613444e77e7',1,'LinkPred::MDS::MDS()=default'],['../classLinkPred_1_1MDS.html#affbe9b0666d9364da0df78cdf4ec3dee',1,'LinkPred::MDS::MDS(MDSAlg alg, double tol, std::size_t nbRuns)']]],
+  ['mds_2ehpp_518',['mds.hpp',['../mds_8hpp.html',1,'']]],
+  ['mdsalg_519',['MDSAlg',['../namespaceLinkPred.html#a60378a4f55b2e281cd4449b17d11b04b',1,'LinkPred']]],
+  ['mean_520',['mean',['../classLinkPred_1_1Vec.html#a28c6e9bbf302b8e9fe7864f7af56247a',1,'LinkPred::Vec::mean() const'],['../classLinkPred_1_1Vec.html#a4dc967bf87dd7c209cd770914f5b93e4',1,'LinkPred::Vec::mean(int lim) const']]],
+  ['meanapp_521',['MeanApp',['../classLinkPred_1_1UMPSPredictor.html#a25cf3af3facad9c923c566646d6558b7a7ec4dab74545b4614833a1e42d4bcc16',1,'LinkPred::UMPSPredictor']]],
+  ['merge_522',['merge',['../classLinkPred_1_1LMapQueue.html#a2aed490d20773802b3bd0d3d09dfa86f',1,'LinkPred::LMapQueue']]],
+  ['min_523',['min',['../classLinkPred_1_1Vec.html#aa5452874d9d365f52c2cf243530d1e5e',1,'LinkPred::Vec::min() const'],['../classLinkPred_1_1Vec.html#a4046f71061b028a6fae9aa0663c3a164',1,'LinkPred::Vec::min(int lim) const']]],
+  ['miscutils_2ehpp_524',['miscutils.hpp',['../miscutils_8hpp.html',1,'']]],
+  ['machine_20learning_20classes_525',['Machine learning classes',['../group__ML.html',1,'']]],
+  ['ml_2ehpp_526',['ml.hpp',['../ml_8hpp.html',1,'']]],
+  ['mult_527',['mult',['../classLinkPred_1_1GFMatrix.html#af9c22628e583f1895f4df77a4b2f3f9c',1,'LinkPred::GFMatrix::mult(GFMatrix const &amp;mat1, GFMatrix const &amp;mat2, bool trans1=false, bool trans2=false)'],['../classLinkPred_1_1GFMatrix.html#a37bdd6ea08f8eb8d3f7a0a2f088575bd',1,'LinkPred::GFMatrix::mult(Vec const &amp;v1, Vec const &amp;v2)']]]
+];

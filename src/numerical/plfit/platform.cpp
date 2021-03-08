@@ -20,6 +20,8 @@
 #include "linkpred/numerical/plfit/platform.h"
 #include <math.h>
 
+namespace LinkPred {
+
 namespace PLFit {
 #ifdef _MSC_VER
 
@@ -39,3 +41,5 @@ void _plfit_i_unused() {
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

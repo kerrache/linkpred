@@ -1,0 +1,21 @@
+<map id="include/linkpred/numerical/numerical.hpp" name="include/linkpred/numerical/numerical.hpp">
+<area shape="rect" id="node1" title="Includes the headers related to numerical algorithms." alt="" coords="527,5,699,47"/>
+<area shape="rect" id="node2" href="$fastsig_8hpp.html" title="Contains the implementation of a fast sigmoid." alt="" coords="109,95,235,136"/>
+<area shape="rect" id="node6" href="$logmdscg_8hpp.html" title="Contains the implementation of the optimization problem associated with multidimensional scaling usin..." alt="" coords="599,95,735,136"/>
+<area shape="rect" id="node7" title=" " alt="" coords="861,184,990,225"/>
+<area shape="rect" id="node11" href="$mds_8hpp.html" title="Contains the implementation of a solver of the multidimensional scaling problem using the logarithmic..." alt="" coords="347,184,474,225"/>
+<area shape="rect" id="node13" href="$gfmatrix_8hpp.html" title="Contains the implementation of a full matrix." alt="" coords="267,95,400,136"/>
+<area shape="rect" id="node14" href="$vec_8hpp.html" title="Contains the implementation of a vector (in the sense of linear algebra)." alt="" coords="498,184,625,225"/>
+<area shape="rect" id="node18" title=" " alt="" coords="810,95,937,136"/>
+<area shape="rect" id="node19" title=" " alt="" coords="961,95,1087,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,191,88,218"/>
+<area shape="rect" id="node4" title=" " alt="" coords="229,273,288,300"/>
+<area shape="rect" id="node5" title=" " alt="" coords="112,191,171,218"/>
+<area shape="rect" id="node8" href="$randomgen_8hpp.html" title="Contains the implementation of a random number generator." alt="" coords="649,191,837,218"/>
+<area shape="rect" id="node9" title=" " alt="" coords="802,273,867,300"/>
+<area shape="rect" id="node10" title=" " alt="" coords="708,273,777,300"/>
+<area shape="rect" id="node12" title=" " alt="" coords="314,273,374,300"/>
+<area shape="rect" id="node15" title=" " alt="" coords="399,273,465,300"/>
+<area shape="rect" id="node16" title=" " alt="" coords="489,273,561,300"/>
+<area shape="rect" id="node17" title=" " alt="" coords="586,273,683,300"/>
+</map>

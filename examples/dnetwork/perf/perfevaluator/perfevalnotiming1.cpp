@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
 int main(int argc, char*argv[]) {
@@ -34,8 +34,10 @@ int main(int argc, char*argv[]) {
 	RandomGen rng(seed);
 	auto fullNet = DNetwork<>::read(netFileName, false, true);
 	for (std::size_t i = 0; i < nbTests; i++) {
-		auto testData = NetworkManipulator<DNetwork<>>::createTestData(fullNet, 0.1, 0,
-				false, true, 0, true, 0, FN, TN, rng.getInt());
+		auto testData = NetworkManipulator<DNetwork<>>::createTestData(fullNet,
+				0.1, 0, false, true, 0, true, 0, FN, TN, rng.getInt());
+		testData.genPos();
+		testData.genNeg();
 		testData.lock();
 
 		PerfEvaluator<TestData<DNetwork<>>, DLPredictor<>> perf(testData);
@@ -43,8 +45,12 @@ int main(int argc, char*argv[]) {
 		perf.addPredictor(
 				std::make_shared<DCNEPredictor<>>(testData.getObsNet()));
 
-		perf.addPerfMeasure(std::make_shared<ROC<PredResults<TestData<DNetwork<>>, DLPredictor<>>>>());
-		perf.addPerfMeasure(std::make_shared<PR<PredResults<TestData<DNetwork<>>, DLPredictor<>>>>());
+		perf.addPerfMeasure(
+				std::make_shared<
+						ROC<PredResults<TestData<DNetwork<>>, DLPredictor<>>>>());
+		perf.addPerfMeasure(
+				std::make_shared<
+						PR<PredResults<TestData<DNetwork<>>, DLPredictor<>>>>());
 
 		perf.eval();
 

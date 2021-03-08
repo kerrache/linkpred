@@ -1,0 +1,13 @@
+<map id="include/linkpred/ml/classifiers/logistic/logregcg.hpp" name="include/linkpred/ml/classifiers/logistic/logregcg.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of a logistic regression optimization problem." alt="" coords="278,5,409,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,109,135,151"/>
+<area shape="rect" id="node3" href="$randomgen_8hpp.html" title="Contains the implementation of a random number generator." alt="" coords="159,117,347,143"/>
+<area shape="rect" id="node6" href="$vec_8hpp.html" title="Contains the implementation of a vector (in the sense of linear algebra)." alt="" coords="372,109,499,151"/>
+<area shape="rect" id="node9" title=" " alt="" coords="702,199,761,225"/>
+<area shape="rect" id="node4" title=" " alt="" coords="125,199,191,225"/>
+<area shape="rect" id="node5" title=" " alt="" coords="215,199,285,225"/>
+<area shape="rect" id="node7" title=" " alt="" coords="309,199,375,225"/>
+<area shape="rect" id="node8" title=" " alt="" coords="399,199,471,225"/>
+<area shape="rect" id="node10" title=" " alt="" coords="496,199,556,225"/>
+<area shape="rect" id="node11" title=" " alt="" coords="580,199,677,225"/>
+</map>

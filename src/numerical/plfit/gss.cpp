@@ -24,6 +24,8 @@
 #include "linkpred/numerical/plfit/gss.h"
 #include "linkpred/numerical/plfit/platform.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 /**
  * \def PHI
@@ -157,4 +159,6 @@ int gss(double a, double b, double *_min, double *_fmin,
 	return successful ? PLFIT_SUCCESS : PLFIT_FAILURE;
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 

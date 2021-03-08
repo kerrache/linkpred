@@ -34,14 +34,14 @@ configure_file (
 include_directories("${PROJECT_BINARY_DIR}")
 
 # Should we use MKL?
-OPTION (WITH_MKL "Use Intel Math Kernel Library ?" OFF) 
-if (WITH_MKL)
+OPTION (LINKPRED_WITH_MKL "Use Intel Math Kernel Library ?" OFF) 
+if (LINKPRED_WITH_MKL)
 	message("MKL enabled")
 	set (EXTRA_LIBS ${EXTRA_LIBS} mkl_rt)
 endif ()
 
-OPTION (WITH_OPENMP "Use OpenMP ?" ON)
-IF(WITH_OPENMP)
+OPTION (LINKPRED_WITH_OPENMP "Use OpenMP ?" ON)
+IF(LINKPRED_WITH_OPENMP)
 	FIND_PACKAGE(OpenMP)
 	message("OpenMP enabled")
 	IF(OPENMP_FOUND)
@@ -51,8 +51,8 @@ IF(WITH_OPENMP)
 	ENDIF()
 ENDIF()
 
-OPTION (WITH_MPI "Use MPI ?" ON)
-IF(WITH_MPI)
+OPTION (LINKPRED_WITH_MPI "Use MPI ?" ON)
+IF(LINKPRED_WITH_MPI)
 	message("MPI enabled")
 	FIND_PACKAGE(MPI)
 	IF(MPI_FOUND)
@@ -63,9 +63,19 @@ IF(WITH_MPI)
 	ENDIF()
 ENDIF()
 
+# Should we use mlpack?
+OPTION (LINKPRED_WITH_MLPACK "Use mlpack Library ?" ON) 
+if (LINKPRED_WITH_MLPACK)
+	message("mlpack enabled")
+	set (EXTRA_LIBS ${EXTRA_LIBS} mlpack armadillo)
+endif ()
 
-# Enable building examples
-OPTION( LINKPRED_WITH_EXAMPLES "Building LinkPred examples" ON )
+# Should we use Armadillo?
+OPTION (LINKPRED_WITH_ARMADILLO "Use Armadillo Library ?" ON) 
+if (LINKPRED_WITH_ARMADILLO)
+	message("Armadillo enabled")
+	set (EXTRA_LIBS ${EXTRA_LIBS} armadillo)
+endif ()
 
 # The include directories
 include_directories("${PROJECT_SOURCE_DIR}/include")
@@ -76,88 +86,111 @@ set (EXTRA_LIBS ${EXTRA_LIBS} gsl gslcblas)
 
 # Add target library 
 add_library(LinkPred SHARED
-	src/utils/utils.cpp
-	src/utils/log.cpp
-	src/numerical/plfit/mt.cpp
-	src/numerical/plfit/platform.cpp
-	src/numerical/plfit/zeta.cpp
-	src/numerical/plfit/plfit.cpp
-	src/numerical/plfit/stats.cpp
-	src/numerical/plfit/gss.cpp
+	src/core/dnetwork/dnetwork.cpp
+	src/core/unetwork/unetwork.cpp
+	src/graphalg/encoders/deepwalk/deepwalk.cpp
+	src/graphalg/encoders/hmsm/hmsm.cpp
+	src/graphalg/encoders/largevis/largevis.cpp
+	src/graphalg/encoders/lem/lem.cpp
+	src/graphalg/encoders/line/line.cpp
+	src/graphalg/encoders/lle/lle.cpp
+	src/graphalg/encoders/matfact/matfact.cpp
+	src/graphalg/encoders/matfact/matfactcg.cpp
+	src/graphalg/encoders/node2vec/node2vec.cpp
+	src/graphalg/shortestpaths/dijkstra.cpp
+	src/graphalg/shortestpaths/netdistcalculator.cpp
+	src/graphalg/traversal/graphtraversal.cpp
+	src/ml/classifiers/ffn/ffn.cpp
+	src/ml/classifiers/linearsvm/linearsvm.cpp
+	src/ml/classifiers/logistic/logisticregresser.cpp
+	src/ml/classifiers/logistic/logregcg.cpp
+	src/ml/classifiers/naivebayes/naivebayes.cpp
+	src/ml/classifiers/rndclassifier/rndclassifier.cpp
+	src/ml/simmeasures/cosinesim.cpp
+	src/ml/simmeasures/dotprod.cpp
+	src/ml/simmeasures/l1sim.cpp
+	src/ml/simmeasures/l2sim.cpp
+	src/ml/simmeasures/lpsim.cpp
+	src/ml/simmeasures/pearson.cpp
+	src/numerical/cg/cgdescent.cpp
+	src/numerical/linear/gfmatrix.cpp
+	src/numerical/linear/vec.cpp
+	src/numerical/mds/logmdscg.cpp
+	src/numerical/mds/mds.cpp
 	src/numerical/plfit/error.cpp
-	src/numerical/plfit/rbinom.cpp
-	src/numerical/plfit/options.cpp
-	src/numerical/plfit/sampling.cpp
+	src/numerical/plfit/gss.cpp
 	src/numerical/plfit/kolmogorov.cpp
 	src/numerical/plfit/lbfgs.cpp
-	src/numerical/linear/vec.cpp
-	src/numerical/linear/gfmatrix.cpp
-	src/numerical/cg/cgdescent.cpp
-	src/numerical/logistic/logisticregresser.cpp
-	src/numerical/logistic/logregcg.cpp
-	src/core/unetwork.cpp
-	src/core/dnetwork.cpp
-	src/core/graphtraversal.cpp
-	src/core/netdistcalculator.cpp
-	src/core/dijkstra.cpp
-	src/predictors/upatpredictor.cpp
-	src/predictors/ujidpredictor.cpp
-	src/predictors/uhpipredictor.cpp
-	src/predictors/uenspredictor.cpp
-	src/predictors/ucnepredictor.cpp
-	src/predictors/ucrapredictor.cpp
-	src/predictors/ukabpredictor.cpp
-	src/predictors/ushppredictor.cpp
-	src/predictors/uralpredictor.cpp
-	src/predictors/uhrgpredictor.cpp
-	src/predictors/ucstpredictor.cpp
-	src/predictors/uhdipredictor.cpp
-	src/predictors/uhrgpredictor/hrgds.cpp
-	src/predictors/uhrgpredictor/rbtree.cpp
-	src/predictors/uhrgpredictor/dendro_pr.cpp
-	src/predictors/ulhnpredictor.cpp
-	src/predictors/ufbmpredictor.cpp
-	src/predictors/uhyppredictor.cpp
-	src/predictors/usaipredictor.cpp
-	src/predictors/usnspredictor.cpp
-	src/predictors/ulcppredictor.cpp
-	src/predictors/uadapredictor.cpp
-	src/predictors/urndpredictor.cpp
-	src/predictors/ukabpredictor/kablambdacg.cpp
-	src/predictors/ukabpredictor/kabwcg.cpp
-	src/predictors/usoipredictor.cpp
-	src/predictors/usbmpredictor/tools.cpp
-	src/predictors/usbmpredictor/graph.cpp
-	src/predictors/usbmpredictor/conflict.cpp
-	src/predictors/usbmpredictor/datastruct.cpp
-	src/predictors/usbmpredictor/graph_simp.cpp
-	src/predictors/usbmpredictor/layout.cpp
-	src/predictors/usbmpredictor/recommend.cpp
-	src/predictors/usbmpredictor/graph_pr.cpp
-	src/predictors/usbmpredictor/bipartite.cpp
-	src/predictors/usbmpredictor/models.cpp
-	src/predictors/usbmpredictor/matrix.cpp
-	src/predictors/usbmpredictor/missing.cpp
-	src/predictors/usbmpredictor/modules.cpp
-	src/predictors/usbmpredictor.cpp
-	src/predictors/usumpredictor.cpp
-	src/predictors/upoppredictor.cpp
-	src/predictors/unedpredictor.cpp
-	src/predictors/upndpredictor.cpp
-	src/predictors/dcnepredictor.cpp
-	src/predictors/dadapredictor.cpp
-	src/predictors/dsaipredictor.cpp
-	src/predictors/djidpredictor.cpp
-	src/predictors/dsoipredictor.cpp
-	src/predictors/dhdipredictor.cpp
-	src/predictors/dhpipredictor.cpp
-	src/predictors/dlhnpredictor.cpp
-	src/predictors/dpatpredictor.cpp
-	src/predictors/dlcppredictor.cpp
+	src/numerical/plfit/mt.cpp
+	src/numerical/plfit/options.cpp
+	src/numerical/plfit/platform.cpp
+	src/numerical/plfit/plfit.cpp
+	src/numerical/plfit/rbinom.cpp
+	src/numerical/plfit/sampling.cpp
+	src/numerical/plfit/stats.cpp
+	src/numerical/plfit/zeta.cpp
 	src/perf/networkmanipulator.cpp
 	src/perf/perfevaluator.cpp
+	src/predictors/directed/dadapredictor.cpp
+	src/predictors/directed/dcnepredictor.cpp
+	src/predictors/directed/dhdipredictor.cpp
+	src/predictors/directed/dhpipredictor.cpp
+	src/predictors/directed/djidpredictor.cpp
+	src/predictors/directed/dlcppredictor.cpp
+	src/predictors/directed/dlhnpredictor.cpp
+	src/predictors/directed/dpatpredictor.cpp
+	src/predictors/directed/dpstpredictor.cpp
+	src/predictors/directed/dsaipredictor.cpp
+	src/predictors/directed/dsoipredictor.cpp
+	src/predictors/undirected/uadapredictor.cpp
+	src/predictors/undirected/ucnepredictor.cpp
+	src/predictors/undirected/ucrapredictor.cpp
+	src/predictors/undirected/ucstpredictor.cpp
+	src/predictors/undirected/ueclpredictor.cpp
+	src/predictors/undirected/uesmpredictor.cpp
+	src/predictors/undirected/ufbmpredictor.cpp
+	src/predictors/undirected/uhdipredictor.cpp
+	src/predictors/undirected/uhpipredictor.cpp
+	src/predictors/undirected/uhrgpredictor.cpp
+	src/predictors/undirected/uhrgpredictor/dendro_pr.cpp
+	src/predictors/undirected/uhrgpredictor/hrgds.cpp
+	src/predictors/undirected/uhrgpredictor/rbtree.cpp
+	src/predictors/undirected/uhyppredictor.cpp
+	src/predictors/undirected/ujidpredictor.cpp
+	src/predictors/undirected/ukabpredictor.cpp
+	src/predictors/undirected/ulcppredictor.cpp
+	src/predictors/undirected/ulhnpredictor.cpp
+	src/predictors/undirected/unedpredictor.cpp
+	src/predictors/undirected/upatpredictor.cpp
+	src/predictors/undirected/upstpredictor.cpp
+	src/predictors/undirected/uralpredictor.cpp
+	src/predictors/undirected/urndpredictor.cpp
+	src/predictors/undirected/usaipredictor.cpp
+	src/predictors/undirected/usbmpredictor.cpp
+	src/predictors/undirected/usbmpredictor/bipartite.cpp
+	src/predictors/undirected/usbmpredictor/conflict.cpp
+	src/predictors/undirected/usbmpredictor/datastruct.cpp
+	src/predictors/undirected/usbmpredictor/graph_pr.cpp
+	src/predictors/undirected/usbmpredictor/graph_simp.cpp
+	src/predictors/undirected/usbmpredictor/graph.cpp
+	src/predictors/undirected/usbmpredictor/layout.cpp
+	src/predictors/undirected/usbmpredictor/matrix.cpp
+	src/predictors/undirected/usbmpredictor/missing.cpp
+	src/predictors/undirected/usbmpredictor/models.cpp
+	src/predictors/undirected/usbmpredictor/modules.cpp
+	src/predictors/undirected/usbmpredictor/recommend.cpp
+	src/predictors/undirected/usbmpredictor/tools.cpp
+	src/predictors/undirected/ushppredictor.cpp
+	src/predictors/undirected/usoipredictor.cpp
+	src/predictors/undirected/usumpredictor.cpp
+	src/simp/evaluator.cpp
+	src/simp/predictor.cpp
+	src/utils/log.cpp
+	src/utils/utils.cpp
 )
 target_link_libraries (LinkPred ${EXTRA_LIBS})
+set_target_properties(LinkPred PROPERTIES VERSION 1)
+##############################################################################
 
 # Add the install targets
 if(WIN32)
@@ -167,8 +200,6 @@ else()
 	install(TARGETS LinkPred
 	LIBRARY DESTINATION lib)
 endif() 
-
-set_target_properties(LinkPred PROPERTIES VERSION 1)
 
 # Install headers
 INSTALL (
@@ -186,13 +217,17 @@ INSTALL (
 		PATTERN "*.hpp"
 )
 
-# Build examples
+# Build the bindings
+OPTION( LINKPRED_WITH_BINDINGS "Building LinkPred bindings" ON )
+IF( LINKPRED_WITH_BINDINGS )
+	ADD_SUBDIRECTORY( bindings )
+ENDIF( LINKPRED_WITH_BINDINGS )
+
+# Enable building examples
+OPTION( LINKPRED_WITH_EXAMPLES "Building LinkPred examples" ON )
 IF( LINKPRED_WITH_EXAMPLES )
 	ADD_SUBDIRECTORY( examples )
 ENDIF( LINKPRED_WITH_EXAMPLES )
-
-# Build apps
-ADD_SUBDIRECTORY( apps )
 
 # Build documentation
 find_package(Doxygen)

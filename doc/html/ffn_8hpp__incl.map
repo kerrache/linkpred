@@ -1,0 +1,4 @@
+<map id="include/linkpred/ml/classifiers/ffn/ffn.hpp" name="include/linkpred/ml/classifiers/ffn/ffn.hpp">
+<area shape="rect" id="node1" title="Contains a wrapper of mlpack::ann::FFN (feed&#45;forward neural network)." alt="" coords="5,5,153,47"/>
+<area shape="rect" id="node2" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="11,95,147,121"/>
+</map>

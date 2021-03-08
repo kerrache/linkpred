@@ -1,0 +1,31 @@
+<map id="include/linkpred/predictors/undirected/uhrgpredictor.hpp" name="include/linkpred/predictors/undirected/uhrgpredictor.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of the HRG link predictor." alt="" coords="621,5,811,47"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,95,171,151"/>
+<area shape="rect" id="node3" title=" " alt="" coords="195,95,360,151"/>
+<area shape="rect" id="node4" title=" " alt="" coords="384,95,549,151"/>
+<area shape="rect" id="node5" title=" " alt="" coords="573,95,739,151"/>
+<area shape="rect" id="node6" href="$ulpredictor_8hpp.html" title="Contains the interface of a link predictor." alt="" coords="1261,102,1435,143"/>
+<area shape="rect" id="node16" title=" " alt="" coords="870,363,917,389"/>
+<area shape="rect" id="node18" href="$randomgen_8hpp.html" title="Contains the implementation of a random number generator." alt="" coords="2279,288,2467,315"/>
+<area shape="rect" id="node26" title=" " alt="" coords="2149,288,2203,315"/>
+<area shape="rect" id="node7" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="1099,288,1235,315"/>
+<area shape="rect" id="node8" href="$unetwork_8hpp.html" title="Contains the implementation of an undirected network data structure." alt="" coords="1689,199,1842,240"/>
+<area shape="rect" id="node20" title=" " alt="" coords="2207,363,2276,389"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2084,288,2124,315"/>
+<area shape="rect" id="node24" title=" " alt="" coords="1341,288,1416,315"/>
+<area shape="rect" id="node27" href="$lmapqueue_8hpp.html" title="Contains the implementation of a templated map&#45;priority queue with limit on the capacity." alt="" coords="958,206,1165,233"/>
+<area shape="rect" id="node28" title=" " alt="" coords="865,288,922,315"/>
+<area shape="rect" id="node29" title=" " alt="" coords="1386,206,1465,233"/>
+<area shape="rect" id="node9" href="$log_8hpp.html" title="Contains the implementation of a log class." alt="" coords="1868,288,2009,315"/>
+<area shape="rect" id="node15" href="$bhmap_8hpp.html" title="Contains the implementation of a templated bidirectional half map." alt="" coords="1441,288,1623,315"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1503,363,1561,389"/>
+<area shape="rect" id="node21" title=" " alt="" coords="1259,288,1317,315"/>
+<area shape="rect" id="node22" title=" " alt="" coords="1647,288,1686,315"/>
+<area shape="rect" id="node25" title=" " alt="" coords="1711,288,1793,315"/>
+<area shape="rect" id="node10" href="$loglevel_8hpp.html" title="Contains the definition of log levels." alt="" coords="2003,363,2171,389"/>
+<area shape="rect" id="node11" title=" " alt="" coords="1739,363,1808,389"/>
+<area shape="rect" id="node12" title=" " alt="" coords="1620,363,1692,389"/>
+<area shape="rect" id="node13" title=" " alt="" coords="1832,363,1899,389"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1923,363,1978,389"/>
+<area shape="rect" id="node19" title=" " alt="" coords="2341,363,2406,389"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="include/linkpred/core/ds/lmapqueue.hpp" name="include/linkpred/core/ds/lmapqueue.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of a templated map&#45;priority queue with limit on the capacity." alt="" coords="236,5,377,47"/>
+<area shape="rect" id="node2" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="5,95,141,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="166,95,213,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="237,95,294,121"/>
+<area shape="rect" id="node5" title=" " alt="" coords="319,95,377,121"/>
+<area shape="rect" id="node6" title=" " alt="" coords="401,95,473,121"/>
+<area shape="rect" id="node7" title=" " alt="" coords="497,95,556,121"/>
+</map>

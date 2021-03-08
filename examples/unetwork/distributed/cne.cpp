@@ -18,12 +18,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
 
 int main(int argc, char*argv[]) {
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Init(&argc, &argv);
 #endif
 	if (argc != 2) {
@@ -33,18 +33,18 @@ int main(int argc, char*argv[]) {
 	std::string netFileName(argv[1]);
 	auto net = UNetwork<>::read(netFileName, false, true);
 	UCNEPredictor<> predictor(net);
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	predictor.setComm(MPI_COMM_WORLD); // Optional when using the default communicator MPI_COMM_WORLD
 	predictor.setDistributed(true);
 #endif
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	predictor.setParallel(true);
 #endif
 	predictor.init();
 	predictor.learn();
 
 	std::vector<double> scores;
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	scores.resize(predictor.localSize());
 #else
 	scores.resize(net->getNbNonEdges());
@@ -52,7 +52,7 @@ int main(int argc, char*argv[]) {
 	auto range = predictor.predictNeg(scores.begin());
 
 	int procID = 0;
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Comm_rank(MPI_COMM_WORLD, &procID);
 #endif
 	std::cout << "#procID\tStart\tEnd\tScore\n";
@@ -65,7 +65,7 @@ int main(int argc, char*argv[]) {
 				<< std::endl;
 	}
 
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Finalize();
 #endif
 	return 0;

@@ -20,17 +20,19 @@
 
 /**
  * \file
+ * @ingroup Numerical
  * @brief Contains the implementation of a vector (in the sense of linear algebra).
  */
 
-#ifndef INCLUDE_VEC_HPP_
-#define INCLUDE_VEC_HPP_
+#ifndef VEC_HPP_
+#define VEC_HPP_
 
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <vector>
 #include <cstdlib>
+#include <initializer_list>
 
 namespace LinkPred {
 
@@ -193,9 +195,15 @@ public:
 
 	/**
 	 * Constructor.
-	 * @param _n The dimension.
+	 * @param n The dimension.
 	 */
-	Vec(int _n);
+	Vec(int n);
+
+	/**
+	 * Constructor.
+	 * @param l Initilizer list.
+	 */
+	Vec(std::initializer_list<double> l);
 
 	/**
 	 * Constructor.

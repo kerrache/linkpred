@@ -1,0 +1,16 @@
+Nodes:
+ID	Label
+0	A
+1	B
+2	C
+3	D
+Translating labels to IDs
+A -> 0
+B -> 1
+C -> 2
+D -> 3
+Translating IDs to labels
+0 -> A
+1 -> B
+2 -> C
+3 -> D

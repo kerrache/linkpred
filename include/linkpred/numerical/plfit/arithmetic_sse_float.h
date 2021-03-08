@@ -41,6 +41,8 @@
 #include <xmmintrin.h>
 #endif/*HAVE_XMMINTRIN_H*/
 
+namespace LinkPred {
+
 namespace PLFit {
 #if     LBFGS_FLOAT == 32 && LBFGS_IEEE_FLOAT
 #define fsigndiff(x, y) (((*(uint32_t*)(x)) ^ (*(uint32_t*)(y))) & 0x80000000U)
@@ -287,3 +289,5 @@ inline static void vecfree(void *memblock) {
     _mm_store_ss((s), XMM3); \
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

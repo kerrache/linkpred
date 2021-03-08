@@ -1,10 +1,11 @@
 # Example folders
 SET(EXAMPLE_DIRS
-	./unetwork/core/datastructures
-	./unetwork/core/maps
-	./unetwork/core/traversal
+	./unetwork/core/ds
 	./unetwork/core/network
-	./unetwork/core/shortest-paths
+	./unetwork/core/maps
+	./unetwork/graphalg/traversal
+	./unetwork/graphalg/shortest-paths
+	./unetwork/graphalg/encoders
 	./unetwork/distributed
 	./unetwork/parallel
 	./unetwork/predictors
@@ -12,12 +13,16 @@ SET(EXAMPLE_DIRS
 	./unetwork/perf/networkmanip
 	./unetwork/perf/perfmeasures
 	./dnetwork/core/network
-	./dnetwork/core/traversal
 	./dnetwork/core/maps
-	./dnetwork/core/shortest-paths
+	./dnetwork/graphalg/traversal
+	./dnetwork/graphalg/shortest-paths
 	./dnetwork/perf/networkmanip
 	./dnetwork/perf/perfevaluator
 	./dnetwork/predictors
+	./simp/CPP/evaluator
+	./simp/CPP/predictor
+	./ml/classifiers
+	./ml/simmeasures
 )
 
 # Compiling examples

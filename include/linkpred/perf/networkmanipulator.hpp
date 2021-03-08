@@ -20,6 +20,7 @@
 
 /**
  * \file
+ * @ingroup Perf
  * @brief Contains the implementation of test data related classes.
  */
 
@@ -27,16 +28,16 @@
 #define NETWORKMANIPULATOR_HPP_
 
 #include "LinkPredConfig.hpp"
-#include "linkpred/core/unetwork.hpp"
-#include "linkpred/core/dnetwork.hpp"
-#include "linkpred/utils/utilities.hpp"
-#include "linkpred/core/graphtraversal.hpp"
+#include <linkpred/utils/miscutils.hpp>
+#include "linkpred/core/unetwork/unetwork.hpp"
+#include "linkpred/core/dnetwork/dnetwork.hpp"
+#include "linkpred/graphalg/traversal/graphtraversal.hpp"
 #include "linkpred/utils/log.hpp"
 #include <memory>
 #include <vector>
 #include <set>
 #include <iterator>
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #include <omp.h>
 #endif
 
@@ -54,66 +55,66 @@ enum LinkClass {
 
 /**
  * @brief Generate true positives and true negatives.
- * @tparam NetworkT Network type.
- * @tparam EdgeContainerT The container used to store edges.
+ * @tparam Network Network type.
+ * @tparam EdgeContT The container used to store edges.
  */
-template<typename NetworkT = UNetwork<>, typename EdgeContainerT = std::vector<
-		typename NetworkT::EdgeType>> class TestEdgeGenerator {
-	using NetworkSP = std::shared_ptr<NetworkT>; /**< Shared pointer to a network. */
-	using NetworkCSP = std::shared_ptr<const NetworkT>; /**< Constant shared pointer to a network. */
-	using EdgeType = typename NetworkT::EdgeType; /**< The edge type. */
-	using NonEdgeIterator = typename NetworkT::NonEdgeIterator; /**< Negative edge iterator type. */
-	using EdgeIterator = typename NetworkT::EdgeIterator; /**< Edge iterator type. */
+template<typename Network = UNetwork<>, typename EdgeContT = std::vector<
+		typename Network::Edge>> class TestEdgeGen {
+	using NetworkSP = std::shared_ptr<Network>; /**< Shared pointer to a network. */
+	using NetworkCSP = std::shared_ptr<const Network>; /**< Constant shared pointer to a network. */
+	using Edge = typename Network::Edge; /**< The edge type. */
+	using NonEdgeIt = typename Network::NonEdgeIt; /**< Negative edge iterator type. */
+	using EdgeIt = typename Network::EdgeIt; /**< Edge iterator type. */
 
 protected:
 	NetworkCSP refNet; /**< Reference network. */
 	NetworkCSP obsNet; /**< Observed network. */
-	std::set<EdgeType> addLinksSet; /**< Set of added links. */
+	std::set<Edge> addLinksSet; /**< Set of added links. */
 	bool aTP = false; /**< Use all TP. */
 	double tpRatio = 0; /**< TP ratio. */
 	bool aTN = false; /**< Use all TN. */
 	double tnRatio = 0; /**< TN ratio. */
 	long int tpSeed; /**< Seed for TP. */
 	long int tnSeed; /**< Seed for TN. */
-	typename NetworkT::NonEdgeIterator tnEndIt; /**< End of TN edges. Cached for performance purposes. */
-	typename NetworkT::RndNonEdgeIterator tnRndEndIt; /**< End of TN random edges. Cached for performance purposes. */
-	typename NetworkT::EdgeIterator tpEndIt; /**< End of TP edges. Cached for performance purposes. */
-	typename NetworkT::RndEdgeIterator tpRndEndIt; /**< End of TP random edges. Cached for performance purposes. */
+	typename Network::NonEdgeIt tnEndIt; /**< End of TN edges. Cached for performance purposes. */
+	typename Network::RndNonEdgeIt tnRndEndIt; /**< End of TN random edges. Cached for performance purposes. */
+	typename Network::EdgeIt tpEndIt; /**< End of TP edges. Cached for performance purposes. */
+	typename Network::RndEdgeIt tpRndEndIt; /**< End of TP random edges. Cached for performance purposes. */
 
 public:
 
 	/**
 	 * @brief TP edges iterator.
 	 */
-	class TPEdgeIterator: public std::iterator<std::random_access_iterator_tag,
-			const EdgeType, long int> {
+	class TPEdgeIt: public std::iterator<std::random_access_iterator_tag,
+			const Edge, long int> {
 
-		friend class TestEdgeGenerator; /**< TestEdgeGenerator is a friend. */
+		friend class TestEdgeGen; /**< TestEdgeGen is a friend. */
 
 	protected:
-		TestEdgeGenerator const &tg; /**< Test generator object (owner). */
-		typename NetworkT::EdgeIterator eit; /**< Edge iterator. */
-		typename NetworkT::RndEdgeIterator reit; /**< Random edge iterator. */
+		TestEdgeGen const &tg; /**< Test generator object (owner). */
+		typename Network::EdgeIt eit; /**< Edge iterator. */
+		typename Network::RndEdgeIt reit; /**< Random edge iterator. */
 
 		/**
 		 * Constructor.
 		 * @param tg The test generator object (owner).
 		 */
-		TPEdgeIterator(TestEdgeGenerator const &tg) :
+		TPEdgeIt(TestEdgeGen const &tg) :
 				tg(tg), eit(tg.obsNet->edgesBegin()), reit(
 						tg.obsNet->rndEdgesBegin(tg.tpRatio, tg.tpSeed)) {
 			if (tg.aTP) {
 				while ((eit != tg.obsNet->edgesEnd())
 						&& ((tg.addLinksSet.count(*eit) != 0)
 								|| (tg.addLinksSet.count(
-										NetworkT::reverseEdge(*eit)) != 0))) {
+										Network::reverseEdge(*eit)) != 0))) {
 					++eit;
 				}
 			} else {
 				while ((reit != tg.obsNet->rndEdgesEnd())
 						&& ((tg.addLinksSet.count(*reit) != 0)
 								|| (tg.addLinksSet.count(
-										NetworkT::reverseEdge(*reit)) != 0))) {
+										Network::reverseEdge(*reit)) != 0))) {
 					++reit;
 				}
 			}
@@ -122,41 +123,42 @@ public:
 		/**
 		 * Constructor.
 		 * @param tg The test generator object (owner).
+		 * @param eit Edge iterator.
+		 * @param reit Random edge iterator.
 		 */
-		TPEdgeIterator(TestEdgeGenerator const &tg,
-				typename NetworkT::EdgeIterator const &eit,
-				typename NetworkT::RndEdgeIterator const &reit) :
+		TPEdgeIt(TestEdgeGen const &tg, typename Network::EdgeIt const &eit,
+				typename Network::RndEdgeIt const &reit) :
 				tg(tg), eit(eit), reit(reit) {
 		}
 
 	public:
-		using pointer = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::pointer; /**< The pointer type associated with the iterator. */
-		using reference = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::reference; /**< The reference type associated with the iterator. */
-		using difference_type = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::difference_type; /**< The difference type associated with the iterator. */
+		using pointer = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::pointer; /**< The pointer type associated with the iterator. */
+		using reference = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::reference; /**< The reference type associated with the iterator. */
+		using difference_type = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::difference_type; /**< The difference type associated with the iterator. */
 
 		/**
 		 * Copy constructor.
 		 * @param that The object to copy.
 		 */
-		TPEdgeIterator(TPEdgeIterator const &that) = default;
+		TPEdgeIt(TPEdgeIt const &that) = default;
 
 		/**
 		 * Copy assignment operator.
 		 * @param that The object to copy.
 		 */
-		TPEdgeIterator& operator =(TPEdgeIterator const &that) = default;
+		TPEdgeIt& operator =(TPEdgeIt const &that) = default;
 
 		/**
 		 * Move constructor.
 		 * @param that The object to move.
 		 */
-		TPEdgeIterator(TPEdgeIterator &&that) = default;
+		TPEdgeIt(TPEdgeIt &&that) = default;
 
 		/**
 		 * Move assignment operator.
 		 * @param that The object to move.
 		 */
-		TPEdgeIterator& operator =(TPEdgeIterator &&that) = default;
+		TPEdgeIt& operator =(TPEdgeIt &&that) = default;
 
 		/**
 		 * Dereference operator.
@@ -186,13 +188,13 @@ public:
 		 * Pre-increment operator.
 		 * @return A reference to the new iterator.
 		 */
-		TPEdgeIterator& operator++() {
+		TPEdgeIt& operator++() {
 			if (tg.aTP) {
 				++eit;
 				while ((eit != tg.obsNet->edgesEnd())
 						&& ((tg.addLinksSet.count(*eit) != 0)
 								|| (tg.addLinksSet.count(
-										NetworkT::reverseEdge(*eit)) != 0))) {
+										Network::reverseEdge(*eit)) != 0))) {
 					++eit;
 				}
 			} else {
@@ -200,7 +202,7 @@ public:
 				while ((reit != tg.obsNet->rndEdgesEnd())
 						&& ((tg.addLinksSet.count(*reit) != 0)
 								|| (tg.addLinksSet.count(
-										NetworkT::reverseEdge(*reit)) != 0))) {
+										Network::reverseEdge(*reit)) != 0))) {
 					++reit;
 				}
 			}
@@ -211,7 +213,7 @@ public:
 		 * Pre-decrement operator.
 		 * @return A reference to the new iterator.
 		 */
-		TPEdgeIterator& operator--() {
+		TPEdgeIt& operator--() {
 			if (tg.aTP) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -229,7 +231,7 @@ public:
 		 * Post-increment operator.
 		 * @return A reference to the new iterator.
 		 */
-		TPEdgeIterator operator++(int) {
+		TPEdgeIt operator++(int) {
 			auto that = *this;
 			++(*this);
 			return that;
@@ -239,7 +241,7 @@ public:
 		 * Post-decrement operator.
 		 * @return A reference to the new iterator.
 		 */
-		TPEdgeIterator operator--(int) {
+		TPEdgeIt operator--(int) {
 			auto that = *this;
 			--(*this);
 			return that;
@@ -250,7 +252,7 @@ public:
 		 * @param n Increment value.
 		 * @return The new iterator.
 		 */
-		TPEdgeIterator operator+(const difference_type &n) const {
+		TPEdgeIt operator+(const difference_type &n) const {
 			if (tg.aTP) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -270,7 +272,7 @@ public:
 		 * @param n Increment value.
 		 * @return A reference to the new iterator.
 		 */
-		TPEdgeIterator& operator+=(const difference_type &n) {
+		TPEdgeIt& operator+=(const difference_type &n) {
 			if (tg.aTP) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -289,7 +291,7 @@ public:
 		 * @param n Decrement value.
 		 * @return The new iterator.
 		 */
-		TPEdgeIterator operator-(const difference_type &n) const {
+		TPEdgeIt operator-(const difference_type &n) const {
 			if (tg.aTP) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -309,7 +311,7 @@ public:
 		 * @param n Decrement value.
 		 * @return A reference to the new iterator.
 		 */
-		TPEdgeIterator& operator-=(const difference_type &n) {
+		TPEdgeIt& operator-=(const difference_type &n) {
 			if (tg.aTP) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -328,7 +330,7 @@ public:
 		 * @param that The other iterator.
 		 * @return The difference between the current and that iterator.
 		 */
-		difference_type operator-(const TPEdgeIterator &that) const {
+		difference_type operator-(const TPEdgeIt &that) const {
 			if (tg.aTP) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -345,7 +347,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this equals that.
 		 */
-		bool operator==(const TPEdgeIterator &that) const {
+		bool operator==(const TPEdgeIt &that) const {
 			if (tg.aTP != that.tg.aTP) {
 				return false;
 			}
@@ -360,7 +362,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is not equal to that.
 		 */
-		bool operator!=(const TPEdgeIterator &that) const {
+		bool operator!=(const TPEdgeIt &that) const {
 			return !(*this == that);
 		}
 
@@ -368,7 +370,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is less than that.
 		 */
-		bool operator<(const TPEdgeIterator &that) const {
+		bool operator<(const TPEdgeIt &that) const {
 			if (tg.aTP != that.tg.aTP) {
 				return false;
 			}
@@ -384,7 +386,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is greater that.
 		 */
-		bool operator>(const TPEdgeIterator &that) const {
+		bool operator>(const TPEdgeIt &that) const {
 			if (tg.aTP != that.tg.aTP) {
 				return false;
 			}
@@ -400,7 +402,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is greater or equal to that.
 		 */
-		bool operator<=(const TPEdgeIterator &that) const {
+		bool operator<=(const TPEdgeIt &that) const {
 			return !(*this > that);
 		}
 
@@ -408,7 +410,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is less or equal to that.
 		 */
-		bool operator>=(const TPEdgeIterator &that) const {
+		bool operator>=(const TPEdgeIt &that) const {
 			return !(*this < that);
 		}
 	};
@@ -416,72 +418,74 @@ public:
 	/**
 	 * @brief TN edges iterator.
 	 */
-	class TNEdgeIterator: public std::iterator<std::random_access_iterator_tag,
-			const EdgeType, long int> {
+	class TNEdgeIt: public std::iterator<std::random_access_iterator_tag,
+			const Edge, long int> {
 
-		friend class TestEdgeGenerator; /**< TestEdgeGenerator is a friend. */
+		friend class TestEdgeGen; /**< TestEdgeGen is a friend. */
 
 	protected:
-		TestEdgeGenerator const &tg; /**< Test generator object (owner). */
+		TestEdgeGen const &tg; /**< Test generator object (owner). */
 		bool aTN = true; /**< Use all true negatives? */
 		NetworkCSP refNet; /**< Reference network. */
-		typename NetworkT::NonEdgeIterator neit; /**< Non-edge iterator. */
-		typename NetworkT::RndNonEdgeIterator rneit; /**< Random non-edge iterator. */
+		typename Network::NonEdgeIt neit; /**< Non-edge iterator. */
+		typename Network::RndNonEdgeIt rneit; /**< Random non-edge iterator. */
 
 		/**
 		 * Constructor.
 		 * @param tg The test generator object (owner).
+		 * @param _neit Non-edge iterator.
+		 * @param _rneit Random non-edge iterator.
 		 */
-		TNEdgeIterator(TestEdgeGenerator const &tg,
-				typename NetworkT::NonEdgeIterator const &_neit,
-				typename NetworkT::RndNonEdgeIterator const &_rneit) :
+		TNEdgeIt(TestEdgeGen const &tg,
+				typename Network::NonEdgeIt const &_neit,
+				typename Network::RndNonEdgeIt const &_rneit) :
 				tg(tg), aTN(tg.aTN), refNet(tg.refNet), neit(_neit), rneit(
 						_rneit) {
 			if (aTN) {
 				while ((neit != tg.refNet->nonEdgesEnd())
 						&& ((tg.addLinksSet.count(*neit) != 0)
 								|| (tg.addLinksSet.count(
-										NetworkT::reverseEdge(*neit)) != 0))) {
+										Network::reverseEdge(*neit)) != 0))) {
 					++neit;
 				}
 			} else {
 				while ((rneit != tg.refNet->rndNonEdgesEnd())
 						&& ((tg.addLinksSet.count(*rneit) != 0)
 								|| (tg.addLinksSet.count(
-										NetworkT::reverseEdge(*rneit)) != 0))) {
+										Network::reverseEdge(*rneit)) != 0))) {
 					++rneit;
 				}
 			}
 		}
 
 	public:
-		using pointer = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::pointer; /**< The pointer type associated with the iterator. */
-		using reference = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::reference; /**< The reference type associated with the iterator. */
-		using difference_type = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::difference_type; /**< The difference type associated with the iterator. */
+		using pointer = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::pointer; /**< The pointer type associated with the iterator. */
+		using reference = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::reference; /**< The reference type associated with the iterator. */
+		using difference_type = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::difference_type; /**< The difference type associated with the iterator. */
 
 		/**
 		 * Copy constructor.
 		 * @param that The object to copy.
 		 */
-		TNEdgeIterator(TNEdgeIterator const &that) = default;
+		TNEdgeIt(TNEdgeIt const &that) = default;
 
 		/**
 		 * Copy assignment operator.
 		 * @param that The object to copy.
 		 */
-		TNEdgeIterator& operator =(TNEdgeIterator const &that) = default;
+		TNEdgeIt& operator =(TNEdgeIt const &that) = default;
 
 		/**
 		 * Move constructor.
 		 * @param that The object to move.
 		 */
-		TNEdgeIterator(TNEdgeIterator &&that) = default;
+		TNEdgeIt(TNEdgeIt &&that) = default;
 
 		/**
 		 * Move assignment operator.
 		 * @param that The object to move.
 		 */
-		TNEdgeIterator& operator =(TNEdgeIterator &&that) = default;
+		TNEdgeIt& operator =(TNEdgeIt &&that) = default;
 
 		/**
 		 * Dereference operator.
@@ -511,20 +515,20 @@ public:
 		 * Pre-increment operator.
 		 * @return A reference to the new iterator.
 		 */
-		TNEdgeIterator& operator++() {
-			EdgeType e;
+		TNEdgeIt& operator++() {
+			Edge e;
 			if (aTN) {
 				do {
 					++neit;
 					e = *neit;
 				} while ((tg.addLinksSet.count(e) != 0)
-						|| (tg.addLinksSet.count(NetworkT::reverseEdge(e)) != 0));
+						|| (tg.addLinksSet.count(Network::reverseEdge(e)) != 0));
 			} else {
 				do {
 					++rneit;
 					e = *rneit;
 				} while ((tg.addLinksSet.count(e) != 0)
-						|| (tg.addLinksSet.count(NetworkT::reverseEdge(e)) != 0));
+						|| (tg.addLinksSet.count(Network::reverseEdge(e)) != 0));
 			}
 			return *this;
 		}
@@ -533,7 +537,7 @@ public:
 		 * Pre-decrement operator.
 		 * @return A reference to the new iterator.
 		 */
-		TNEdgeIterator& operator--() {
+		TNEdgeIt& operator--() {
 			if (aTN) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -551,7 +555,7 @@ public:
 		 * Post-increment operator.
 		 * @return A reference to the new iterator.
 		 */
-		TNEdgeIterator operator++(int) {
+		TNEdgeIt operator++(int) {
 			auto that = *this;
 			++(*this);
 			return that;
@@ -561,7 +565,7 @@ public:
 		 * Post-decrement operator.
 		 * @return A reference to the new iterator.
 		 */
-		TNEdgeIterator operator--(int) {
+		TNEdgeIt operator--(int) {
 			auto that = *this;
 			--(*this);
 			return that;
@@ -572,7 +576,7 @@ public:
 		 * @param n Increment value.
 		 * @return The new iterator.
 		 */
-		TNEdgeIterator operator+(const difference_type &n) const {
+		TNEdgeIt operator+(const difference_type &n) const {
 			if (aTN) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -592,7 +596,7 @@ public:
 		 * @param n Increment value.
 		 * @return A reference to the new iterator.
 		 */
-		TNEdgeIterator& operator+=(const difference_type &n) {
+		TNEdgeIt& operator+=(const difference_type &n) {
 			if (aTN) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -611,7 +615,7 @@ public:
 		 * @param n Decrement value.
 		 * @return The new iterator.
 		 */
-		TNEdgeIterator operator-(const difference_type &n) const {
+		TNEdgeIt operator-(const difference_type &n) const {
 			if (aTN) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -631,7 +635,7 @@ public:
 		 * @param n Decrement value.
 		 * @return A reference to the new iterator.
 		 */
-		TNEdgeIterator& operator-=(const difference_type &n) {
+		TNEdgeIt& operator-=(const difference_type &n) {
 			if (aTN) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -650,7 +654,7 @@ public:
 		 * @param that The other iterator.
 		 * @return The difference between the current and that iterator.
 		 */
-		difference_type operator-(const TNEdgeIterator &that) const {
+		difference_type operator-(const TNEdgeIt &that) const {
 			if (aTN) {
 				if (tg.addLinksSet.size() > 0) {
 					throw std::runtime_error(
@@ -667,7 +671,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this equals that.
 		 */
-		bool operator==(const TNEdgeIterator &that) const {
+		bool operator==(const TNEdgeIt &that) const {
 			if (aTN != that.aTN) {
 				return false;
 			}
@@ -682,7 +686,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is not equal to that.
 		 */
-		bool operator!=(const TNEdgeIterator &that) const {
+		bool operator!=(const TNEdgeIt &that) const {
 			return !(*this == that);
 		}
 
@@ -690,7 +694,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is less than that.
 		 */
-		bool operator<(const TNEdgeIterator &that) const {
+		bool operator<(const TNEdgeIt &that) const {
 			if (aTN != that.aTN) {
 				return false;
 			}
@@ -706,7 +710,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is greater that.
 		 */
-		bool operator>(const TNEdgeIterator &that) const {
+		bool operator>(const TNEdgeIt &that) const {
 			if (aTN != that.aTN) {
 				return false;
 			}
@@ -722,7 +726,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is greater or equal to that.
 		 */
-		bool operator<=(const TNEdgeIterator &that) const {
+		bool operator<=(const TNEdgeIt &that) const {
 			return !(*this > that);
 		}
 
@@ -730,7 +734,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is less or equal to that.
 		 */
-		bool operator>=(const TNEdgeIterator &that) const {
+		bool operator>=(const TNEdgeIt &that) const {
 			return !(*this < that);
 		}
 	};
@@ -746,9 +750,9 @@ public:
 	 * @param tnRatio Ratio of true negative inks to e used in the test set. This parameter is only relevant when aTN is false.
 	 * @param seed The random number generator's seed.
 	 */
-	TestEdgeGenerator(NetworkCSP refNet, NetworkCSP obsNet,
-			std::shared_ptr<EdgeContainerT> remLinks,
-			std::shared_ptr<EdgeContainerT> addLinks, bool aTP, double tpRatio,
+	TestEdgeGen(NetworkCSP refNet, NetworkCSP obsNet,
+			std::shared_ptr<EdgeContT> remLinks,
+			std::shared_ptr<EdgeContT> addLinks, bool aTP, double tpRatio,
 			bool aTN, double tnRatio, long int seed) :
 			refNet(refNet), obsNet(obsNet), aTP(aTP), tpRatio(tpRatio), aTN(
 					aTN), tnRatio(tnRatio), tnEndIt(refNet->nonEdgesEnd()), tnRndEndIt(
@@ -776,34 +780,34 @@ public:
 	 * Copy constructor.
 	 * @param that The object to copy.
 	 */
-	TestEdgeGenerator(TestEdgeGenerator const &that) = default;
+	TestEdgeGen(TestEdgeGen const &that) = default;
 
 	/**
 	 * Copy assignment operator.
 	 * @param that The object to copy.
 	 */
-	TestEdgeGenerator& operator =(TestEdgeGenerator const &that) = default;
+	TestEdgeGen& operator =(TestEdgeGen const &that) = default;
 
 	/**
 	 * Move constructor.
 	 * @param that The object to move.
 	 */
-	TestEdgeGenerator(TestEdgeGenerator &&that) = default;
+	TestEdgeGen(TestEdgeGen &&that) = default;
 
 	/**
 	 * Move assignment operator.
 	 * @param that The object to move.
 	 */
-	TestEdgeGenerator& operator =(TestEdgeGenerator &&that) = default;
+	TestEdgeGen& operator =(TestEdgeGen &&that) = default;
 
 	/**
 	 * Generate true positive links.
-	 * @tparam OutputEdgeIteratorT Iterator write edges.
+	 * @tparam OutputEdgeItT Iterator write edges.
 	 * @param oit Output edge iterator.
 	 */
-	template<typename OutputEdgeIteratorT = typename std::vector<
-			typename NetworkT::EdgeType>::iterator> void generateTP(
-			OutputEdgeIteratorT oit) {
+	template<typename OutputEdgeItT = typename std::vector<
+			typename Network::Edge>::iterator> void generateTP(
+			OutputEdgeItT oit) {
 
 		// Add + Remove
 		// The true positive links are the edges of obsNet that were not added
@@ -811,7 +815,7 @@ public:
 			for (auto it = obsNet->edgesBegin(); it != obsNet->edgesEnd();
 					++it) {
 				if ((addLinksSet.count(*it) == 0)
-						&& (addLinksSet.count(NetworkT::reverseEdge(*it)) == 0)) {
+						&& (addLinksSet.count(Network::reverseEdge(*it)) == 0)) {
 					oit = *it;
 					++oit;
 				}
@@ -820,7 +824,7 @@ public:
 			for (auto it = obsNet->rndEdgesBegin(tpRatio, tpSeed);
 					it != obsNet->rndEdgesEnd(); ++it) {
 				if ((addLinksSet.count(*it) == 0)
-						&& (addLinksSet.count(NetworkT::reverseEdge(*it)) == 0)) {
+						&& (addLinksSet.count(Network::reverseEdge(*it)) == 0)) {
 					oit = *it;
 					++oit;
 				}
@@ -830,12 +834,12 @@ public:
 
 	/**
 	 * Generate true negative links.
-	 * @tparam OutputEdgeIteratorT Iterator write edges.
+	 * @tparam OutputEdgeItT Iterator write edges.
 	 * @param oit Output edge iterator.
 	 */
-	template<typename OutputEdgeIteratorT = typename std::vector<
-			typename NetworkT::EdgeType>::iterator> void generateTN(
-			OutputEdgeIteratorT oit) {
+	template<typename OutputEdgeItT = typename std::vector<
+			typename Network::Edge>::iterator> void generateTN(
+			OutputEdgeItT oit) {
 
 		// Add + Remove
 		// The true negative links are the non-edges of refNet that were not added
@@ -843,7 +847,7 @@ public:
 			for (auto it = refNet->nonEdgesBegin(); it != refNet->nonEdgesEnd();
 					++it) {
 				if ((addLinksSet.count(*it) == 0)
-						&& (addLinksSet.count(NetworkT::reverseEdge(*it)) == 0)) {
+						&& (addLinksSet.count(Network::reverseEdge(*it)) == 0)) {
 					oit = *it;
 					++oit;
 				}
@@ -852,7 +856,7 @@ public:
 			for (auto it = refNet->rndNonEdgesBegin(tnRatio, tnSeed);
 					it != refNet->rndNonEdgesEnd(); ++it) {
 				if ((addLinksSet.count(*it) == 0)
-						&& (addLinksSet.count(NetworkT::reverseEdge(*it)) == 0)) {
+						&& (addLinksSet.count(Network::reverseEdge(*it)) == 0)) {
 					oit = *it;
 					++oit;
 				}
@@ -864,21 +868,21 @@ public:
 	 * @return Iterator to the first true positive link.
 	 */
 	auto tpBegin() const {
-		return TPEdgeIterator(*this);
+		return TPEdgeIt(*this);
 	}
 
 	/**
 	 * @return Iterator to one-past the last true positive link.
 	 */
 	auto tpEnd() const {
-		return TPEdgeIterator(*this, tpEndIt, tpRndEndIt);
+		return TPEdgeIt(*this, tpEndIt, tpRndEndIt);
 	}
 
 	/**
 	 * @return Iterator to the first true positive link.
 	 */
 	auto tnBegin() const {
-		return TNEdgeIterator(*this, refNet->nonEdgesBegin(),
+		return TNEdgeIt(*this, refNet->nonEdgesBegin(),
 				refNet->rndNonEdgesBegin(tnRatio, tnSeed));
 	}
 
@@ -886,40 +890,40 @@ public:
 	 * @return Iterator to one-past the last true positive link.
 	 */
 	auto tnEnd() const {
-		return TNEdgeIterator(*this, tnEndIt, tnRndEndIt);
+		return TNEdgeIt(*this, tnEndIt, tnRndEndIt);
 	}
 
 	/**
 	 * Destructor.
 	 */
-	virtual ~TestEdgeGenerator() = default;
+	virtual ~TestEdgeGen() = default;
 };
 
 /**
  * @brief Test data.
- * @tparam NetworkT The network type.
- * @tparam EdgeContainerT The container used to store edges.
+ * @tparam Network The network type.
+ * @tparam EdgeContT The container used to store edges.
  */
-template<typename NetworkT = UNetwork<>, typename EdgeContainerT = std::vector<
-		typename NetworkT::EdgeType>> class TestData {
+template<typename Network = UNetwork<>, typename EdgeContT = std::vector<
+		typename Network::Edge>> class TestData {
 public:
-	using NetworkSP = std::shared_ptr<NetworkT>; /**< Shared pointer to a network. */
-	using NetworkCSP = std::shared_ptr<const NetworkT>; /**< Constant shared pointer to anetwork. */
-	using EdgeType = typename NetworkT::EdgeType; /**< The edge type. */
-	using NonEdgeIterator = typename NetworkT::NonEdgeIterator; /**< Negative edge iterator type. */
-	using EdgeIterator = typename NetworkT::EdgeIterator; /**< Edge iterator type. */
+	using NetworkSP = std::shared_ptr<Network>; /**< Shared pointer to a network. */
+	using NetworkCSP = std::shared_ptr<const Network>; /**< Constant shared pointer to anetwork. */
+	using Edge = typename Network::Edge; /**< The edge type. */
+	using NonEdgeIt = typename Network::NonEdgeIt; /**< Negative edge iterator type. */
+	using EdgeIt = typename Network::EdgeIt; /**< Edge iterator type. */
 
 protected:
 	NetworkCSP refNet; /**< Reference network. */
 	NetworkCSP obsNet; /**< Observed network. */
-	std::shared_ptr<EdgeContainerT> remLinks; /**< Removed edges. */
-	std::shared_ptr<EdgeContainerT> addLinks; /**< Added edges. */
-	std::shared_ptr<EdgeContainerT> tpLinks; /**< True positive links. */
-	std::shared_ptr<EdgeContainerT> tnLinks; /**< True negative links. */
-	std::shared_ptr<EdgeContainerT> pos; /**< Positive links. */
-	std::shared_ptr<EdgeContainerT> neg; /**< Negative links. */
-	std::shared_ptr<std::set<EdgeType>> remLinksMap; /**< Map containing removed links. */
-	std::shared_ptr<TestEdgeGenerator<NetworkT, EdgeContainerT>> eg; /**< Edge generator. */
+	std::shared_ptr<EdgeContT> remLinks; /**< Removed edges. */
+	std::shared_ptr<EdgeContT> addLinks; /**< Added edges. */
+	std::shared_ptr<EdgeContT> tpLinks; /**< True positive links. */
+	std::shared_ptr<EdgeContT> tnLinks; /**< True negative links. */
+	std::shared_ptr<EdgeContT> pos; /**< Positive links. */
+	std::shared_ptr<EdgeContT> neg; /**< Negative links. */
+	std::shared_ptr<std::set<Edge>> remLinksMap; /**< Map containing removed links. */
+	std::shared_ptr<TestEdgeGen<Network, EdgeContT>> eg; /**< Edge generator. */
 	LinkClass posClass; /**< The class of edges used as the positive instances in the test set. */
 	LinkClass negClass; /**< The class of edges used as the negative instances in the test set. */
 	bool tpGenerated = false; /**< True positives are generated and stored in memory. */
@@ -940,30 +944,33 @@ public:
 	/**
 	 * @brief Test edges iterator.
 	 */
-	class TestEdgeIterator: public std::iterator<
-			std::random_access_iterator_tag, const EdgeType, long int> {
+	class TestEdgeIt: public std::iterator<std::random_access_iterator_tag,
+			const Edge, long int> {
 
 		friend class TestData; /**< TestData is a friend. */
 
 	protected:
 		IteratorType itType; /**< Iterator type. */
-		typename EdgeContainerT::const_iterator eceit; /**< Edge container iterator. */
-		typename TestEdgeGenerator<NetworkT, EdgeContainerT>::TPEdgeIterator tpeit; /**< True positive edge iterator. */
-		typename TestEdgeGenerator<NetworkT, EdgeContainerT>::TNEdgeIterator tneit; /**< True negative edge iterator. */
+		typename EdgeContT::const_iterator eceit; /**< Edge container iterator. */
+		typename TestEdgeGen<Network, EdgeContT>::TPEdgeIt tpeit; /**< True positive edge iterator. */
+		typename TestEdgeGen<Network, EdgeContT>::TNEdgeIt tneit; /**< True negative edge iterator. */
 
 	public:
-		using pointer = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::pointer; /**< The pointer type associated with the iterator. */
-		using reference = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::reference; /**< The reference type associated with the iterator. */
-		using difference_type = typename std::iterator<std::random_access_iterator_tag, const EdgeType, long int>::difference_type; /**< The difference type associated with the iterator. */
+		using pointer = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::pointer; /**< The pointer type associated with the iterator. */
+		using reference = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::reference; /**< The reference type associated with the iterator. */
+		using difference_type = typename std::iterator<std::random_access_iterator_tag, const Edge, long int>::difference_type; /**< The difference type associated with the iterator. */
 
 		/**
 		 * Constructor.
-		 * @param td The test data object (owner).
+		 * @param itType The iterator type.
+		 * @param eceit Edge container iterator.
+		 * @param tpeit True positive edge iterator.
+		 * @param tneit True negative edge iterator.
 		 */
-		TestEdgeIterator(IteratorType const &itType,
-				typename EdgeContainerT::const_iterator const &eceit,
-				typename TestEdgeGenerator<NetworkT, EdgeContainerT>::TPEdgeIterator const &tpeit,
-				typename TestEdgeGenerator<NetworkT, EdgeContainerT>::TNEdgeIterator const &tneit) :
+		TestEdgeIt(IteratorType const &itType,
+				typename EdgeContT::const_iterator const &eceit,
+				typename TestEdgeGen<Network, EdgeContT>::TPEdgeIt const &tpeit,
+				typename TestEdgeGen<Network, EdgeContT>::TNEdgeIt const &tneit) :
 				itType(itType), eceit(eceit), tpeit(tpeit), tneit(tneit) {
 		}
 
@@ -971,25 +978,25 @@ public:
 		 * Copy constructor.
 		 * @param that The object to copy.
 		 */
-		TestEdgeIterator(TestEdgeIterator const &that) = default;
+		TestEdgeIt(TestEdgeIt const &that) = default;
 
 		/**
 		 * Copy assignment operator.
 		 * @param that The object to copy.
 		 */
-		TestEdgeIterator& operator =(TestEdgeIterator const &that) = default;
+		TestEdgeIt& operator =(TestEdgeIt const &that) = default;
 
 		/**
 		 * Move constructor.
 		 * @param that The object to move.
 		 */
-		TestEdgeIterator(TestEdgeIterator &&that) = default;
+		TestEdgeIt(TestEdgeIt &&that) = default;
 
 		/**
 		 * Move assignment operator.
 		 * @param that The object to move.
 		 */
-		TestEdgeIterator& operator =(TestEdgeIterator &&that) = default;
+		TestEdgeIt& operator =(TestEdgeIt &&that) = default;
 
 		/**
 		 * Dereference operator.
@@ -1029,7 +1036,7 @@ public:
 		 * Pre-increment operator.
 		 * @return A reference to the new iterator.
 		 */
-		TestEdgeIterator& operator++() {
+		TestEdgeIt& operator++() {
 			switch (itType) {
 			case ECEIT:
 				++eceit;
@@ -1050,7 +1057,7 @@ public:
 		 * Pre-decrement operator.
 		 * @return A reference to the new iterator.
 		 */
-		TestEdgeIterator& operator--() {
+		TestEdgeIt& operator--() {
 			switch (itType) {
 			case ECEIT:
 				--eceit;
@@ -1071,7 +1078,7 @@ public:
 		 * Post-increment operator.
 		 * @return A reference to the new iterator.
 		 */
-		TestEdgeIterator operator++(int) {
+		TestEdgeIt operator++(int) {
 			auto that = *this;
 			++(*this);
 			return that;
@@ -1081,7 +1088,7 @@ public:
 		 * Post-decrement operator.
 		 * @return A reference to the new iterator.
 		 */
-		TestEdgeIterator operator--(int) {
+		TestEdgeIt operator--(int) {
 			auto that = *this;
 			--(*this);
 			return that;
@@ -1092,7 +1099,7 @@ public:
 		 * @param n Increment value.
 		 * @return The new iterator.
 		 */
-		TestEdgeIterator operator+(const difference_type &n) const {
+		TestEdgeIt operator+(const difference_type &n) const {
 			auto that = *this;
 			switch (itType) {
 			case ECEIT:
@@ -1115,7 +1122,7 @@ public:
 		 * @param n Increment value.
 		 * @return A reference to the new iterator.
 		 */
-		TestEdgeIterator& operator+=(const difference_type &n) {
+		TestEdgeIt& operator+=(const difference_type &n) {
 			switch (itType) {
 			case ECEIT:
 				eceit += n;
@@ -1137,7 +1144,7 @@ public:
 		 * @param n Decrement value.
 		 * @return The new iterator.
 		 */
-		TestEdgeIterator operator-(const difference_type &n) const {
+		TestEdgeIt operator-(const difference_type &n) const {
 			auto that = *this;
 			switch (itType) {
 			case ECEIT:
@@ -1160,7 +1167,7 @@ public:
 		 * @param n Decrement value.
 		 * @return A reference to the new iterator.
 		 */
-		TestEdgeIterator& operator-=(const difference_type &n) {
+		TestEdgeIt& operator-=(const difference_type &n) {
 			switch (itType) {
 			case ECEIT:
 				eceit -= n;
@@ -1182,7 +1189,7 @@ public:
 		 * @param that The other iterator.
 		 * @return The difference between the current and that iterator.
 		 */
-		difference_type operator-(const TestEdgeIterator &that) const {
+		difference_type operator-(const TestEdgeIt &that) const {
 			switch (itType) {
 			case ECEIT:
 				return eceit - that.eceit;
@@ -1199,7 +1206,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this equals that.
 		 */
-		bool operator==(const TestEdgeIterator &that) const {
+		bool operator==(const TestEdgeIt &that) const {
 			if (itType != that.itType) {
 				return false;
 			}
@@ -1219,7 +1226,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is not equal to that.
 		 */
-		bool operator!=(const TestEdgeIterator &that) const {
+		bool operator!=(const TestEdgeIt &that) const {
 			return !(*this == that);
 		}
 
@@ -1227,7 +1234,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is less than that.
 		 */
-		bool operator<(const TestEdgeIterator &that) const {
+		bool operator<(const TestEdgeIt &that) const {
 			if (itType != that.itType) {
 				return false;
 			}
@@ -1247,7 +1254,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is greater that.
 		 */
-		bool operator>(const TestEdgeIterator &that) const {
+		bool operator>(const TestEdgeIt &that) const {
 			if (itType != that.itType) {
 				return false;
 			}
@@ -1267,7 +1274,7 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is greater or equal to that.
 		 */
-		bool operator<=(const TestEdgeIterator &that) const {
+		bool operator<=(const TestEdgeIt &that) const {
 			return !(*this > that);
 		}
 
@@ -1275,14 +1282,14 @@ public:
 		 * @param that The other iterator.
 		 * @return True if this is less or equal to that.
 		 */
-		bool operator>=(const TestEdgeIterator &that) const {
+		bool operator>=(const TestEdgeIt &that) const {
 			return !(*this < that);
 		}
 	};
 
 protected:
-	std::shared_ptr<TestEdgeIterator> posStrmEndItSP; /**< Pointer to end of positive links. Cached for performance purposes. */
-	std::shared_ptr<TestEdgeIterator> negStrmEndItSP; /**< Pointer to end of negative links. Cached for performance purposes. */
+	std::shared_ptr<TestEdgeIt> posStrmEndItSP; /**< Pointer to end of positive links. Cached for performance purposes. */
+	std::shared_ptr<TestEdgeIt> negStrmEndItSP; /**< Pointer to end of negative links. Cached for performance purposes. */
 
 public:
 	/**
@@ -1296,16 +1303,16 @@ public:
 	 * @param negClass The class of edges used as the negative instances in the test set.
 	 */
 	TestData(NetworkCSP refNet, NetworkCSP obsNet,
-			std::shared_ptr<EdgeContainerT> remLinks,
-			std::shared_ptr<EdgeContainerT> addLinks,
-			std::shared_ptr<EdgeContainerT> tpLinks,
-			std::shared_ptr<EdgeContainerT> tnLinks, LinkClass posClass,
+			std::shared_ptr<EdgeContT> remLinks,
+			std::shared_ptr<EdgeContT> addLinks,
+			std::shared_ptr<EdgeContT> tpLinks,
+			std::shared_ptr<EdgeContT> tnLinks, LinkClass posClass,
 			LinkClass negClass) :
 			refNet(refNet), obsNet(obsNet), remLinks(remLinks), addLinks(
 					addLinks), tpLinks(tpLinks), tnLinks(tnLinks), posClass(
 					posClass), negClass(negClass) {
 
-		remLinksMap = std::make_shared<std::set<EdgeType>>();
+		remLinksMap = std::make_shared<std::set<Edge>>();
 		remLinksMap->insert(remLinks->cbegin(), remLinks->cend());
 		if (remLinksMap->size() != remLinks->size()) {
 			throw std::runtime_error(
@@ -1359,14 +1366,14 @@ public:
 	 * @param negClass The class of edges used as the negative instances in the test set.
 	 */
 	TestData(NetworkCSP refNet, NetworkCSP obsNet,
-			std::shared_ptr<EdgeContainerT> remLinks,
-			std::shared_ptr<EdgeContainerT> addLinks,
-			std::shared_ptr<TestEdgeGenerator<NetworkT, EdgeContainerT>> eg,
+			std::shared_ptr<EdgeContT> remLinks,
+			std::shared_ptr<EdgeContT> addLinks,
+			std::shared_ptr<TestEdgeGen<Network, EdgeContT>> eg,
 			LinkClass posClass, LinkClass negClass) :
 			refNet(refNet), obsNet(obsNet), remLinks(remLinks), addLinks(
 					addLinks), eg(eg), posClass(posClass), negClass(negClass) {
 
-		remLinksMap = std::make_shared<std::set<EdgeType>>();
+		remLinksMap = std::make_shared<std::set<Edge>>();
 		remLinksMap->insert(remLinks->cbegin(), remLinks->cend());
 		if (remLinksMap->size() != remLinks->size()) {
 			throw std::runtime_error(
@@ -1374,8 +1381,8 @@ public:
 		}
 
 		// These two will be empty for now
-		tpLinks = std::make_shared<EdgeContainerT>();
-		tnLinks = std::make_shared<EdgeContainerT>();
+		tpLinks = std::make_shared<EdgeContT>();
+		tnLinks = std::make_shared<EdgeContT>();
 
 		switch (posClass) {
 		case TP:
@@ -1413,20 +1420,20 @@ public:
 
 		switch (posClass) {
 		case TP:
-			posStrmEndItSP = std::make_shared<TestEdgeIterator>(TPEIT,
-					tpLinks->end(), eg->tpEnd(), eg->tnEnd());
+			posStrmEndItSP = std::make_shared<TestEdgeIt>(TPEIT, tpLinks->end(),
+					eg->tpEnd(), eg->tnEnd());
 			break;
 		case FN:
-			posStrmEndItSP = std::make_shared<TestEdgeIterator>(ECEIT,
+			posStrmEndItSP = std::make_shared<TestEdgeIt>(ECEIT,
 					remLinks->end(), eg->tpEnd(), eg->tnEnd());
 			break;
 		case FP:
-			posStrmEndItSP = std::make_shared<TestEdgeIterator>(ECEIT,
+			posStrmEndItSP = std::make_shared<TestEdgeIt>(ECEIT,
 					addLinks->end(), eg->tpEnd(), eg->tnEnd());
 			break;
 		case TN:
-			posStrmEndItSP = std::make_shared<TestEdgeIterator>(TNEIT,
-					tnLinks->end(), eg->tpEnd(), eg->tnEnd());
+			posStrmEndItSP = std::make_shared<TestEdgeIt>(TNEIT, tnLinks->end(),
+					eg->tpEnd(), eg->tnEnd());
 			break;
 		default:
 			throw std::runtime_error("Unknown link class");
@@ -1434,20 +1441,20 @@ public:
 
 		switch (negClass) {
 		case TP:
-			negStrmEndItSP = std::make_shared<TestEdgeIterator>(TPEIT,
-					tpLinks->end(), eg->tpEnd(), eg->tnEnd());
+			negStrmEndItSP = std::make_shared<TestEdgeIt>(TPEIT, tpLinks->end(),
+					eg->tpEnd(), eg->tnEnd());
 			break;
 		case FN:
-			negStrmEndItSP = std::make_shared<TestEdgeIterator>(ECEIT,
+			negStrmEndItSP = std::make_shared<TestEdgeIt>(ECEIT,
 					remLinks->end(), eg->tpEnd(), eg->tnEnd());
 			break;
 		case FP:
-			negStrmEndItSP = std::make_shared<TestEdgeIterator>(ECEIT,
+			negStrmEndItSP = std::make_shared<TestEdgeIt>(ECEIT,
 					addLinks->end(), eg->tpEnd(), eg->tnEnd());
 			break;
 		case TN:
-			negStrmEndItSP = std::make_shared<TestEdgeIterator>(TNEIT,
-					tnLinks->end(), eg->tpEnd(), eg->tnEnd());
+			negStrmEndItSP = std::make_shared<TestEdgeIt>(TNEIT, tnLinks->end(),
+					eg->tpEnd(), eg->tnEnd());
 			break;
 		default:
 			throw std::runtime_error("Unknown link class");
@@ -1590,17 +1597,15 @@ public:
 	auto posStrmBegin() const {
 		switch (posClass) {
 		case TP:
-			return TestEdgeIterator(TPEIT, tpLinks->end(), eg->tpBegin(),
-					eg->tnEnd());
+			return TestEdgeIt(TPEIT, tpLinks->end(), eg->tpBegin(), eg->tnEnd());
 		case FN:
-			return TestEdgeIterator(ECEIT, remLinks->begin(), eg->tpEnd(),
+			return TestEdgeIt(ECEIT, remLinks->begin(), eg->tpEnd(),
 					eg->tnEnd());
 		case FP:
-			return TestEdgeIterator(ECEIT, addLinks->begin(), eg->tpEnd(),
+			return TestEdgeIt(ECEIT, addLinks->begin(), eg->tpEnd(),
 					eg->tnEnd());
 		case TN:
-			return TestEdgeIterator(TNEIT, tpLinks->end(), eg->tpEnd(),
-					eg->tnBegin());
+			return TestEdgeIt(TNEIT, tpLinks->end(), eg->tpEnd(), eg->tnBegin());
 		default:
 			throw std::runtime_error("Unknown link class");
 		}
@@ -1619,17 +1624,15 @@ public:
 	auto negStrmBegin() const {
 		switch (negClass) {
 		case TP:
-			return TestEdgeIterator(TPEIT, tpLinks->end(), eg->tpBegin(),
-					eg->tnEnd());
+			return TestEdgeIt(TPEIT, tpLinks->end(), eg->tpBegin(), eg->tnEnd());
 		case FN:
-			return TestEdgeIterator(ECEIT, remLinks->begin(), eg->tpEnd(),
+			return TestEdgeIt(ECEIT, remLinks->begin(), eg->tpEnd(),
 					eg->tnEnd());
 		case FP:
-			return TestEdgeIterator(ECEIT, addLinks->begin(), eg->tpEnd(),
+			return TestEdgeIt(ECEIT, addLinks->begin(), eg->tpEnd(),
 					eg->tnEnd());
 		case TN:
-			return TestEdgeIterator(TNEIT, tpLinks->end(), eg->tpEnd(),
-					eg->tnBegin());
+			return TestEdgeIt(TNEIT, tpLinks->end(), eg->tpEnd(), eg->tnBegin());
 		default:
 			throw std::runtime_error("Unknown link class");
 		}
@@ -1659,7 +1662,7 @@ public:
 	/**
 	 * @return The removed links in a set.
 	 */
-	std::shared_ptr<std::set<EdgeType> const> getRemLinksMap() const {
+	std::shared_ptr<std::set<Edge> const> getRemLinksMap() const {
 		return remLinksMap;
 	}
 
@@ -1701,7 +1704,7 @@ public:
 	/**
 	 * @return Edge generator.
 	 */
-	const std::shared_ptr<TestEdgeGenerator<NetworkT, EdgeContainerT> >& getEg() const {
+	const std::shared_ptr<TestEdgeGen<Network, EdgeContT> >& getEg() const {
 		return eg;
 	}
 
@@ -1730,19 +1733,19 @@ public:
  * TN: Non-edges of observed network - removed links = Non-edges of reference network - added links
  * FP: Added links
  * FN: Removed links
- * @tparam NetworkT The network type.
+ * @tparam Network The network type.
  */
-template<typename NetworkT = UNetwork<>> class NetworkManipulator {
+template<typename Network = UNetwork<>> class NetworkManipulator {
 
 public:
 
-	using NetworkSP = std::shared_ptr<NetworkT>; /**< Shared pointer to a network. */
-	using NetworkCSP = std::shared_ptr<const NetworkT>; /**< Constant shared pointer to a network. */
-	using NodeIdType = typename NetworkT::NodeIdType; /**< Nodes IDs type. */
-	using LabelType = typename NetworkT::LabelType; /**< Nodes labels type. */
-	using EdgeType = typename NetworkT::EdgeType; /**< The edge type. */
-	template<typename ValueT> using NodeMap = typename NetworkT::template NodeMap<ValueT>; /**< Node map. */
-	template<typename ValueT> using EdgeMap = typename NetworkT::template EdgeMap<ValueT>; /**< Edge map. */
+	using NetworkSP = std::shared_ptr<Network>; /**< Shared pointer to a network. */
+	using NetworkCSP = std::shared_ptr<const Network>; /**< Constant shared pointer to a network. */
+	using NodeID = typename Network::NodeID; /**< Nodes IDs type. */
+	using Label = typename Network::Label; /**< Nodes labels type. */
+	using Edge = typename Network::Edge; /**< The edge type. */
+	template<typename ValueT> using NodeMap = typename Network::template NodeMap<ValueT>; /**< Node map. */
+	template<typename ValueT> using EdgeMap = typename Network::template EdgeMap<ValueT>; /**< Edge map. */
 
 protected:
 	/**
@@ -1759,11 +1762,11 @@ protected:
 	 * @return The test data.
 	 */
 	static void createTestData(NetworkCSP refNet, NetworkSP obsNet,
-			std::shared_ptr<std::vector<EdgeType>> remLinks,
-			std::shared_ptr<std::vector<EdgeType>> addLinks, double remRatio,
+			std::shared_ptr<std::vector<Edge>> remLinks,
+			std::shared_ptr<std::vector<Edge>> addLinks, double remRatio,
 			double addRatio, bool keepConnected, long int seed);
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	static bool parallel; /**< Enable/disable parallelism. */
 #endif
 
@@ -1776,39 +1779,39 @@ public:
 
 	/**
 	 * Generate a random spanning tree.
-	 * @tparam InserterIterator Type of iterator to insert tree edges.
+	 * @tparam InserterIt Type of iterator to insert tree edges.
 	 * @param net The network.
 	 * @param seed The random number generator's seed.
 	 * @param inserter An inserter iterator to insert the tree edges.
 	 */
-	template<typename InserterIterator> static void rst(NetworkCSP net,
-			long int seed, InserterIterator inserter) {
+	template<typename InserterIt> static void rst(NetworkCSP net, long int seed,
+			InserterIt inserter) {
 		auto visited = net->template createNodeMap<uint8_t>(); // Unfortunately std::vector<bool> does not work as expected
-		auto next = net->template createNodeMap<NodeIdType>();
+		auto next = net->template createNodeMap<NodeID>();
 
 		logger(logDebug, "Generating a random spanning tree...")
 		RandomGen rng(seed);
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 		for (auto it = visited.begin(); it < visited.end(); ++it) {
 			*it = false;
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
-		for (NodeIdType i = 0; i < net->getNbNodes(); i++) {
+		for (NodeID i = 0; i < net->getNbNodes(); i++) {
 			next[i] = i;
 		}
 
 		visited[rng.getUInt(0, net->getNbNodes() - 1)] = true;
-		for (NodeIdType i = 0; i < net->getNbNodes(); i++) {
+		for (NodeID i = 0; i < net->getNbNodes(); i++) {
 			auto u = i;
 			while (!visited[u]) {
-				auto e = *Utilities::getRandom(net->neighborsBegin(u),
-						net->neighborsEnd(u), rng.getInt());
-				next[u] = NetworkT::end(e);
+				auto e = *Utils::getRandom(net->neighbBegin(u),
+						net->neighbEnd(u), rng.getInt());
+				next[u] = Network::end(e);
 				u = next[u];
 			}
 
@@ -1816,7 +1819,7 @@ public:
 			while (!visited[u]) {
 				visited[u] = true;
 				if (u != next[u]) {
-					*inserter = NetworkT::makeEdge(u, next[u]);
+					*inserter = Network::makeEdge(u, next[u]);
 					++inserter;
 				}
 				u = next[u];
@@ -1833,7 +1836,7 @@ public:
 	 * @param seed The random number generator's seed.
 	 * @return A pair that contains a pointer to the resulting network and pointer to the set of extracted links.
 	 */
-	static std::pair<NetworkCSP, std::shared_ptr<std::vector<EdgeType>> > rndConExtract(
+	static std::pair<NetworkCSP, std::shared_ptr<std::vector<Edge>> > rndConExtract(
 			NetworkCSP net, double ratio, long int seed);
 
 	/**
@@ -1844,7 +1847,7 @@ public:
 	 * @param seed The random number generator's seed.
 	 * @return A pair that contains a pointer to the resulting network and pointer to the set of extracted links.
 	 */
-	static std::pair<NetworkCSP, std::shared_ptr<std::vector<EdgeType>> > rndExtract(
+	static std::pair<NetworkCSP, std::shared_ptr<std::vector<Edge>> > rndExtract(
 			NetworkCSP net, double ratio, long int seed);
 
 	/**
@@ -1853,12 +1856,12 @@ public:
 	 * @param excepts The links that are excepted.
 	 * @param inserter An inserter iterator.
 	 */
-	template<typename InserterIterator> static void getAllNegLinksExcept(
-			NetworkCSP net, std::set<EdgeType> const &excepts,
-			InserterIterator inserter) {
+	template<typename InserterIt> static void getAllNegLinksExcept(
+			NetworkCSP net, std::set<Edge> const &excepts,
+			InserterIt inserter) {
 		for (auto it = net->nonEdgesBegin(); it != net->nonEdgesEnd(); ++it) {
 			if ((excepts.count(*it) == 0)
-					&& ((excepts.count(NetworkT::reverseEdge(*it)) == 0))) {
+					&& ((excepts.count(Network::reverseEdge(*it)) == 0))) {
 				*inserter = *it;
 				++inserter;
 			}
@@ -1873,11 +1876,11 @@ public:
 	 * @param excepts The links that are excepted.
 	 * @param inserter The inserter iterator where the selected edges will be inserted.
 	 */
-	template<typename InserterIterator> static void getRndNegLinksExcept(
+	template<typename InserterIt> static void getRndNegLinksExcept(
 			NetworkCSP net, double ratio, long int seed,
-			std::set<EdgeType> const &excepts, InserterIterator inserter) {
-		Utilities::filter(net->rndNonEdgesBegin(ratio, seed),
-				net->rndNonEdgesEnd(), excepts, inserter);
+			std::set<Edge> const &excepts, InserterIt inserter) {
+		Utils::filter(net->rndNonEdgesBegin(ratio, seed), net->rndNonEdgesEnd(),
+				excepts, inserter);
 	}
 
 	/**
@@ -1888,10 +1891,10 @@ public:
 	 * @param excepts The links that are excepted.
 	 * @param inserter The inserter iterator where the selected edges will be inserted.
 	 */
-	template<typename InserterIterator> static void getRndPosLinksExcept(
+	template<typename InserterIt> static void getRndPosLinksExcept(
 			NetworkCSP net, double ratio, long int seed,
-			std::set<EdgeType> const &excepts, InserterIterator inserter) {
-		Utilities::filter(net->rndEdgesBegin(ratio, seed), net->rndEdgesEnd(),
+			std::set<Edge> const &excepts, InserterIt inserter) {
+		Utils::filter(net->rndEdgesBegin(ratio, seed), net->rndEdgesEnd(),
 				excepts, inserter);
 	}
 
@@ -1913,9 +1916,22 @@ public:
 	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
 	 * @return The test data.
 	 */
-	static TestData<NetworkT, std::vector<EdgeType>> createTestDataRem(
+	static TestData<Network, std::vector<Edge>> createTestDataRem(
 			NetworkCSP refNet, double remRatio, bool keepConnected, bool aTP,
 			double tpRatio, bool aTN, double tnRatio, long int seed,
+			bool preGenerateTPN = true);
+
+	/**
+	 * Creates test data by removing edges from a network.
+	 * The reference network is not modified. The two networks have the same external-internal ID mapping.
+	 * @param refNet The reference network.
+	 * @param remRatio Value between 0 and 1 that specifies the percentage of edges that are removed.
+	 * @param seed The random number generator's seed.
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
+	 * @return The test data.
+	 */
+	static TestData<Network, std::vector<Edge>> createTestDataRem(
+			NetworkCSP refNet, double remRatio, long int seed,
 			bool preGenerateTPN = true);
 
 	/**
@@ -1931,9 +1947,22 @@ public:
 	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
 	 * @return The test data.
 	 */
-	static TestData<NetworkT, std::vector<EdgeType>> createTestDataAdd(
+	static TestData<Network, std::vector<Edge>> createTestDataAdd(
 			NetworkCSP refNet, double addRatio, bool aTP, double tpRatio,
 			bool aTN, double tnRatio, long int seed,
+			bool preGenerateTPN = true);
+
+	/**
+	 * Creates test data by adding edges to a network.
+	 * The reference network is not modified. The two networks have the same external-internal ID mapping.
+	 * @param refNet The reference network.
+	 * @param addRatio Value between 0 and 1 that specifies the percentage of edges that are added.
+	 * @param seed The random number generator's seed.
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
+	 * @return The test data.
+	 */
+	static TestData<Network, std::vector<Edge>> createTestDataAdd(
+			NetworkCSP refNet, double addRatio, long int seed,
 			bool preGenerateTPN = true);
 
 	/**
@@ -1953,11 +1982,28 @@ public:
 	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
 	 * @return The test data.
 	 */
-	static TestData<NetworkT, std::vector<EdgeType>> createTestData(
+	static TestData<Network, std::vector<Edge>> createTestData(
 			NetworkCSP refNet, double remRatio, double addRatio,
 			bool keepConnected, bool aTP, double tpRatio, bool aTN,
 			double tnRatio, LinkClass posClass, LinkClass negClass,
 			long int seed, bool preGenerateTPN = true);
+
+	/**
+	 * Creates test data by adding/removing edges from a network.
+	 * The reference network is not modified. The two networks have the same external-internal ID mapping.
+	 * @param refNet The reference network.
+	 * @param remRatio Value between 0 and 1 that specifies the percentage of edges that are removed.
+	 * @param addRatio Value between 0 and 1 that specifies the percentage of edges that are added.
+	 * @param posClass Indicates which links will be considered the positive links.
+	 * @param negClass Indicates which links will be considered the negative links.
+	 * @param seed The random number generator's seed.
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
+	 * @return The test data.
+	 */
+	static TestData<Network, std::vector<Edge>> createTestData(
+			NetworkCSP refNet, double remRatio, double addRatio,
+			LinkClass posClass, LinkClass negClass, long int seed,
+			bool preGenerateTPN = true);
 
 	/**
 	 * Creates test data from two networks. Only nodes common to both networks are considered.
@@ -1970,15 +2016,16 @@ public:
 	 * @param posClass Indicates which links will be considered the positive links.
 	 * @param negClass Indicates which links will be considered the negative links.
 	 * @param seed The random number generator's seed.
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
 	 * @return The test data.
 	 */
-	static TestData<NetworkT, std::vector<EdgeType>> createTestDataSeqInter(
+	static TestData<Network, std::vector<Edge>> createTestDataSeqInter(
 			NetworkCSP firstNet, NetworkCSP secondNet, bool aTP, double tpRatio,
 			bool aTN, double tnRatio, LinkClass posClass, LinkClass negClass,
-			long int seed);
+			long int seed, bool preGenerateTPN = true);
 
 	/**
-	 * Creates test data from two networks. Nodes and edges not present in the second network are removed from the test set.
+	 * Creates test data from two networks. Nodes not present in the second network and associated edges are removed from the test set.
 	 * @param firstNet The first network.
 	 * @param secondNet The second network.
 	 * @param aTP Whether to use all true positive links in the test set.
@@ -1991,10 +2038,53 @@ public:
 	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
 	 * @return The test data.
 	 */
-	static TestData<NetworkT, std::vector<EdgeType>> createTestDataSeq(
+	static TestData<Network, std::vector<Edge>> createTestDataSeq(
 			NetworkCSP firstNet, NetworkCSP secondNet, bool aTP, double tpRatio,
 			bool aTN, double tnRatio, LinkClass posClass, LinkClass negClass,
 			long int seed, bool preGenerateTPN = true);
+
+	/**
+	 * Read test data from file.
+	 * @param obsEdgesFileName A file containing the observed edges (edge list format).
+	 * @param remEdgesFileName A file containing the removed edges (edge list format). This is ignored if equal to empty string "".
+	 * @param addEdgesFileName A file containing the add edges (edge list format). This is ignored if equal to empty string "".
+	 * @param aTP Whether to use all true positive links in the test set.
+	 * @param tpRatio Ratio of true positive inks to e used in the test set. This parameter is only relevant when aTP is false.
+	 * @param aTN Whether to use all true negative links in the test set.
+	 * @param tnRatio Ratio of true negative inks to e used in the test set. This parameter is only relevant when aTN is false.
+	 * @param posClass Indicates which links will be considered the positive links.
+	 * @param negClass Indicates which links will be considered the negative links.
+	 * @param seed The random number generator's seed.
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
+	 * @return The test data.
+	 */
+	static TestData<Network, std::vector<Edge>> loadTestData(
+			std::string obsEdgesFileName, std::string remEdgesFileName,
+			std::string addEdgesFileName, bool aTP, double tpRatio, bool aTN,
+			double tnRatio, LinkClass posClass, LinkClass negClass,
+			long int seed, bool preGenerateTPN = true);
+
+	/**
+	 * Read test data from file (test data obtained by removing edges).
+	 * @param obsEdgesFileName A file containing the observed edges (edge list format).
+	 * @param remEdgesFileName A file containing the removed edges (edge list format).
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
+	 * @return The test data.
+	 */
+	static TestData<Network, std::vector<Edge>> loadTestDataRem(
+			std::string obsEdgesFileName, std::string remEdgesFileName,
+			bool preGenerateTPN = true);
+
+	/**
+	 * Read test data from file (test data obtained by adding edges).
+	 * @param obsEdgesFileName A file containing the observed edges (edge list format).
+	 * @param addEdgesFileName A file containing the added edges (edge list format).
+	 * @param preGenerateTPN Whether to pre-generate true positives and true negatives.
+	 * @return The test data.
+	 */
+	static TestData<Network, std::vector<Edge>> loadTestDataAdd(
+			std::string obsEdgesFileName, std::string addEdgesFileName,
+			bool preGenerateTPN = true);
 
 	/**
 	 * Check if a network is connected.
@@ -2002,13 +2092,13 @@ public:
 	 * @return True if the network net is connected, false otherwise.
 	 */
 	static bool isConnected(NetworkCSP net) {
-		BFS<NetworkT> bfs(net);
-		Collector<NetworkT> col;
+		BFS<Network> bfs(net);
+		Collector<Network> col;
 		bfs.traverse(net->nodesBegin()->first, col);
 		return col.getVisited().size() == net->getNbNodes();
 	}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	/**
 	 * @return Whether parallelism is enabled.
 	 */
@@ -2031,7 +2121,6 @@ public:
 	virtual ~NetworkManipulator() = default;
 };
 
-}
-/* namespace LinkPred */
+} /* namespace LinkPred */
 
 #endif /* NETWORKMANIPULATOR_HPP_ */

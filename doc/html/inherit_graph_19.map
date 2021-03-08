@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classLinkPred_1_1Encoder.html" title=" " alt="" coords="5,152,143,193"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1DeepWalk.html" title="DeepWalk encoder. Reference: Perozzi, B., Al&#45;Rfou, R., and Skiena, S. (2014). Deepwalk: Online learni..." alt="" coords="217,5,359,47"/>
+<area shape="rect" id="node3" href="$classLinkPred_1_1HMSM.html" title="Contains the implementation of an algorithm for embedding a network using a a hidden metric space mod..." alt="" coords="191,71,385,98"/>
+<area shape="rect" id="node4" href="$classLinkPred_1_1LargeVis.html" title="LargeVis encoder. Reference: Tang, J., Liu, J., Zhang, M., and Mei, Q. (2016b). Visualizing large&#45;sca..." alt="" coords="222,123,354,164"/>
+<area shape="rect" id="node5" href="$classLinkPred_1_1LINE.html" title="LINE encoder." alt="" coords="196,189,380,215"/>
+<area shape="rect" id="node6" href="$classLinkPred_1_1MatFact.html" title="Contains the implementation of an algorithm for embedding a network using matrix factorization...." alt="" coords="219,240,357,281"/>
+<area shape="rect" id="node7" href="$classLinkPred_1_1Node2Vec.html" title="Node2Vec encoder. References: Grover, A. and Leskovec, J. (2016). Node2vec: Scalable feature learning..." alt="" coords="217,305,359,347"/>
+</map>

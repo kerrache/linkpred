@@ -1,0 +1,12 @@
+<map id="include/linkpred/ml/simmeasures/l1sim.hpp" name="include/linkpred/ml/simmeasures/l1sim.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of L1 similarity." alt="" coords="166,5,330,47"/>
+<area shape="rect" id="node2" href="$simmeasures_8hpp.html" title="Includes the headers related to similarity measures." alt="" coords="143,95,353,136"/>
+<area shape="rect" id="node3" href="$ml_8hpp.html" title="Includes the headers related to learning&#45;based predictors." alt="" coords="5,273,136,315"/>
+<area shape="rect" id="node5" href="$uesmpredictor_8hpp.html" title="Contains the implementation of an encoder&#45;similarity measure link predictor." alt="" coords="150,184,346,225"/>
+<area shape="rect" id="node10" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="327,452,471,493"/>
+<area shape="rect" id="node4" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="53,631,190,657"/>
+<area shape="rect" id="node6" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="161,273,335,315"/>
+<area shape="rect" id="node7" href="$predictors_8hpp.html" title="Includes the headers of link predictors." alt="" coords="152,363,325,404"/>
+<area shape="rect" id="node8" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="159,452,303,493"/>
+<area shape="rect" id="node9" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="159,541,303,583"/>
+</map>

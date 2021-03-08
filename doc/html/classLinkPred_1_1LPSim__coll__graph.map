@@ -1,0 +1,4 @@
+<map id="LinkPred::LPSim" name="LinkPred::LPSim">
+<area shape="rect" id="node1" title="LP similarity (negative the Lp norm)." alt="" coords="23,80,143,107"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1SimMeasure.html" title="Interface of a similarity measure." alt="" coords="5,5,160,32"/>
+</map>

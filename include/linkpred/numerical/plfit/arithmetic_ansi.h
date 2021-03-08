@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <memory.h>
 
+namespace LinkPred {
+
 namespace PLFit {
 
 #if     LBFGS_FLOAT == 32 && LBFGS_IEEE_FLOAT
@@ -134,6 +136,9 @@ inline static void vec2norminv(lbfgsfloatval_t* s, const lbfgsfloatval_t *x,
 	vec2norm(s, x, n);
 	*s = (lbfgsfloatval_t)(1.0 / *s);
 }
+
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif /* ARITHMETIC_ANSI_H_*/

@@ -18,6 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <linkpred/utils/miscutils.hpp>
 #include "linkpred/utils/log.hpp"
 #include "linkpred/numerical/plfit/plfit.hpp"
 #include "linkpred/utils/randomgen.hpp"
@@ -30,10 +31,9 @@
 #include <omp.h>
 #include <cmath>
 #include <time.h>
-#include "linkpred/utils/utilities.hpp"
 
 namespace LinkPred {
-namespace Utilities {
+namespace Utils {
 
 std::pair<double, double> plFit(std::vector<std::size_t> const & data) {
 	logger(logDebug, "Discrete power law fitting...")
@@ -57,7 +57,8 @@ std::pair<double, double> plFit(std::vector<std::size_t> const & data) {
 	// fit the power-law distribution
 	plfit_discrete_options.alpha_method = PLFit::PLFIT_LBFGS;
 	// Estimate xmin and alpha
-	PLFit::plfit_discrete(ddata, n, &plfit_discrete_options, &result);
+	PLFit::plfit_discrete(ddata, n, &plfit_discrete_options,
+			&result);
 
 	logger(logDebug1,
 			std::to_string(result.alpha) + "\t" + std::to_string(result.xmin)
@@ -90,7 +91,8 @@ std::pair<double, double> plFit(std::vector<double> const & data) {
 
 	// fit the power-law distribution
 	// Estimate xmin and alpha
-	PLFit::plfit_continuous(ddata, n, &plfit_continuous_options, &result);
+	PLFit::plfit_continuous(ddata, n, &plfit_continuous_options,
+			&result);
 	logger(logDebug1,
 			std::to_string(result.alpha) + "\t" + std::to_string(result.xmin)
 					+ "\t" + std::to_string(result.L) + "\t"
@@ -103,7 +105,7 @@ std::pair<double, double> plFit(std::vector<double> const & data) {
 
 std::vector<std::size_t> getRndPerm(std::size_t n, long int seed) {
 	std::mt19937 g(seed);
-	std::vector<std::size_t> perm;
+	std::vector < std::size_t > perm;
 	perm.reserve(n);
 	for (std::size_t i = 0; i < n; i++) {
 		perm.push_back(i);
@@ -122,6 +124,6 @@ std::pair<std::size_t, std::size_t> localRange(std::size_t n, int nbProcs,
 	return std::make_pair(begin, end);
 }
 
-}/* namespace Utils */
-}/* namespace LinkPred */
+} /* namespace Utils */
+} /* namespace LinkPred */
 

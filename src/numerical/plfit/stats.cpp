@@ -21,6 +21,8 @@
 #include <stdlib.h>
 #include "linkpred/numerical/plfit/error.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 int plfit_moments(double* xs, size_t n, double* mean, double* variance,
 		double* skewness, double* kurtosis) {
@@ -111,3 +113,5 @@ int plfit_moments(double* xs, size_t n, double* mean, double* variance,
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

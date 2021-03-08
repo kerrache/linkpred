@@ -20,6 +20,8 @@
 #include "linkpred/numerical/plfit/error.h"
 #include "linkpred/numerical/plfit/plfit.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 const plfit_continuous_options_t plfit_continuous_default_options = {
 /* .finite_size_correction = */0,
@@ -50,3 +52,5 @@ int plfit_discrete_options_init(plfit_discrete_options_t* options) {
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
 int main(int argc, char*argv[]) {
@@ -41,7 +41,9 @@ int main(int argc, char*argv[]) {
 
 	std::cout << "ID\tLabel\tIn-deg\tOut-deg\tDeg" << std::endl;
 	for (auto it = net.nodesDegBegin(); it != net.nodesDegEnd(); ++it) {
-		std::cout << it->first << "\t" << net.getLabel(it->first) << "\t" << it->second.first << "\t" << it->second.second << "\t" << net.getDeg(it->first) << std::endl;
+		std::cout << it->first << "\t" << net.getLabel(it->first) << "\t"
+				<< it->second.first << "\t" << it->second.second << "\t"
+				<< net.getDeg(it->first) << std::endl;
 	}
 
 	return 0;

@@ -34,11 +34,15 @@
 
 __BEGIN_DECLS
 
+namespace LinkPred {
+
 namespace PLFit {
 double plfit_kolmogorov(double z);
 double plfit_ks_test_one_sample_p(double d, size_t n);
 double plfit_ks_test_two_sample_p(double d, size_t n1, size_t n2);
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 __END_DECLS
 

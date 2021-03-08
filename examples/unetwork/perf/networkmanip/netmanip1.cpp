@@ -18,9 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char *argv[]) {
 	int n = 6;
 	auto net = std::make_shared<UNetwork<unsigned int>>();

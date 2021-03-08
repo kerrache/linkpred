@@ -18,28 +18,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <algorithm>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 2) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName\n";
 		exit(1);
 	}
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	omp_set_nested(1); // enable nested parallelism
 #endif
 	std::string netFileName(argv[1]);
 	auto net = UNetwork<>::read(netFileName, false, true);
 	UCNEPredictor<> predictor(net);
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	predictor.setParallel(true);
 #endif
 	predictor.init();
 	predictor.learn();
 
-	std::vector<typename UNetwork<>::EdgeType> edges;
+	std::vector<typename UNetwork<>::Edge> edges;
 	edges.resize(net->getNbNonEdges());
 	std::copy(net->nonEdgesBegin(), net->nonEdgesEnd(), edges.begin());
 	std::vector<double> scores;

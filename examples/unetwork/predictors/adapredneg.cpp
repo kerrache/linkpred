@@ -18,12 +18,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <algorithm>
 #include <chrono>
 
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 3) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0]
@@ -56,7 +57,7 @@ int main(int argc, char*argv[]) {
 	auto end = std::chrono::steady_clock::now();
 	auto diff = end - start;
 	std::cerr << "#Time: "
-			<< std::chrono::duration<double, std::milli>(diff).count()
-			<< " ms" << std::endl;
+			<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
+			<< std::endl;
 	return 0;
 }

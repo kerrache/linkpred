@@ -95,6 +95,8 @@ typedef unsigned int uint32_t;
 
 #endif
 
+namespace LinkPred {
+
 namespace PLFit {
 
 #define min2(a, b)      ((a) <= (b) ? (a) : (b))
@@ -1255,4 +1257,6 @@ static void owlqn_project(lbfgsfloatval_t* d, const lbfgsfloatval_t* sign,
 	}
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 

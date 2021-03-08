@@ -22,6 +22,8 @@
 #include "linkpred/numerical/plfit/sampling.h"
 #include "linkpred/numerical/plfit/platform.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 int plfit_rpareto_array(double xmin, double alpha, size_t n, mt_rng_t* rng,
 		double* result) {
@@ -223,3 +225,5 @@ int plfit_walker_alias_sampler_sample(
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

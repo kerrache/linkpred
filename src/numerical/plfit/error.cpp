@@ -21,6 +21,8 @@
 #include <stdlib.h>
 #include "linkpred/numerical/plfit/error.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 static const char *plfit_i_error_strings[] = { "No error", "Failed",
 		"Invalid value", "Underflow", "Overflow", "Not enough memory" };
@@ -60,3 +62,5 @@ void plfit_error_handler_ignore(const char* reason, const char* file, int line,
 		int plfit_errno) {
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

@@ -20,48 +20,19 @@
 
 /**
  * \file
+ * @ingroup Predictors
  * @brief Includes the headers of link predictors.
  */
 
 #ifndef PREDICTORS_HPP_
 #define PREDICTORS_HPP_
 
-#include "linkpred/predictors/uadapredictor.hpp"
-#include "linkpred/predictors/ucnepredictor.hpp"
-#include "linkpred/predictors/ucrapredictor.hpp"
-#include "linkpred/predictors/ucstpredictor.hpp"
-#include "linkpred/predictors/uenspredictor.hpp"
-#include "linkpred/predictors/ufbmpredictor.hpp"
-#include "linkpred/predictors/uhdipredictor.hpp"
-#include "linkpred/predictors/uhpipredictor.hpp"
-#include "linkpred/predictors/uhrgpredictor.hpp"
-#include "linkpred/predictors/uhyppredictor.hpp"
-#include "linkpred/predictors/ujidpredictor.hpp"
-#include "linkpred/predictors/ukabpredictor.hpp"
-#include "linkpred/predictors/ulcppredictor.hpp"
-#include "linkpred/predictors/ulhnpredictor.hpp"
-#include "linkpred/predictors/ulpredictor.hpp"
-#include "linkpred/predictors/unedpredictor.hpp"
-#include "linkpred/predictors/upatpredictor.hpp"
-#include "linkpred/predictors/upndpredictor.hpp"
-#include "linkpred/predictors/upoppredictor.hpp"
-#include "linkpred/predictors/uralpredictor.hpp"
-#include "linkpred/predictors/urndpredictor.hpp"
-#include "linkpred/predictors/usaipredictor.hpp"
-#include "linkpred/predictors/usbmpredictor.hpp"
-#include "linkpred/predictors/ushppredictor.hpp"
-#include "linkpred/predictors/usnspredictor.hpp"
-#include "linkpred/predictors/usoipredictor.hpp"
-#include "linkpred/predictors/usumpredictor.hpp"
-#include "linkpred/predictors/dlpredictor.hpp"
-#include "linkpred/predictors/dcnepredictor.hpp"
-#include "linkpred/predictors/dadapredictor.hpp"
-#include "linkpred/predictors/dsaipredictor.hpp"
-#include "linkpred/predictors/djidpredictor.hpp"
-#include "linkpred/predictors/dsoipredictor.hpp"
-#include "linkpred/predictors/dhdipredictor.hpp"
-#include "linkpred/predictors/dhpipredictor.hpp"
-#include "linkpred/predictors/dpatpredictor.hpp"
-#include "linkpred/predictors/dlhnpredictor.hpp"
-#include "linkpred/predictors/dlcppredictor.hpp"
+/**
+ * @defgroup Predictors Link prediction algorithms
+ * This group contains link prediction algorithms.
+ */
+
+#include "linkpred/predictors/directed/directed.hpp"
+#include "linkpred/predictors/undirected/undirected.hpp"
+
 #endif /* PREDICTORS_HPP_ */

@@ -27,6 +27,8 @@
 #define LinkPred_VERSION_MAJOR @LinkPred_VERSION_MAJOR@
 #define LinkPred_VERSION_MINOR @LinkPred_VERSION_MINOR@
 #define LinkPred_VERSION_PATCH @LinkPred_VERSION_PATCH@
-#cmakedefine WITH_OPENMP
-#cmakedefine WITH_MPI
-#cmakedefine WITH_MKL
+#cmakedefine LINKPRED_WITH_OPENMP
+#cmakedefine LINKPRED_WITH_MPI
+#cmakedefine LINKPRED_WITH_MKL
+#cmakedefine LINKPRED_WITH_MLPACK
+#cmakedefine LINKPRED_WITH_ARMADILLO

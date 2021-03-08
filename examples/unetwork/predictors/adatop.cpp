@@ -18,12 +18,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <algorithm>
 #include <chrono>
 
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 4) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0]
@@ -40,7 +41,7 @@ int main(int argc, char*argv[]) {
 	predictor.init();
 	predictor.learn();
 
-	std::vector<typename UNetwork<>::EdgeType> edges;
+	std::vector<typename UNetwork<>::Edge> edges;
 	edges.resize(k);
 	std::vector<double> scores;
 	scores.resize(k);
@@ -55,14 +56,14 @@ int main(int argc, char*argv[]) {
 
 	// Checking results if requested
 	if (check) {
-		std::vector<typename UNetwork<>::EdgeType> edges;
+		std::vector<typename UNetwork<>::Edge> edges;
 		edges.resize(net->getNbNonEdges());
 		std::copy(net->nonEdgesBegin(), net->nonEdgesEnd(), edges.begin());
 		std::vector<double> scores;
 		scores.resize(net->getNbNonEdges());
 		predictor.predict(edges.begin(), edges.end(), scores.begin());
 
-		LMapQueue<typename UNetwork<>::EdgeType, double> mq(k);
+		LMapQueue<typename UNetwork<>::Edge, double> mq(k);
 		std::size_t i = 0;
 		for (auto it = edges.begin(); it != edges.end(); ++it, i++) {
 			mq.push(*it, scores[i]);
@@ -80,7 +81,7 @@ int main(int argc, char*argv[]) {
 	auto end = std::chrono::steady_clock::now();
 	auto diff = end - start;
 	std::cerr << "#Time: "
-			<< std::chrono::duration<double, std::milli>(diff).count()
-			<< " ms" << std::endl;
+			<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
+			<< std::endl;
 	return 0;
 }

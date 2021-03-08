@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['dadapredictor_1120',['DADAPredictor',['../classLinkPred_1_1DADAPredictor.html',1,'LinkPred']]],
+  ['dcnepredictor_1121',['DCNEPredictor',['../classLinkPred_1_1DCNEPredictor.html',1,'LinkPred']]],
+  ['deepwalk_1122',['DeepWalk',['../classLinkPred_1_1DeepWalk.html',1,'LinkPred']]],
+  ['despldistcalculator_1123',['DESPLDistCalculator',['../classLinkPred_1_1DESPLDistCalculator.html',1,'LinkPred']]],
+  ['dfs_1124',['DFS',['../classLinkPred_1_1DFS.html',1,'LinkPred']]],
+  ['dhdipredictor_1125',['DHDIPredictor',['../classLinkPred_1_1DHDIPredictor.html',1,'LinkPred']]],
+  ['dhpipredictor_1126',['DHPIPredictor',['../classLinkPred_1_1DHPIPredictor.html',1,'LinkPred']]],
+  ['dijkstra_1127',['Dijkstra',['../classLinkPred_1_1Dijkstra.html',1,'LinkPred']]],
+  ['dijkstra_3c_20dnetwork_3c_3e_2c_20double_2c_20std_3a_3asize_5ft_20_3e_1128',['Dijkstra&lt; DNetwork&lt;&gt;, double, std::size_t &gt;',['../classLinkPred_1_1Dijkstra.html',1,'LinkPred']]],
+  ['dijkstra_3c_20unetwork_3c_3e_2c_20double_2c_20std_3a_3asize_5ft_20_3e_1129',['Dijkstra&lt; UNetwork&lt;&gt;, double, std::size_t &gt;',['../classLinkPred_1_1Dijkstra.html',1,'LinkPred']]],
+  ['djidpredictor_1130',['DJIDPredictor',['../classLinkPred_1_1DJIDPredictor.html',1,'LinkPred']]],
+  ['dlcppredictor_1131',['DLCPPredictor',['../classLinkPred_1_1DLCPPredictor.html',1,'LinkPred']]],
+  ['dlhnpredictor_1132',['DLHNPredictor',['../classLinkPred_1_1DLHNPredictor.html',1,'LinkPred']]],
+  ['dlpredictor_1133',['DLPredictor',['../classLinkPred_1_1DLPredictor.html',1,'LinkPred']]],
+  ['dlpredictor_3c_20dnetwork_3c_3e_2c_20typename_20std_3a_3avector_3c_20typename_20dnetwork_3c_3e_20_3a_3aedge_20_3e_3a_3aconst_5fiterator_2c_20typename_20std_3a_3avector_3c_20double_20_3e_3a_3aiterator_2c_20typename_20std_3a_3avector_3c_20typename_20dnetwork_3c_3e_20_3a_3aedge_20_3e_3a_3aiterator_20_3e_1134',['DLPredictor&lt; DNetwork&lt;&gt;, typename std::vector&lt; typename DNetwork&lt;&gt; ::Edge &gt;::const_iterator, typename std::vector&lt; double &gt;::iterator, typename std::vector&lt; typename DNetwork&lt;&gt; ::Edge &gt;::iterator &gt;',['../classLinkPred_1_1DLPredictor.html',1,'LinkPred']]],
+  ['dnetwork_1135',['DNetwork',['../classLinkPred_1_1DNetwork.html',1,'LinkPred']]],
+  ['dnetwork_3c_3e_1136',['DNetwork&lt;&gt;',['../classLinkPred_1_1DNetwork.html',1,'LinkPred']]],
+  ['dotprod_1137',['DotProd',['../classLinkPred_1_1DotProd.html',1,'LinkPred']]],
+  ['dpatpredictor_1138',['DPATPredictor',['../classLinkPred_1_1DPATPredictor.html',1,'LinkPred']]],
+  ['dpstpredictor_1139',['DPSTPredictor',['../classLinkPred_1_1DPSTPredictor.html',1,'LinkPred']]],
+  ['dsaipredictor_1140',['DSAIPredictor',['../classLinkPred_1_1DSAIPredictor.html',1,'LinkPred']]],
+  ['dsoipredictor_1141',['DSOIPredictor',['../classLinkPred_1_1DSOIPredictor.html',1,'LinkPred']]]
+];

@@ -20,6 +20,7 @@
 
 /**
  * \file
+ * @ingroup Numerical
  * @brief Contains headers necessary to interface with plfit.
  */
 

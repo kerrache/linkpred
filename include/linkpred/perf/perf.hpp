@@ -20,11 +20,17 @@
 
 /**
  * \file
+ * @ingroup Perf
  * @brief Includes the headers related to performance evaluation classes.
  */
 
 #ifndef PERF_HPP_
 #define PERF_HPP_
+
+/**
+ * @defgroup Perf Performance evaluation classes
+ * This group contains classes related to performance evaluation.
+ */
 
 #include "linkpred/perf/predresults.hpp"
 #include "linkpred/perf/perfmeasure.hpp"

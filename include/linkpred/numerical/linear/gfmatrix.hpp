@@ -20,6 +20,7 @@
 
 /**
  * \file
+ * @ingroup Numerical
  * @brief Contains the implementation of a full matrix.
  */
 

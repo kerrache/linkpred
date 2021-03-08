@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <algorithm>
 #include <chrono>
@@ -41,7 +41,7 @@ int main(int argc, char*argv[]) {
 	URALPredictor<> predictor(net);
 	predictor.init();
 	predictor.learn();
-	std::vector<typename UNetwork<>::EdgeType> edges;
+	std::vector<typename UNetwork<>::Edge> edges;
 	edges.resize(k);
 	std::vector<double> scores;
 	scores.resize(k);
@@ -50,7 +50,7 @@ int main(int argc, char*argv[]) {
 	auto end = std::chrono::steady_clock::now();
 	auto diff = end - start;
 	std::cerr << "#Time: "
-			<< std::chrono::duration<double, std::milli>(diff).count()
-			<< " ms" << std::endl;
+			<< std::chrono::duration<double, std::milli>(diff).count() << " ms"
+			<< std::endl;
 	return 0;
 }

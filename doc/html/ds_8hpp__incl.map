@@ -1,0 +1,16 @@
+<map id="include/linkpred/core/ds/ds.hpp" name="include/linkpred/core/ds/ds.hpp">
+<area shape="rect" id="node1" title="Includes the headers related to data structures." alt="" coords="490,5,631,47"/>
+<area shape="rect" id="node2" href="$bheap_8hpp.html" title="Contains the implementation of a templated binary heap." alt="" coords="363,95,542,121"/>
+<area shape="rect" id="node11" href="$lmapqueue_8hpp.html" title="Contains the implementation of a templated map&#45;priority queue with limit on the capacity." alt="" coords="567,95,773,121"/>
+<area shape="rect" id="node3" href="$log_8hpp.html" title="Contains the implementation of a log class." alt="" coords="241,169,382,196"/>
+<area shape="rect" id="node6" title=" " alt="" coords="461,244,533,271"/>
+<area shape="rect" id="node9" title=" " alt="" coords="457,169,515,196"/>
+<area shape="rect" id="node10" title=" " alt="" coords="540,169,587,196"/>
+<area shape="rect" id="node4" href="$loglevel_8hpp.html" title="Contains the definition of log levels." alt="" coords="85,244,253,271"/>
+<area shape="rect" id="node5" title=" " alt="" coords="277,244,346,271"/>
+<area shape="rect" id="node7" title=" " alt="" coords="370,244,437,271"/>
+<area shape="rect" id="node8" title=" " alt="" coords="5,244,60,271"/>
+<area shape="rect" id="node12" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="662,169,798,196"/>
+<area shape="rect" id="node13" title=" " alt="" coords="823,169,880,196"/>
+<area shape="rect" id="node14" title=" " alt="" coords="905,169,963,196"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="LinkPred::SimMeasure" name="LinkPred::SimMeasure">
+<area shape="rect" id="node1" title="Interface of a similarity measure." alt="" coords="5,132,160,159"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1CosineSim.html" title="Cosine similarity." alt="" coords="208,5,353,32"/>
+<area shape="rect" id="node3" href="$classLinkPred_1_1DotProd.html" title="A simple dot product similarity measure." alt="" coords="216,56,345,83"/>
+<area shape="rect" id="node4" href="$classLinkPred_1_1L1Sim.html" title="L1 similarity (negative the L1 norm or Manhattan distance)." alt="" coords="221,107,340,133"/>
+<area shape="rect" id="node5" href="$classLinkPred_1_1L2Sim.html" title="L2 similarity (negative the Euclidean distance)." alt="" coords="221,157,340,184"/>
+<area shape="rect" id="node6" href="$classLinkPred_1_1LPSim.html" title="LP similarity (negative the Lp norm)." alt="" coords="221,208,341,235"/>
+<area shape="rect" id="node7" href="$classLinkPred_1_1Pearson.html" title="Pearson similarity (Pearson correlation coefficient)." alt="" coords="216,259,345,285"/>
+</map>

@@ -18,9 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 2) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName\n";
@@ -28,7 +29,7 @@ int main(int argc, char*argv[]) {
 	}
 	std::string netFileName(argv[1]);
 	auto net = UNetwork<>::read(netFileName, false, true);
-	UCNEPredictor<UNetwork<>, typename UNetwork<>::NonEdgeIterator> predictor(net);
+	UCNEPredictor<UNetwork<>, typename UNetwork<>::NonEdgeIt> predictor(net);
 	predictor.init();
 	predictor.learn();
 

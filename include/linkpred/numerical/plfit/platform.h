@@ -22,6 +22,8 @@
 
 #include <float.h>
 
+namespace LinkPred {
+
 namespace PLFit {
 #ifndef INFINITY
 #  define INFINITY (1.0/0.0)
@@ -32,5 +34,7 @@ namespace PLFit {
 #endif
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif /* __PLATFORM_H__ */

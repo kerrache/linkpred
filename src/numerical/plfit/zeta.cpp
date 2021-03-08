@@ -44,6 +44,8 @@
 #include <stdio.h>
 #include "linkpred/numerical/plfit/error.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 /*-*-*-*-*-*-*-*-*-*- From gsl_machine.h -*-*-*-*-*-*-*-*-*-*-*-*-*/
 
@@ -145,3 +147,5 @@ double gsl_sf_hzeta(const double s, const double a) {
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

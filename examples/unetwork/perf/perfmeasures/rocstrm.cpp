@@ -18,10 +18,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <chrono>
 using namespace LinkPred;
+
 int main(int argc, char *argv[]) {
 	if (argc != 2) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName\n";
@@ -37,7 +38,7 @@ int main(int argc, char *argv[]) {
 	predictor->learn();
 	auto predResults = std::make_shared<PredResults<>>(testData, predictor);
 	auto roc = std::make_shared<ROC<>>("ROC");
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	roc->setParallel(true);
 #endif
 	roc->setStrmEnabled(true);

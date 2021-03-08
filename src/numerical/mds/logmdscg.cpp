@@ -18,14 +18,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <linkpred/utils/miscutils.hpp>
 #include "linkpred/numerical/mds/logmdscg.hpp"
 #include "linkpred/utils/randomgen.hpp"
 #include <iostream>
+#ifdef LINKPRED_WITH_OPENMP
 #include <omp.h>
-#include "linkpred/utils/utilities.hpp"
+#endif
 
 // TODO flatten for loops and add omp parallelization
 namespace LinkPred {
+
 
 LogMDSCG::LogMDSCG(std::size_t nbNodes, std::size_t nbKnownCouples,
 		double * sqDist, double * weight, std::size_t dim, double * coords,
@@ -80,10 +83,9 @@ void LogMDSCG::init(double * x, CG::INT n) {
 	maxD = std::sqrt(maxD);
 
 //////#pragma omp parallel for // TODO Check if safe
-	RandomGen rng2;
-	double lambda = 1.0e-10;
+//	double lambda = 1.0e-10;
 	for (long int i = 0; i < n; i++) {
-		x[i] = rng.getDouble(0, maxD) + lambda * rng2.getDouble(0, 1);
+		x[i] = rng.getDouble(0, maxD);
 	}
 }
 
@@ -200,5 +202,6 @@ void LogMDSCG::finalize(double * x, CG::INT n) {
 		x[i] *= sqScl;
 	}
 }
+
 
 } /* namespace LinkPred */

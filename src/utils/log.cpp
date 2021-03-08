@@ -21,7 +21,8 @@
 #include "linkpred/utils/log.hpp"
 
 namespace LinkPred {
+
 std::ostream* Log::out = Log::DefaultOutputStream;
 LogLevel Log::logLevel = Log::DefaultLogLevel;
-}
 
+} /* namespace LinkPred */

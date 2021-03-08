@@ -20,25 +20,26 @@
 
 /**
  * \file
+ * @ingroup Perf
  * @brief Contains the implementation of several performance measures.
  */
 
-#ifndef INCLUDE_PERFMEASURE_HPP_
-#define INCLUDE_PERFMEASURE_HPP_
+#ifndef PERFMEASURE_HPP_
+#define PERFMEASURE_HPP_
 
 #include "LinkPredConfig.hpp"
+#include <linkpred/utils/miscutils.hpp>
 #include "linkpred/perf/predresults.hpp"
 #include "linkpred/utils/log.hpp"
-#include "linkpred/utils/utilities.hpp"
 #include <vector>
 #include <algorithm>
 #include <map>
 #include <string>
 #include <cmath>
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #include <omp.h>
 #endif
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #include <omp.h>
 #endif
 
@@ -180,14 +181,14 @@ auto npv = [](std::size_t tp, std::size_t fn, std::size_t tn, std::size_t fp,
 template<typename PredResultsT = PredResults<>> class PerfMeasure {
 
 public:
-	using ScoresIteratorT = typename PredResultsT::ScoresIteratorT; /**< Scores iterator type. */
+	using ScoresItT = typename PredResultsT::ScoresItT; /**< Scores iterator type. */
 
 protected:
 	std::string name; /**< The name of the performance measure. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	bool parallel = false; /**< Enable/disable parallelism. */
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	bool distributed = false; /**< Enable/disable distributed parallelism. */
 	MPI_Comm comm = MPI_COMM_WORLD; /**< The MPI communicator. */
 #endif
@@ -245,7 +246,7 @@ public:
 		this->name = name;
 	}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	/**
 	 * @return Whether parallelism is enabled.
 	 */
@@ -262,7 +263,7 @@ public:
 	}
 #endif
 
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	/**
 	 * @return Whether distributed memory parallelism is enabled.
 	 */
@@ -333,10 +334,10 @@ public:
 	 * @param negSortOrder The sorting order of negative scores. This may be modified by the method.
 	 * @param results To write results.
 	 */
-	virtual void eval(ScoresIteratorT posScoresBegin,
-			ScoresIteratorT posScoresEnd, ScoresIteratorT negScoresBegin,
-			ScoresIteratorT negScoresEnd, SortOrder &posSortOrder,
-			SortOrder &negSortOrder, PerfResults &results) = 0;
+	virtual void eval(ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
+			SortOrder &posSortOrder, SortOrder &negSortOrder,
+			PerfResults &results) = 0;
 
 	/**
 	 * Destructor.
@@ -353,14 +354,14 @@ template<typename PredResultsT = PredResults<>> class PerfCurve: public PerfMeas
 		PredResultsT> {
 
 public:
-	using ScoresIteratorT = typename PerfMeasure<PredResultsT>::ScoresIteratorT; /**< Scores iterator type. */
+	using ScoresItT = typename PerfMeasure<PredResultsT>::ScoresItT; /**< Scores iterator type. */
 
 protected:
 	using PerfMeasure<PredResultsT>::name; /**< The name of the performance measure. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	using PerfMeasure<PredResultsT>::parallel; /**< Enable/disable parallelism. */
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	using PerfMeasure<PredResultsT>::comm; /**< The MPI communicator. */
 	using PerfMeasure<PredResultsT>::distributed; /**< Enable/disable distributed parallelism. */
 #endif
@@ -422,10 +423,10 @@ public:
 	 * @param negSortOrder The sorting order of negative scores. This may be modified by the method.
 	 * @param results To write results.
 	 */
-	virtual void eval(ScoresIteratorT posScoresBegin,
-			ScoresIteratorT posScoresEnd, ScoresIteratorT negScoresBegin,
-			ScoresIteratorT negScoresEnd, SortOrder &posSortOrder,
-			SortOrder &negSortOrder, PerfResults &results) = 0;
+	virtual void eval(ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
+			SortOrder &posSortOrder, SortOrder &negSortOrder,
+			PerfResults &results) = 0;
 
 	/**
 	 * Computes the performance curve.
@@ -446,8 +447,8 @@ public:
 	 * @return A curve in the form of an std::vector of pairs representing the x and y coordinates.
 	 */
 	virtual std::vector<std::pair<double, double>> getCurve(
-			ScoresIteratorT posScoresBegin, ScoresIteratorT posScoresEnd,
-			ScoresIteratorT negScoresBegin, ScoresIteratorT negScoresEnd,
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
 			SortOrder &posSortOrder, SortOrder &negSortOrder) = 0;
 
 	/**
@@ -465,17 +466,17 @@ template<typename PredResultsT = PredResults<>> class ROC: public PerfCurve<
 		PredResultsT> {
 protected:
 	bool strmEnabled = false; /**< Whether to enable streaming. */
-	bool strmNeg = true; /**< Indicates which class to stream. If true negative scores are streamed, else positive scores are. Only used if enableStrm. */
+	bool strmNeg = true; /**< Indicates which class to stream. If true negative scores are streamed, else positive scores are. Only used if enableStrm is true. */
 
 public:
-	using ScoresIteratorT = typename PerfMeasure<PredResultsT>::ScoresIteratorT; /**< Scores iterator type. */
+	using ScoresItT = typename PerfMeasure<PredResultsT>::ScoresItT; /**< Scores iterator type. */
 
 protected:
 	using PerfMeasure<PredResultsT>::name; /**< The name of the performance measure. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	using PerfMeasure<PredResultsT>::parallel; /**< Enable/disable parallelism. */
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	using PerfMeasure<PredResultsT>::comm; /**< The MPI communicator. */
 	using PerfMeasure<PredResultsT>::distributed; /**< Enable/disable distributed parallelism. */
 #endif
@@ -529,16 +530,23 @@ public:
 	}
 
 	/**
-	 * @param enableStrm Whether to enable streaming.
+	 * @param strmEnabled Whether to enable streaming.
 	 */
 	void setStrmEnabled(bool strmEnabled) {
 		this->strmEnabled = strmEnabled;
 	}
 
+	/**
+	 * @return Which class to stream. If true negative scores are streamed, else positive scores are. Only used if enableStrm is true.
+	 */
 	bool isStrmNeg() const {
 		return strmNeg;
 	}
 
+	/**
+	 * Set which class to stream. If true negative scores are streamed, else positive scores are. Only used if enableStrm is true.
+	 * @param strmNeg If true negative scores are streamed, else positive scores are. Only used if enableStrm is true.
+	 */
 	void setStrmNeg(bool strmNeg) {
 		this->strmNeg = strmNeg;
 	}
@@ -553,10 +561,10 @@ public:
 	 * @param negSortOrder The sorting order of negative scores. This may be modified by the method.
 	 * @param results To write results.
 	 */
-	virtual void eval(ScoresIteratorT posScoresBegin,
-			ScoresIteratorT posScoresEnd, ScoresIteratorT negScoresBegin,
-			ScoresIteratorT negScoresEnd, SortOrder &posSortOrder,
-			SortOrder &negSortOrder, PerfResults &results) {
+	virtual void eval(ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
+			SortOrder &posSortOrder, SortOrder &negSortOrder,
+			PerfResults &results) {
 		logger(logDebug, "Computing ROC-AUC...")
 
 		// Sort the smallest range as it leads to a better O()
@@ -565,17 +573,17 @@ public:
 
 		if (P <= N) {
 			if (posSortOrder != Inc) {
-				Utilities::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
+				Utils::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
 				posSortOrder = Inc;
 			}
 		} else {
 			if (negSortOrder != Inc) {
-				Utilities::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
+				Utils::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
 				negSortOrder = Inc;
 			}
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		results[name] = getROCAuc(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -596,10 +604,10 @@ public:
 	 * @param parallel Whether to run in parallel.
 	 * @return The area under the ROC curve.
 	 */
-	template<typename ScoresIterator> static double getROCAuc(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd,
-			bool parallel = false) {
+	template<typename ScoresItT> static double getROCAuc(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd, bool parallel =
+					false) {
 
 		std::size_t nbLess = 0;
 		std::size_t nbEq = 0;
@@ -610,7 +618,7 @@ public:
 		// The smallest range is sorted
 		if (P <= N) {
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : nbLess), reduction(+ : nbEq) if (parallel)
 #endif
 			for (auto pit = negScoresBegin; pit < negScoresEnd; ++pit) {
@@ -621,7 +629,7 @@ public:
 			}
 		} else {
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : nbLess), reduction(+ : nbEq) if (parallel)
 #endif
 			for (auto pit = posScoresBegin; pit < posScoresEnd; ++pit) {
@@ -681,7 +689,7 @@ public:
 			predResults->sortNeg(SortOrder::Inc);
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		results[name] = getROCAuc(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -694,30 +702,29 @@ public:
 	/**
 	 * Compute the area under the ROC curve with streaming. The smallest range must be sorted in increasing order (in case
 	 * of a tie, the false negative ranges must be sorted).
-	 * @param posScoresBegin Iterator to the first positive score.
-	 * @param posScoresEnd Iterator to one-past-the-last positive score.
-	 * @param negScoresBegin Iterator to the first negative score.
-	 * @param negScoresEnd Iterator to one-past-the-last negative score.
-	 * @param parallel Whether to run in parallel.
+	 * @param strmBegin Iterator to the first streamed score.
+	 * @param strmEnd Iterator to one-past-the-last streamed score.
+	 * @param strdBegin Iterator to the first stored score.
+	 * @param strdEnd Iterator to one-past-the-last stored score.
 	 * @return The area under the ROC curve.
 	 */
-	template<typename StrmScoresIterator, typename StoredScoresIterator> double getROCAucStrm(
-			StrmScoresIterator strmBegin, StrmScoresIterator strmEnd,
-			StoredScoresIterator strdBegin, StoredScoresIterator strdEnd) {
+	template<typename StrmScoresItT, typename StoredScoresItT> double getROCAucStrm(
+			StrmScoresItT strmBegin, StrmScoresItT strmEnd,
+			StoredScoresItT strdBegin, StoredScoresItT strdEnd) {
 
 		std::size_t nbStrm = 0;
-		auto beginSP = std::make_shared<StrmScoresIterator>(strmBegin);
-		auto endSP = std::make_shared<StrmScoresIterator>(strmEnd);
-#ifdef WITH_MPI
+		auto beginSP = std::make_shared<StrmScoresItT>(strmBegin);
+		auto endSP = std::make_shared<StrmScoresItT>(strmEnd);
+#ifdef LINKPRED_WITH_MPI
 		int nbProcs = 1;
 		int procID = 0;
 		if (distributed) {
 			MPI_Comm_size(comm, &nbProcs);
 			MPI_Comm_rank(comm, &procID);
 			nbStrm = strmEnd - strmBegin;
-			auto lr = Utilities::localRange(nbStrm, nbProcs, procID);
-			beginSP = std::make_shared<StrmScoresIterator>(strmBegin + lr.first);
-			endSP = std::make_shared<StrmScoresIterator>(strmBegin + lr.second);
+			auto lr = Utils::localRange(nbStrm, nbProcs, procID);
+			beginSP = std::make_shared<StrmScoresItT>(strmBegin + lr.first);
+			endSP = std::make_shared<StrmScoresItT>(strmBegin + lr.second);
 		}
 #endif
 
@@ -730,7 +737,7 @@ public:
 		std::size_t nbStrd = strdEnd - strdBegin;
 
 		if (nbStrm == 0) {
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : nbStrm), reduction(+ : nbLess), reduction(+ : nbEq) if (parallel)
 		for (auto pit = begin; pit < end; ++pit) {
 #else
@@ -744,7 +751,7 @@ public:
 				nbEq += itu - itl;
 			}
 		} else {
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : nbLess), reduction(+ : nbEq) if (parallel)
 		for (auto pit = begin; pit < end; ++pit) {
 #else
@@ -758,7 +765,7 @@ public:
 			}
 		}
 
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 		if (distributed) {
 			unsigned long long lNbLessEq[2];
 			unsigned long long gNbLessEq[2];
@@ -806,9 +813,9 @@ public:
 	 * @param negScoresBegin Iterator to the first negative score.
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 */
-	template<typename ScoresIterator> static std::vector<double> getThresholds(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd) {
+	template<typename ScoresItT> static std::vector<double> getThresholds(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd) {
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 		std::size_t N = negScoresEnd - negScoresBegin;
@@ -838,11 +845,10 @@ public:
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 * @param parallel Whether to run in parallel.
 	 */
-	template<typename ScoresIterator> static std::vector<
-			std::pair<double, double>> getROCCurve(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd,
-			bool parallel = false) {
+	template<typename ScoresItT> static std::vector<std::pair<double, double>> getROCCurve(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd, bool parallel =
+					false) {
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 		std::size_t N = negScoresEnd - negScoresBegin;
@@ -855,7 +861,7 @@ public:
 		std::size_t maxInd = threshs.size();
 
 //		std::cout << "TP\tFP\n";
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 		for (std::size_t i = 0; i < threshs.size(); i++) {
@@ -899,7 +905,7 @@ public:
 		auto posScoresBegin = predResults->posBegin();
 		auto posScoresEnd = predResults->posEnd();
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		return getROCCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -919,20 +925,20 @@ public:
 	 * @return A curve in the form of an std::vector of pairs representing the x and y coordinates.
 	 */
 	virtual std::vector<std::pair<double, double>> getCurve(
-			ScoresIteratorT posScoresBegin, ScoresIteratorT posScoresEnd,
-			ScoresIteratorT negScoresBegin, ScoresIteratorT negScoresEnd,
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
 			SortOrder &posSortOrder, SortOrder &negSortOrder) {
 
 		if (posSortOrder != Inc) {
-			Utilities::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
+			Utils::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
 			posSortOrder = Inc;
 		}
 		if (negSortOrder != Inc) {
-			Utilities::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
+			Utils::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
 			negSortOrder = Inc;
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		return getROCCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -955,11 +961,11 @@ template<typename PredResultsT = PredResults<>> class PR: public PerfCurve<
 		PredResultsT> {
 
 public:
-	using ScoresIteratorT = typename PerfMeasure<PredResultsT>::ScoresIteratorT; /**< Scores iterator type. */
+	using ScoresItT = typename PerfMeasure<PredResultsT>::ScoresItT; /**< Scores iterator type. */
 
 protected:
 	using PerfMeasure<PredResultsT>::name; /**< The name of the performance measure. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	using PerfMeasure<PredResultsT>::parallel; /**< Enable/disable parallelism. */
 #endif
 
@@ -1030,9 +1036,8 @@ public:
 	 * @param bcz Whether the boundary value of precision is zero.
 	 * @param parallel Whether to run in parallel.
 	 */
-	template<typename CountIterator> static double getPRAucLIN(
-			CountIterator tpsBegin, CountIterator tpsEnd,
-			CountIterator fpsBegin, CountIterator fpsEnd, std::size_t P,
+	template<typename CountItT> static double getPRAucLIN(CountItT tpsBegin,
+			CountItT tpsEnd, CountItT fpsBegin, CountItT fpsEnd, std::size_t P,
 			bool bcz, bool parallel = false) {
 
 		std::size_t nbtps = tpsEnd - fpsBegin;
@@ -1046,7 +1051,7 @@ public:
 		}
 
 		double prAucLIN = 0;
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : prAucLIN) if (parallel)
 #endif
 		for (std::size_t i = 0; i < nbtps - 1; i++) {
@@ -1084,9 +1089,8 @@ public:
 	 * @param bcz Whether the boundary value of precision is zero.
 	 * @param parallel Whether to run in parallel.
 	 */
-	template<typename CountIterator> static double getPRAucDGI(
-			CountIterator tpsBegin, CountIterator tpsEnd,
-			CountIterator fpsBegin, CountIterator fpsEnd, std::size_t P,
+	template<typename CountItT> static double getPRAucDGI(CountItT tpsBegin,
+			CountItT tpsEnd, CountItT fpsBegin, CountItT fpsEnd, std::size_t P,
 			bool bcz, bool parallel = false) {
 
 		std::size_t nbtps = tpsEnd - tpsBegin;
@@ -1100,7 +1104,7 @@ public:
 		}
 
 		double prAucDGI = 0;
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : prAucDGI) if (parallel)
 #endif
 		for (std::size_t i = 0; i < nbtps - 1; i++) {
@@ -1148,13 +1152,10 @@ public:
 	 * @param interpolMethod Interpolation method used in the integral.
 	 * @param parallel Whether to run in parallel.
 	 */
-	template<typename ScoresIterator> static double getPRAuc(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd,
+	template<typename ScoresItT> static double getPRAuc(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
 			InterpolMethod interpolMethod, bool parallel = false) {
-
-//		std::cerr << posScoresEnd - posScoresBegin << " ---- "
-//				<< negScoresEnd - negScoresBegin << std::endl;
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 
@@ -1166,7 +1167,7 @@ public:
 		std::vector<std::size_t> fps;
 		fps.resize(threshs.size());
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 		for (std::size_t i = 0; i < threshs.size(); i++) {
@@ -1226,7 +1227,7 @@ public:
 		auto posScoresBegin = predResults->posBegin();
 		auto posScoresEnd = predResults->posEnd();
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		results[name] = getPRAuc(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, interpolMethod, parallel);
 #else
@@ -1247,22 +1248,22 @@ public:
 	 * @param negSortOrder The sorting order of negative scores. This may be modified by the method.
 	 * @param results To write results.
 	 */
-	virtual void eval(ScoresIteratorT posScoresBegin,
-			ScoresIteratorT posScoresEnd, ScoresIteratorT negScoresBegin,
-			ScoresIteratorT negScoresEnd, SortOrder &posSortOrder,
-			SortOrder &negSortOrder, PerfResults &results) {
+	virtual void eval(ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
+			SortOrder &posSortOrder, SortOrder &negSortOrder,
+			PerfResults &results) {
 		logger(logDebug, "Computing PR-AUC...")
 
 		if (posSortOrder != Inc) {
-			Utilities::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
+			Utils::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
 			posSortOrder = Inc;
 		}
 		if (negSortOrder != Inc) {
-			Utilities::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
+			Utils::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
 			negSortOrder = Inc;
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		results[name] = getPRAuc(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, interpolMethod, parallel);
 #else
@@ -1280,9 +1281,9 @@ public:
 	 * @param negScoresBegin Iterator to the first negative score.
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 */
-	template<typename ScoresIterator> static std::vector<double> getThresholds(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd) {
+	template<typename ScoresItT> static std::vector<double> getThresholds(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd) {
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 		std::size_t N = negScoresEnd - negScoresBegin;
@@ -1312,10 +1313,10 @@ public:
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 * @param parallel Whether to run in parallel.
 	 */
-	template<typename ScoresIterator> static std::vector<
-			std::pair<double, double>> getPRCurve(ScoresIterator posScoresBegin,
-			ScoresIterator posScoresEnd, ScoresIterator negScoresBegin,
-			ScoresIterator negScoresEnd, bool parallel = false) {
+	template<typename ScoresItT> static std::vector<std::pair<double, double>> getPRCurve(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd, bool parallel =
+					false) {
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 
@@ -1326,7 +1327,7 @@ public:
 		curve.resize(threshs.size() + 1);
 		std::size_t maxInd = threshs.size();
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 		for (std::size_t i = 0; i < threshs.size(); i++) {
@@ -1375,7 +1376,7 @@ public:
 		auto posScoresBegin = predResults->posBegin();
 		auto posScoresEnd = predResults->posEnd();
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		return getPRCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -1395,20 +1396,20 @@ public:
 	 * @return A curve in the form of an std::vector of pairs representing the x and y coordinates.
 	 */
 	virtual std::vector<std::pair<double, double>> getCurve(
-			ScoresIteratorT posScoresBegin, ScoresIteratorT posScoresEnd,
-			ScoresIteratorT negScoresBegin, ScoresIteratorT negScoresEnd,
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
 			SortOrder &posSortOrder, SortOrder &negSortOrder) {
 
 		if (posSortOrder != Inc) {
-			Utilities::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
+			Utils::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
 			posSortOrder = Inc;
 		}
 		if (negSortOrder != Inc) {
-			Utilities::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
+			Utils::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
 			negSortOrder = Inc;
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		return getPRCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -1447,11 +1448,11 @@ template<typename PredResultsT = PredResults<>> class TPR: public PerfMeasure<
 		PredResultsT> {
 
 public:
-	using ScoresIteratorT = typename PerfMeasure<PredResultsT>::ScoresIteratorT; /**< Scores iterator type. */
+	using ScoresItT = typename PerfMeasure<PredResultsT>::ScoresItT; /**< Scores iterator type. */
 
 protected:
 	using PerfMeasure<PredResultsT>::name; /**< The name of the performance measure. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	using PerfMeasure<PredResultsT>::parallel; /**< Enable/disable parallelism. */
 #endif
 
@@ -1510,10 +1511,9 @@ public:
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 * @param l The number of links to consider.
 	 */
-	template<typename ScoresIterator> static double getTPR(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd,
-			std::size_t l) {
+	template<typename ScoresItT> static double getTPR(ScoresItT posScoresBegin,
+			ScoresItT posScoresEnd, ScoresItT negScoresBegin,
+			ScoresItT negScoresEnd, std::size_t l) {
 
 		if (l
 				> static_cast<std::size_t>(std::distance(posScoresBegin,
@@ -1586,20 +1586,8 @@ public:
 		auto topEdgesBegin = predResults->topEdgesBegin();
 		auto topEdgesEnd = predResults->topEdgesEnd();
 
-//		std::cout << "#TPR top edges\n";
-//		for (auto it = topEdgesBegin; it != topEdgesEnd; ++it) {
-//			std::cout << net->start(*it) << "\t" << net->getLabel(net->end(*it))
-//					<< std::endl;
-//		}
-//		std::cout << "-----------------\n";
-//		std::cout << "#TPR removed edges\n";
-//		for (auto it = remLinksMap->begin(); it != remLinksMap->end(); ++it) {
-//			std::cout << net->getLabel(net->start(*it)) << "\t"
-//					<< net->getLabel(net->end(*it)) << std::endl;
-//		}
-//		std::cout << "-----------------\n";
 		std::size_t found = 0;
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction (+:found) if (parallel)
 #endif
 		for (auto it = topEdgesBegin; it < topEdgesEnd; ++it) {
@@ -1625,7 +1613,6 @@ public:
 
 		logger(logDebug, "Computing TopPrec using the method predict...")
 
-//		std::cout << "evalUsingPredict\n";
 		predResults->compNegScores();
 		predResults->sortNeg(SortOrder::Inc);
 		auto negScoresBegin = predResults->negBegin();
@@ -1635,9 +1622,6 @@ public:
 		predResults->sortPos(SortOrder::Inc);
 		auto posScoresBegin = predResults->posBegin();
 		auto posScoresEnd = predResults->posEnd();
-
-//		Utilities::print(posScoresBegin, posScoresEnd, "Pos");
-//		Utilities::print(negScoresBegin, negScoresEnd, "Neg");
 
 		results[name] = getTPR(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, l);
@@ -1673,18 +1657,18 @@ public:
 	 * @param negSortOrder The sorting order of negative scores. This may be modified by the method.
 	 * @param results To write results.
 	 */
-	virtual void eval(ScoresIteratorT posScoresBegin,
-			ScoresIteratorT posScoresEnd, ScoresIteratorT negScoresBegin,
-			ScoresIteratorT negScoresEnd, SortOrder &posSortOrder,
-			SortOrder &negSortOrder, PerfResults &results) {
+	virtual void eval(ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
+			SortOrder &posSortOrder, SortOrder &negSortOrder,
+			PerfResults &results) {
 
 		logger(logDebug, "Computing TopPrec...")
 		if (posSortOrder != Inc) {
-			Utilities::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
+			Utils::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
 			posSortOrder = Inc;
 		}
 		if (negSortOrder != Inc) {
-			Utilities::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
+			Utils::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
 			negSortOrder = Inc;
 		}
 
@@ -1738,11 +1722,11 @@ template<typename PredResultsT = PredResults<>> class GCurve: public PerfCurve<
 		PredResultsT> {
 
 public:
-	using ScoresIteratorT = typename PerfMeasure<PredResultsT>::ScoresIteratorT; /**< Scores iterator type. */
+	using ScoresItT = typename PerfMeasure<PredResultsT>::ScoresItT; /**< Scores iterator type. */
 
 protected:
 	using PerfMeasure<PredResultsT>::name; /**< The name of the performance measure. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	using PerfMeasure<PredResultsT>::parallel; /**< Enable/disable parallelism. */
 #endif
 
@@ -1807,7 +1791,7 @@ public:
 			PerfResults &results) {
 
 		logger(logDebug, "Computing GCurve-AUC...")
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		results[name] = getGCurveAuc(getCurve(predResults), parallel);
 #else
 		results[name] = getGCurveAuc(getCurve(predResults));
@@ -1825,14 +1809,14 @@ public:
 	 * @param negSortOrder The sorting order of negative scores. This may be modified by the method.
 	 * @param results To write results.
 	 */
-	virtual void eval(ScoresIteratorT posScoresBegin,
-			ScoresIteratorT posScoresEnd, ScoresIteratorT negScoresBegin,
-			ScoresIteratorT negScoresEnd, SortOrder &posSortOrder,
-			SortOrder &negSortOrder, PerfResults &results) {
+	virtual void eval(ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
+			SortOrder &posSortOrder, SortOrder &negSortOrder,
+			PerfResults &results) {
 
 		logger(logDebug, "Computing GCurve-AUC...")
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		results[name] = getGCurveAuc(
 				getCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 						negScoresEnd, posSortOrder, negSortOrder), parallel);
@@ -1851,9 +1835,9 @@ public:
 	 * @param negScoresBegin Iterator to the first negative score.
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 */
-	template<typename ScoresIterator> static std::vector<double> getThresholds(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd) {
+	template<typename ScoresItT> static std::vector<double> getThresholds(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd) {
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 		std::size_t N = negScoresEnd - negScoresBegin;
@@ -1873,7 +1857,6 @@ public:
 			it = rit;
 		}
 		unique.push_back(std::numeric_limits<double>::infinity());
-//		Utils::print(unique.begin(), unique.end(), "thresholds");
 		return unique;
 	}
 
@@ -1885,10 +1868,10 @@ public:
 	 * @param negScoresEnd Iterator to one-past-the-last negative score.
 	 * @param parallel Whether to run in parallel.
 	 */
-	template<typename ScoresIterator> std::vector<std::pair<double, double>> getGCurve(
-			ScoresIterator posScoresBegin, ScoresIterator posScoresEnd,
-			ScoresIterator negScoresBegin, ScoresIterator negScoresEnd,
-			bool parallel = false) {
+	template<typename ScoresItT> std::vector<std::pair<double, double>> getGCurve(
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd, bool parallel =
+					false) {
 
 		std::size_t P = posScoresEnd - posScoresBegin;
 		std::size_t N = negScoresEnd - negScoresBegin;
@@ -1900,7 +1883,7 @@ public:
 		curve.resize(threshs.size());
 		std::size_t maxInd = threshs.size() - 1;
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 		for (std::size_t i = 0; i < threshs.size(); i++) {
@@ -1941,7 +1924,7 @@ public:
 		auto posScoresBegin = predResults->posBegin();
 		auto posScoresEnd = predResults->posEnd();
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		return getGCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -1961,20 +1944,20 @@ public:
 	 * @return A curve in the form of an std::vector of pairs representing the x and y coordinates.
 	 */
 	virtual std::vector<std::pair<double, double>> getCurve(
-			ScoresIteratorT posScoresBegin, ScoresIteratorT posScoresEnd,
-			ScoresIteratorT negScoresBegin, ScoresIteratorT negScoresEnd,
+			ScoresItT posScoresBegin, ScoresItT posScoresEnd,
+			ScoresItT negScoresBegin, ScoresItT negScoresEnd,
 			SortOrder &posSortOrder, SortOrder &negSortOrder) {
 
 		if (posSortOrder != Inc) {
-			Utilities::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
+			Utils::sort(posScoresBegin, posScoresEnd, SortOrder::Inc);
 			posSortOrder = Inc;
 		}
 		if (negSortOrder != Inc) {
-			Utilities::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
+			Utils::sort(negScoresBegin, negScoresEnd, SortOrder::Inc);
 			negSortOrder = Inc;
 		}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 		return getGCurve(posScoresBegin, posScoresEnd, negScoresBegin,
 				negScoresEnd, parallel);
 #else
@@ -1996,7 +1979,7 @@ public:
 		logger(logDebug, "Computing AUC")
 
 		double auc = 0;
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for reduction(+ : auc) if (parallel)
 #endif
 		for (std::size_t i = 0; i < curve.size() - 1; i++) {
@@ -2016,4 +1999,4 @@ public:
 
 } /* namespace LinkPred */
 
-#endif /* INCLUDE_PERFMEASURE_HPP_ */
+#endif /* PERFMEASURE_HPP_ */

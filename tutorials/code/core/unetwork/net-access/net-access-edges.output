@@ -1,0 +1,18 @@
+Edges:
+Start	End
+0	1
+0	3
+1	2
+2	3
+Neighbors of 0
+1
+3
+Neighbors of 1
+0
+2
+Neighbors of 2
+1
+3
+Neighbors of 3
+0
+2

@@ -20,17 +20,18 @@
 
 /**
  * \file
+ * @ingroup Perf
  * @brief Contains the implementation of a class to store and manage prediction results.
  */
 
-#ifndef INCLUDE_PREDRESULTS_HPP_
-#define INCLUDE_PREDRESULTS_HPP_
+#ifndef PREDRESULTS_HPP_
+#define PREDRESULTS_HPP_
 
-#include <linkpred/predictors/ulpredictor.hpp>
-#include "linkpred/core/unetwork.hpp"
-#include "linkpred/core/dnetwork.hpp"
+#include <linkpred/predictors/undirected/ulpredictor.hpp>
+#include <linkpred/utils/miscutils.hpp>
+#include "linkpred/core/unetwork/unetwork.hpp"
+#include "linkpred/core/dnetwork/dnetwork.hpp"
 #include "linkpred/perf/networkmanipulator.hpp"
-#include "linkpred/utils/utilities.hpp"
 #include <vector>
 #include <memory>
 #include <algorithm>
@@ -44,11 +45,12 @@ namespace LinkPred {
  * @tparam LPredictorT The link predictor type.
  * @tparam ScoresContainerT The type of container storing scores.
  */
-template<typename TestDataT = TestData<>, typename LPredictorT = ULPredictor<>,
+template<typename TestDataT = TestData<>,
+		typename LPredictorT = ULPredictor<>,
 		typename ScoresContainerT = std::vector<double>> class PredResults {
 
 public:
-	using ScoresIteratorT = typename ScoresContainerT::iterator; /**< Scores iterator type. */
+	using ScoresItT = typename ScoresContainerT::iterator; /**< Scores iterator type. */
 
 protected:
 	TestDataT testData; /**< Test data. */
@@ -60,13 +62,13 @@ protected:
 	bool topComputed = false; /**< Top links scores computed? */
 	SortOrder posSortOrder = None; /**< Positive scores sorted? */
 	SortOrder negSortOrder = None; /**< Negative scores sorted? */
-	std::vector<typename TestDataT::EdgeType> topEdges; /**< To store top score edges. */
+	std::vector<typename TestDataT::Edge> topEdges; /**< To store top score edges. */
 	ScoresContainerT topScores; /**< Scores of top links. */
 
 public:
 
 	/**
-	 * @brief Test edges iterator.
+	 * @brief Score iterator.
 	 */
 	class ScoreIterator: public std::iterator<std::random_access_iterator_tag,
 			const double, long int> {
@@ -75,20 +77,21 @@ public:
 
 	protected:
 		std::shared_ptr<LPredictorT> predictor; /**< The predictor. */
-		typename TestDataT::TestEdgeIterator eit; /**< Edge iterator. */
-		std::pair<typename TestDataT::EdgeType, double> esc; /**< Edge and score. */
+		typename TestDataT::TestEdgeIt eit; /**< Edge iterator. */
+		std::pair<typename TestDataT::Edge, double> esc; /**< Edge and score. */
 
 	public:
-		using pointer = typename std::iterator<std::random_access_iterator_tag, const std::pair<typename TestDataT::EdgeType, double>, long int>::pointer; /**< The pointer type associated with the iterator. */
-		using reference = typename std::iterator<std::random_access_iterator_tag, const std::pair<typename TestDataT::EdgeType, double>, long int>::reference; /**< The reference type associated with the iterator. */
-		using difference_type = typename std::iterator<std::random_access_iterator_tag, const std::pair<typename TestDataT::EdgeType, double>, long int>::difference_type; /**< The difference type associated with the iterator. */
+		using pointer = typename std::iterator<std::random_access_iterator_tag, const std::pair<typename TestDataT::Edge, double>, long int>::pointer; /**< The pointer type associated with the iterator. */
+		using reference = typename std::iterator<std::random_access_iterator_tag, const std::pair<typename TestDataT::Edge, double>, long int>::reference; /**< The reference type associated with the iterator. */
+		using difference_type = typename std::iterator<std::random_access_iterator_tag, const std::pair<typename TestDataT::Edge, double>, long int>::difference_type; /**< The difference type associated with the iterator. */
 
 		/**
 		 * Constructor.
-		 * @param td The test data object (owner).
+		 * @param predictor The link predictor.
+		 * @param eit Test edge iterator.
 		 */
 		ScoreIterator(std::shared_ptr<LPredictorT> const & predictor,
-				typename TestDataT::TestEdgeIterator const &eit) :
+				typename TestDataT::TestEdgeIt const &eit) :
 				predictor(predictor), eit(eit) {
 		}
 
@@ -333,7 +336,7 @@ public:
 			posScores.resize(testData.getNbPos());
 			predictor->predict(testData.posBegin(), testData.posEnd(),
 					posScores.begin());
-			Utilities::assertNoNaN(posScores.begin(), posScores.end());
+			Utils::assertNoNaN(posScores.begin(), posScores.end());
 			posComputed = true;
 			posSortOrder = None;
 		}
@@ -348,7 +351,7 @@ public:
 			negScores.resize(testData.getNbNeg());
 			predictor->predict(testData.negBegin(), testData.negEnd(),
 					negScores.begin());
-			Utilities::assertNoNaN(negScores.begin(), negScores.end());
+			Utils::assertNoNaN(negScores.begin(), negScores.end());
 			negComputed = true;
 			negSortOrder = None;
 		}
@@ -478,7 +481,7 @@ public:
 	 */
 	void sortNeg(SortOrder negSortOrder) {
 		if (this->negSortOrder != negSortOrder) {
-			Utilities::sort(negScores.begin(), negScores.end(), negSortOrder);
+			Utils::sort(negScores.begin(), negScores.end(), negSortOrder);
 			this->negSortOrder = negSortOrder;
 		}
 	}
@@ -505,7 +508,7 @@ public:
 	 */
 	void sortPos(SortOrder posSortOrder) {
 		if (this->posSortOrder != posSortOrder) {
-			Utilities::sort(posScores.begin(), posScores.end(), posSortOrder);
+			Utils::sort(posScores.begin(), posScores.end(), posSortOrder);
 			this->posSortOrder = posSortOrder;
 		}
 	}

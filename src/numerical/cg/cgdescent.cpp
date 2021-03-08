@@ -94,6 +94,8 @@
 #include "linkpred/numerical/cg/cgdescent.hpp"
 #include <iostream>
 
+namespace LinkPred {
+
 namespace CG {
 CGDescent::CGDescent(CGDProblem *pb) {
 	this->pb = pb;
@@ -203,7 +205,7 @@ int CGDescent::cg_descent(double *x, INT n, cg_stats *Stat, cg_parameter *UParm,
 	memk = 0; /* number of vectors in current memory */
 
 	/* the conjugate gradient algorithm is restarted every nrestart iteration */
-	nrestart = (INT) (((double) n) * Parm->restart_fac);
+	nrestart = (INT)(((double) n) * Parm->restart_fac);
 
 	/* allocate storage connected with limited memory CG */
 	if (mem > 0) {
@@ -3957,4 +3959,7 @@ void CGDescent::cg_printParms(cg_parameter *Parm) {
  previous value of scale. This correct an error pointed out by
  Zachary Blunden-Codd.
  */
-} // namespace
+} /* namespace CG */
+
+} /* namespace LinkPred */
+

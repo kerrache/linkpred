@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <random>
 
+namespace LinkPred {
+
 namespace PLFit {
 
 void mt_init_def(mt_rng_t* rng) {
@@ -95,4 +97,6 @@ double mt_uniform_01(mt_rng_t* rng) {
 	return ((double) mt_random(rng)) / MT_RAND_MAX;
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 

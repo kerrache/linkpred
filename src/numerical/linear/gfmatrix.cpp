@@ -25,24 +25,25 @@
 #include <cassert>
 #include <stdexcept>
 
-//#define WITH_MKL
-#ifdef WITH_MKL
+//#define LINKPRED_WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 #include "linkpred/mkl.h"
 #endif
 
 namespace LinkPred {
 
+
 GFMatrix::GFMatrix(int m, int n, bool initZero) {
 	logger(logDebug, "GFMatrix constructor...")
 	this->m = m;
 	this->n = n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(m * n * sizeof(double), 64);
 #else
 	values = new double[m * n];
 #endif
 	if (initZero) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		double val = 0;
 		cblas_dcopy(m * n, &val, 0, values, 1);
 #else
@@ -58,7 +59,7 @@ GFMatrix::GFMatrix(GFMatrix const & that) {
 	logger(logDebug, "GFMatrix copy constructor...")
 	this->m = that.m;
 	this->n = that.n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(m * n * sizeof(double), 64);
 	cblas_dcopy(m * n, that.values, 1, values, 1);
 #else
@@ -77,7 +78,7 @@ GFMatrix & GFMatrix::operator =(GFMatrix const & that) {
 	}
 
 	if (((m != that.m) || (n != that.n)) && (values != nullptr)) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		mkl_free(values);
 		values = (double *) mkl_malloc(m * n * sizeof(double), 64);
 #else
@@ -88,7 +89,7 @@ GFMatrix & GFMatrix::operator =(GFMatrix const & that) {
 	m = that.m;
 	n = that.n;
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dcopy(m * n, that.values, 1, values, 1);
 #else
 	double* tv = that.values;
@@ -117,7 +118,7 @@ GFMatrix& GFMatrix::operator =(GFMatrix && that) {
 		return *this;
 	}
 	if (values != nullptr) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		mkl_free(values);
 #else
 		delete[] values;
@@ -157,7 +158,7 @@ Vec GFMatrix::getRow(int i) const {
 	logger(logDebug, "Getting row " << i << " ...")
 	Vec vec(n);
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double *vv = vec.values;
 	cblas_dcopy(n, &(values[i]), m, vv, 1);
 #else
@@ -174,7 +175,7 @@ Vec GFMatrix::getCol(int j) const {
 	logger(logDebug, "Getting column " << j << " ...")
 	Vec vec(m);
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double *vv = vec.values;
 	cblas_dcopy(m, &(values[j * m]), 1, vv, 1);
 #else
@@ -189,7 +190,7 @@ Vec GFMatrix::getCol(int j) const {
 void GFMatrix::setRow(int i, Vec const & vec) {
 	logger(logDebug, "Setting row " << i << " ...")
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double *vv = vec.values;
 	cblas_dcopy(n, vv, 1, &(values[i]), m);
 #else
@@ -203,7 +204,7 @@ void GFMatrix::setRow(int i, Vec const & vec) {
 void GFMatrix::setCol(int j, Vec const & vec) {
 	logger(logDebug, "Setting column " << j << " ...")
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double *vv = vec.values;
 	cblas_dcopy(m, vv, 1, &(values[j * m]), 1);
 #else
@@ -218,7 +219,7 @@ GFMatrix GFMatrix::getRows(std::vector<int> const & rowInd) const {
 	logger(logDebug, "Getting rows...")
 	GFMatrix res(rowInd.size(), n);
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double *resv = res.values;
 	int nn = rowInd.size();
 	int k = 0;
@@ -245,7 +246,7 @@ GFMatrix GFMatrix::getCols(std::vector<int> const & colInd) const {
 	logger(logDebug, "Getting columns...")
 	GFMatrix res(m, colInd.size());
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double *resv = res.values;
 	int k = 0;
 	for (auto it = colInd.begin(); it != colInd.end(); ++it, k++) {
@@ -275,7 +276,7 @@ Vec operator *(const GFMatrix &mat, const Vec &vec) {
 
 	Vec res(mat.m);
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dgemv(CblasColMajor, CblasNoTrans, mat.m, mat.n, 1, mat.values, mat.m,
 			vec.values, 1, 0, res.values, 1);
 #else
@@ -396,7 +397,7 @@ void GFMatrix::removeNaN() {
 GFMatrix::~GFMatrix() {
 	logger(logDebug, "GFMatrix " << name << " destructor...")
 	if (values != nullptr) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		mkl_free(values);
 #else
 		delete[] values;
@@ -477,7 +478,7 @@ GFMatrix GFMatrix::mult(GFMatrix const & mat1, GFMatrix const & mat2,
 		bool trans1, bool trans2) {
 	logger(logDebug, "Matrix * Matrix...")
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	CBLAS_TRANSPOSE transa = (trans1) ? CblasTrans : CblasNoTrans;
 	CBLAS_TRANSPOSE transb = (trans2) ? CblasTrans : CblasNoTrans;
 
@@ -554,7 +555,7 @@ GFMatrix GFMatrix::elemMult(GFMatrix const & mat1, GFMatrix const & mat2) {
 	double *v1 = mat1.values;
 	double *v2 = mat2.values;
 	double *v3 = mat3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdMul(m * n, v1, v2, v3);
 #else
 	for (int i = 0; i < m * n; i++) {
@@ -581,7 +582,7 @@ GFMatrix GFMatrix::mult(Vec const & v1, Vec const & v2) {
 
 GFMatrix operator*(const GFMatrix & mat1, const GFMatrix & mat2) {
 	logger(logDebug, "Matrix * Matrix...")
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	int m = mat1.m;
 	int k = mat1.n;
 	if (k != mat2.m) {
@@ -618,7 +619,7 @@ GFMatrix operator+(const GFMatrix & mat1, const GFMatrix & mat2) {
 	double *v1 = mat1.values;
 	double *v2 = mat2.values;
 	double *v3 = mat3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdAdd(m * n, v1, v2, v3);
 #else
 	for (int i = 0; i < m * n; i++) {
@@ -641,7 +642,7 @@ GFMatrix operator/(const GFMatrix & mat1, const GFMatrix & mat2) {
 	double *v1 = mat1.values;
 	double *v2 = mat2.values;
 	double *v3 = mat3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdDiv(m * n, v1, v2, v3);
 #else
 	for (int i = 0; i < m * n; i++) {
@@ -816,7 +817,7 @@ GFMatrix operator-(const GFMatrix & mat1, const GFMatrix & mat2) {
 	double *v1 = mat1.values;
 	double *v2 = mat2.values;
 	double *v3 = mat3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdSub(m * n, v1, v2, v3);
 #else
 	for (int i = 0; i < m * n; i++) {
@@ -826,5 +827,6 @@ GFMatrix operator-(const GFMatrix & mat1, const GFMatrix & mat2) {
 	logger(logDebug, "Done")
 	return mat3;
 }
+
 
 } /* namespace LinkPred */

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
 int main(int argc, char*argv[]) {
@@ -30,7 +30,8 @@ int main(int argc, char*argv[]) {
 	std::string netFileName(argv[1]);
 	auto net = UNetwork<>::read(netFileName, false, true);
 	for (auto it = net->edgesBegin(); it != net->edgesEnd(); ++it) {
-		std::cout << net->start(*it) << "\t" << net->end(*it) << std::endl;
+		std::cout << net->getLabel(net->start(*it)) << "\t"
+				<< net->getLabel(net->end(*it)) << std::endl;
 	}
 	return 0;
 }

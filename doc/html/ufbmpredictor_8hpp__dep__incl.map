@@ -1,0 +1,9 @@
+<map id="include/linkpred/predictors/undirected/ufbmpredictor.hpp" name="include/linkpred/predictors/undirected/ufbmpredictor.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of the fast blocking model link predictor." alt="" coords="149,5,342,47"/>
+<area shape="rect" id="node2" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="158,95,333,136"/>
+<area shape="rect" id="node3" href="$predictors_8hpp.html" title="Includes the headers of link predictors." alt="" coords="159,184,332,225"/>
+<area shape="rect" id="node4" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="5,273,149,315"/>
+<area shape="rect" id="node6" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="231,452,369,479"/>
+<area shape="rect" id="node7" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="173,273,317,315"/>
+<area shape="rect" id="node5" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="173,363,317,404"/>
+</map>

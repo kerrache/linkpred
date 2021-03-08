@@ -24,6 +24,8 @@
 #include "linkpred/numerical/plfit/mt.hpp"
 #include <stdlib.h>
 
+namespace LinkPred {
+
 namespace PLFit {
 #define PLFIT_VERSION_MAJOR 0
 #define PLFIT_VERSION_MINOR 7
@@ -129,6 +131,8 @@ int plfit_moments(double* data, size_t n, double* mean, double* variance,
 		double* skewness, double* kurtosis);
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif /* __PLFIT_H__ */
 

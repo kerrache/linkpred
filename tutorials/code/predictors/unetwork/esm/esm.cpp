@@ -1,0 +1,30 @@
+#include <linkpred.hpp>
+#include <iostream>
+using namespace LinkPred;
+int main() {
+	int  k = 10;
+	// Read network from file
+	auto net = UNetwork<>::read("Zakarays_Karate_Club.edges"); 
+	// Create a LIN encoder
+	auto encoder =  std::make_shared<LINE<>>(net, 777);
+	// Create an L2 similarity object
+	auto simMeasure =  std::make_shared<L2Sim>();
+	// Create an instance of the ESM predictor
+	UESMPredictor<> p(net, encoder, simMeasure);
+	// Initialize predictor
+	p.init();
+	// Train predictor
+	p.learn();
+	// Allocate memory for storing scores
+	std::vector<double> scores(k);
+	// Create a vector to store edges
+	std::vector<typename UNetwork<>::Edge> ev(k);
+	// Predict top scores
+	k = p.top(k, ev.begin(), scores.begin());
+	for (int l = 0; l < k; l++) {
+		auto i = net->start(ev[l]);
+		auto j = net->end(ev[l]);
+		std::cout << net->getLabel(i) << "\t" << net->getLabel(j) << "\t" << scores[l] << std::endl;
+	}
+	return 0;
+}

@@ -18,20 +18,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <chrono>
 using namespace LinkPred;
+
 int main(int argc, char *argv[]) {
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Init(&argc, &argv);
+	std::cout << "MPI enabled\n";
 #endif
 	if (argc != 2) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName\n";
 		exit(1);
 	}
 	int procID = 0;
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Comm_rank(MPI_COMM_WORLD, &procID);
 #endif
 
@@ -45,10 +47,10 @@ int main(int argc, char *argv[]) {
 	predictor->learn();
 	auto predResults = std::make_shared<PredResults<>>(testData, predictor);
 	auto roc = std::make_shared<ROC<>>("ROC");
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	roc->setParallel(true);
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	roc->setComm(MPI_COMM_WORLD); // Optional when using the default communicator MPI_COMM_WORLD
 	roc->setDistributed(true);
 #endif
@@ -65,7 +67,7 @@ int main(int argc, char *argv[]) {
 				<< std::chrono::duration<double, std::milli>(diff).count()
 				<< " ms" << std::endl;
 	}
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Finalize();
 #endif
 	return 0;

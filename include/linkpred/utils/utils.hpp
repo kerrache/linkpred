@@ -20,17 +20,19 @@
 
 /**
  * \file
+ * @ingroup Utils
  * @brief Includes the headers related to utility classes.
  */
 
-#ifndef INCLUDE_UTILS_HPP_
-#define INCLUDE_UTILS_HPP_
+#ifndef UTILS_HPP_
+#define UTILS_HPP_
 
-/** @defgroup core Core classes
- *  This group contains core classes.
+/**
+ * @defgroup Utils Utility functions and classes
+ * This group contains various utility functions and classes.
  */
 
-#include "linkpred/utils/utilities.hpp"
+#include <linkpred/utils/miscutils.hpp>
 #include "linkpred/utils/log.hpp"
 #include "linkpred/utils/loglevel.hpp"
 #include "linkpred/utils/randomgen.hpp"

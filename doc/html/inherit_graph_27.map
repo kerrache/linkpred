@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,64,105,91"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1LogMDSCG.html" title="Optimization problem associated with multidimensional scaling using the logarithmic (MULTISCALE) loss..." alt="" coords="153,5,305,32"/>
+<area shape="rect" id="node3" href="$classLinkPred_1_1LogRegCG.html" title="Logistic regression optimization problem." alt="" coords="154,57,305,98"/>
+<area shape="rect" id="node4" href="$classLinkPred_1_1MatFactCG.html" title="Optimization problem associated with matrix factorization." alt="" coords="155,123,304,149"/>
+</map>

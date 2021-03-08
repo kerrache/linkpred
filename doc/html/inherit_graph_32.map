@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classLinkPred_1_1NetDistCalculator.html" title=" " alt="" coords="5,177,191,233"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1ESPLDistCalculator.html" title=" " alt="" coords="263,5,461,61"/>
+<area shape="rect" id="node3" href="$classLinkPred_1_1ASPDistCalculator.html" title="Approximate shortest path distance calculator." alt="" coords="243,86,481,127"/>
+<area shape="rect" id="node4" href="$classLinkPred_1_1ASPDsimCalculator.html" title="Approximate shortest path dissimilarity calculator." alt="" coords="239,151,485,193"/>
+<area shape="rect" id="node5" href="$classLinkPred_1_1ESPDistCalculator.html" title="Exact shortest path distance calculator." alt="" coords="243,217,481,258"/>
+<area shape="rect" id="node6" href="$classLinkPred_1_1ESPDsimCalculator.html" title="Exact shortest path dissimilarity calculator." alt="" coords="239,282,485,323"/>
+<area shape="rect" id="node7" href="$classLinkPred_1_1ESPLDistCalculator.html" title="Exact shortest path distance calculator with limits on the number of hops." alt="" coords="243,347,481,389"/>
+</map>

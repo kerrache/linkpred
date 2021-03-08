@@ -1,6 +1,6 @@
 PROJECT_NAME		= "LinkPred"
 PROJECT_NUMBER		= ..
-STRIP_FROM_PATH		= /home/said/Dropbox/Said/dev/LinkPred \
+STRIP_FROM_PATH	= /home/said/Dropbox/Said/dev/LinkPred \
 			  /home/said/Dropbox/Said/dev/LinkPred
 INPUT			=  \
 			  /home/said/Dropbox/Said/dev/LinkPred \

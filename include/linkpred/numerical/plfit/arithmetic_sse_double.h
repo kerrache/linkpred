@@ -41,6 +41,8 @@
 #include <emmintrin.h>
 #endif/*HAVE_EMMINTRIN_H*/
 
+namespace LinkPred {
+
 namespace PLFit {
 inline static void* vecalloc(size_t size) {
 #ifdef	_MSC_VER
@@ -289,4 +291,6 @@ inline static void vecfree(void *memblock) {
     _mm_store_sd((s), XMM2); \
 }
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 

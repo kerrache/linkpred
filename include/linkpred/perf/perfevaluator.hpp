@@ -20,20 +20,21 @@
 
 /**
  * \file
+ * @ingroup Perf
  * @brief Includes the headers related to core classes.
  */
 
 #ifndef PERFEVALUATOR_HPP_
 #define PERFEVALUATOR_HPP_
 
-#include <linkpred/predictors/ulpredictor.hpp>
-#include "linkpred/predictors/dlpredictor.hpp"
+#include <linkpred/predictors/undirected/ulpredictor.hpp>
+#include <linkpred/utils/miscutils.hpp>
+#include "linkpred/predictors/directed/dlpredictor.hpp"
 #include "linkpred/perf/predresults.hpp"
 #include "linkpred/perf/perfmeasure.hpp"
 #include "linkpred/perf/networkmanipulator.hpp"
 #include "linkpred/utils/randomgen.hpp"
 #include "linkpred/utils/log.hpp"
-#include "linkpred/utils/utilities.hpp"
 #include <string>
 #include <memory>
 #include <vector>
@@ -51,7 +52,8 @@ namespace LinkPred {
  * @tparam PredResultsT The prediction results type.
  * @tparam PerfMeasureT The performance measure type.
  */
-template<typename TestDataT = TestData<>, typename LPredictorT = ULPredictor<>,
+template<typename TestDataT = TestData<>,
+		typename LPredictorT = ULPredictor<>,
 		typename PredResultsT = PredResults<TestDataT, LPredictorT>,
 		typename PerfMeasureT = PerfMeasure<PredResultsT>> class PerfEvaluator {
 
@@ -59,7 +61,7 @@ protected:
 	std::vector<std::shared_ptr<LPredictorT>> predictors; /**< To store predictors. */
 	std::vector<std::shared_ptr<PerfMeasureT>> measures; /**< To store performance measures. */
 	TestDataT testData; /**< The test data. */
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	bool parallel = false; /**< To enable/disable parallelism. */
 #endif
 	bool timingEnabled = false; /**< To enable/disable timing. */
@@ -121,7 +123,7 @@ public:
 		return measures.size() - 1;
 	}
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	/**
 	 * @return Whether parallelism is enabled.
 	 */
@@ -222,20 +224,20 @@ public:
 /**
  * @brief Structure storing experiment description.
  */
-template<typename NetworkT = UNetwork<>> struct PerfeEvalExpDescp {
+template<typename Network = UNetwork<>> struct PerfeEvalExpDescp {
 
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	bool parTestRuns =  false; /**< To enable/disable shared-memory parallelism over test runs. */
 	bool parPredictors = false; /**< Whether to run different predictors in parallel. */
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	bool distributed = false; /**< Whether the experiment is run distributively. */
 	MPI_Comm comm = MPI_COMM_WORLD; /**< The MPI communicator. */
 #endif
 	bool timingEnabled = false; /**< Enable/disable timing. */
 	std::ostream* out = &std::cout; /**< Output file. */
 	std::size_t nbTestRuns = 1; /**< Number of test runs. */
-	std::shared_ptr<NetworkT> refNet; /**< Reference network. */
+	std::shared_ptr<Network> refNet; /**< Reference network. */
 	bool keepConnected = false; /**< Whether to keep the network connected. */
 	double fnRatio = 1; /**< Ratio of false negatives used in the test set. */
 	double tnRatio = 1; /**< Ratio of true negatives used in the test set. */
@@ -247,12 +249,13 @@ template<typename NetworkT = UNetwork<>> struct PerfeEvalExpDescp {
 
 /**
  * @brief Factory class to create link predictors and performance measures.
- * @tparam NetworkT The network data type.
+ * @tparam Network The network data type.
  * @tparam LPredictorT The link predictor type.
  * @tparam TestDataT The test data type.
  * @tparam PerfMeasureT The performance measure type.
  */
-template<typename NetworkT = UNetwork<>, typename LPredictorT = ULPredictor<>,
+template<typename Network = UNetwork<>,
+		typename LPredictorT = ULPredictor<>,
 		typename TestDataT = TestData<>, typename PerfMeasureT = PerfMeasure<
 				PredResults<TestDataT, LPredictorT>> > class PEFactory {
 public:
@@ -260,7 +263,7 @@ public:
 	 * @return A vector of predictors.
 	 */
 	virtual std::vector<std::shared_ptr<LPredictorT>> getPredictors(
-			std::shared_ptr<NetworkT const> obsNet) = 0;
+			std::shared_ptr<Network const> obsNet) = 0;
 
 	/**
 	 * @return A vector of performance measures.
@@ -276,30 +279,31 @@ public:
 
 /**
  * @brief Performance evaluation experiment.
- * @tparam NetworkT The network data type.
+ * @tparam Network The network data type.
  * @tparam TestDataT The test data type.
  * @tparam PredResultsT The prediction results type.
  * @tparam PerfMeasureT The performance measure type.
  */
-template<typename NetworkT = UNetwork<>, typename TestDataT = TestData<>,
+template<typename Network = UNetwork<>, typename TestDataT = TestData<>,
 		typename LPredictorT = ULPredictor<>,
 		typename PredResultsT = PredResults<TestDataT, LPredictorT>,
 		typename PerfMeasureT = PerfMeasure<PredResultsT>> class PerfEvalExp {
 
 protected:
-	PerfeEvalExpDescp<NetworkT> ped; /**< Description of the experiment. */
-	std::shared_ptr<PEFactory<NetworkT, LPredictorT, TestDataT, PerfMeasureT>> factory; /**< Factory to create link predictors and performance measures. */
+	PerfeEvalExpDescp<Network> ped; /**< Description of the experiment. */
+	std::shared_ptr<PEFactory<Network, LPredictorT, TestDataT, PerfMeasureT>> factory; /**< Factory to create link predictors and performance measures. */
 	std::vector<std::map<std::string, double>> results; /**< Performance results. */
 	int outPrec = 4; /**< Precision of print (for double). */
 
 public:
 	/**
 	 * Constructor.
-	 * @param testData The test data.
+	 * @param ped The experiment description.
+	 * @param factory Factory bject to create link predictor and performance measures.
 	 */
-	PerfEvalExp(PerfeEvalExpDescp<NetworkT> const & ped,
+	PerfEvalExp(PerfeEvalExpDescp<Network> const & ped,
 			std::shared_ptr<
-					PEFactory<NetworkT, LPredictorT, TestDataT, PerfMeasureT>> const & factory) :
+					PEFactory<Network, LPredictorT, TestDataT, PerfMeasureT>> const & factory) :
 			ped(ped), factory(factory) {
 	}
 
@@ -360,7 +364,7 @@ public:
 	 * @return The fatory.
 	 */
 	const std::shared_ptr<
-			PEFactory<NetworkT, LPredictorT, TestDataT, PerfMeasureT> >& getFactory() const {
+			PEFactory<Network, LPredictorT, TestDataT, PerfMeasureT> >& getFactory() const {
 		return factory;
 	}
 
@@ -381,7 +385,7 @@ public:
 	/**
 	 * @return The experience descriptor.
 	 */
-	const PerfeEvalExpDescp<NetworkT>& getPed() const {
+	const PerfeEvalExpDescp<Network>& getPed() const {
 		return ped;
 	}
 
@@ -392,7 +396,6 @@ public:
 
 };
 
-}
-/* namespace LinkPred */
+} /* namespace LinkPred */
 
 #endif /* PERFEVALUATOR_HPP_ */

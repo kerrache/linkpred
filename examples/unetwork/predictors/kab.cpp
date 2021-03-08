@@ -18,21 +18,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
-	if (argc != 3) {
-		std::cerr << "Bad arguments\nUsage: " << argv[0]
-				<< " netFileName seed\n";
+	if (argc != 2) {
+		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName\n";
 		exit(1);
 	}
 	std::string netFileName(argv[1]);
-	long int seed = std::atol(argv[2]);
 	auto net = UNetwork<>::read(netFileName, false, true);
-	UKABPredictor<UNetwork<>, typename UNetwork<>::NonEdgeIterator> predictor(
-			net, seed);
-	predictor.setLim(10000);
+	UKABPredictor<UNetwork<>, typename UNetwork<>::NonEdgeIt> predictor(net);
+	predictor.setHorizLim(10000);
 	predictor.init();
 	predictor.learn();
 	std::vector<double> scores;

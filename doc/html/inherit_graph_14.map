@@ -1,0 +1,17 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,540,68,567"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1DNetwork_1_1NodeDegIt.html" title="Node&#45;degree iterator. This class can be used to iterate over pairs of node IDs and in and out degrees..." alt="" coords="141,5,317,61"/>
+<area shape="rect" id="node3" href="$classLinkPred_1_1DNetwork_1_1NonEdgeIt.html" title="Nonedges iterator." alt="" coords="141,85,317,141"/>
+<area shape="rect" id="node4" href="$classLinkPred_1_1DNetwork_1_1RndEdgeIt.html" title="Randomized edges iterator." alt="" coords="141,165,317,221"/>
+<area shape="rect" id="node5" href="$classLinkPred_1_1DNetwork_1_1RndNodeIt.html" title="Randomized Nodes iterator." alt="" coords="141,245,317,301"/>
+<area shape="rect" id="node6" href="$classLinkPred_1_1DNetwork_1_1RndNonEdgeIt.html" title="Randomized nonedges iterator." alt="" coords="141,325,317,381"/>
+<area shape="rect" id="node7" href="$classLinkPred_1_1PredResults_1_1ScoreIterator.html" title="Score iterator." alt="" coords="116,405,343,461"/>
+<area shape="rect" id="node8" href="$classLinkPred_1_1TestData_1_1TestEdgeIt.html" title="Test edges iterator." alt="" coords="151,485,308,541"/>
+<area shape="rect" id="node9" href="$classLinkPred_1_1TestEdgeGen_1_1TNEdgeIt.html" title="TN edges iterator." alt="" coords="149,565,309,621"/>
+<area shape="rect" id="node10" href="$classLinkPred_1_1TestEdgeGen_1_1TPEdgeIt.html" title="TP edges iterator." alt="" coords="149,645,309,701"/>
+<area shape="rect" id="node11" href="$classLinkPred_1_1UNetwork_1_1NodeDegIt.html" title="Node&#45;degree iterator. This class can be used to iterate over pairs of node IDs and degrees." alt="" coords="141,725,317,781"/>
+<area shape="rect" id="node12" href="$classLinkPred_1_1UNetwork_1_1NonEdgeIt.html" title="Nonedges iterator." alt="" coords="141,805,317,861"/>
+<area shape="rect" id="node13" href="$classLinkPred_1_1UNetwork_1_1RndEdgeIt.html" title="Randomized edges iterator." alt="" coords="141,885,317,941"/>
+<area shape="rect" id="node14" href="$classLinkPred_1_1UNetwork_1_1RndNodeIt.html" title="Randomized Nodes iterator." alt="" coords="141,965,317,1021"/>
+<area shape="rect" id="node15" href="$classLinkPred_1_1UNetwork_1_1RndNonEdgeIt.html" title="Randomized nonedges iterator." alt="" coords="141,1045,317,1101"/>
+</map>

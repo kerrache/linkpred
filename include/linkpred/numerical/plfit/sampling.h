@@ -23,6 +23,8 @@
 #include "linkpred/numerical/plfit/mt.hpp"
 #include <stdlib.h>
 
+namespace LinkPred {
+
 namespace PLFit {
 /**
  * Draws a sample from a uniform distribution over the [0; 1) interval.
@@ -238,6 +240,8 @@ int plfit_walker_alias_sampler_sample(
 		const plfit_walker_alias_sampler_t* sampler, long int* xs, size_t n,
 		mt_rng_t* rng);
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif
 

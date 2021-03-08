@@ -1,0 +1,4 @@
+<map id="include/linkpred/ml/classifiers/naivebayes/naivebayes.hpp" name="include/linkpred/ml/classifiers/naivebayes/naivebayes.hpp">
+<area shape="rect" id="node1" title="Contains a wrapper of mlpack::maive_bayes::NaiveBayesClassifier." alt="" coords="5,5,160,61"/>
+<area shape="rect" id="node2" href="$LinkPredConfig_8hpp.html" title="Contains configuration options." alt="" coords="15,109,151,136"/>
+</map>

@@ -18,9 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 4) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0]
@@ -47,8 +48,7 @@ int main(int argc, char*argv[]) {
 		perf.addPredictor(
 				std::make_shared<UADAPredictor<>>(testData.getObsNet()));
 		perf.addPredictor(
-				std::make_shared<UKABPredictor<>>(testData.getObsNet(),
-						rng.getInt()));
+				std::make_shared<UKABPredictor<>>(testData.getObsNet()));
 
 		perf.setTimingEnabled(true); // Enable timing
 

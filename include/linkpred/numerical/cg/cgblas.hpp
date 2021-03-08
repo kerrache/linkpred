@@ -8,6 +8,8 @@
 #ifndef CGBLAS_HPP_
 #define CGBLAS_HPP_
 
+namespace LinkPred {
+
 namespace CG {
 /* If the BLAS are not installed, then the following definitions
  can be ignored. If the BLAS are available, then to use them,
@@ -90,5 +92,8 @@ void CG_DCOPY(BLAS_INT *n, double *DX, BLAS_INT *incx, double *DY,
 		BLAS_INT *incy);
 
 BLAS_INT CG_IDAMAX(BLAS_INT *n, double *DX, BLAS_INT *incx);
-} //namespace
+} /* namespace CG */
+
+} /* namespace LinkPred */
+
 #endif /* INCLUDE_CGBLAS_HPP_ */

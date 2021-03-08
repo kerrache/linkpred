@@ -27,7 +27,7 @@
 #include "linkpred/numerical/mds/logmdscg.hpp"
 #include "linkpred/numerical/cg/cgdescent.hpp"
 #include "linkpred/utils/log.hpp"
-#include "linkpred/utils/utilities.hpp"
+#include <linkpred/utils/miscutils.hpp>
 #include <limits>
 
 namespace LinkPred {
@@ -154,5 +154,5 @@ double MDS::cgMDS(std::size_t nbNodes, std::size_t nbKnownCouples,
 	logger(logDebug, "Done")
 	return bestObj;
 }
-}
-/* namespace LinkPred */
+
+} /* namespace LinkPred */

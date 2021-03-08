@@ -16,7 +16,10 @@
 
 #include <random>
 
+namespace LinkPred {
+
 namespace PLFit {
+
 #define MT_LEN       624
 
 /**
@@ -92,7 +95,10 @@ uint32_t mt_random(mt_rng_t* rng);
  * \return a uniformly distributed random number from the interval [0;1)
  */
 double mt_uniform_01(mt_rng_t* rng);
+
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif
 

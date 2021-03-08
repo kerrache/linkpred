@@ -1,0 +1,10 @@
+<map id="include/linkpred/perf/predresults.hpp" name="include/linkpred/perf/predresults.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of a class to store and manage prediction results." alt="" coords="63,5,201,47"/>
+<area shape="rect" id="node2" href="$perf_8hpp.html" title="Includes the headers related to performance evaluation classes." alt="" coords="63,273,201,315"/>
+<area shape="rect" id="node6" href="$perfevaluator_8hpp.html" title="Includes the headers related to core classes." alt="" coords="63,184,201,225"/>
+<area shape="rect" id="node7" href="$perfmeasure_8hpp.html" title="Contains the implementation of several performance measures." alt="" coords="169,95,308,136"/>
+<area shape="rect" id="node3" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="5,363,149,404"/>
+<area shape="rect" id="node5" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="63,541,201,568"/>
+<area shape="rect" id="node4" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="5,452,149,493"/>
+<area shape="rect" id="node8" href="$umpspredictor_8hpp.html" title="Contains the implementation of a scalable popularity similarity link predictor." alt="" coords="277,184,473,225"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="include/linkpred/graphalg/encoders/lem/lem.hpp" name="include/linkpred/graphalg/encoders/lem/lem.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of Laplacian eigenmaps embedding (LEM)." alt="" coords="215,5,380,47"/>
+<area shape="rect" id="node2" href="$encoders_8hpp.html" title="Includes the headers related to network encoders." alt="" coords="215,95,380,136"/>
+<area shape="rect" id="node3" href="$graphalg_8hpp.html" title="Includes the headers related to graph algorithms." alt="" coords="5,273,171,315"/>
+<area shape="rect" id="node5" href="$ueclpredictor_8hpp.html" title="Contains the implementation of an encoder&#45;classifier link predictor." alt="" coords="95,184,283,225"/>
+<area shape="rect" id="node10" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="439,452,583,493"/>
+<area shape="rect" id="node11" href="$uesmpredictor_8hpp.html" title="Contains the implementation of an encoder&#45;similarity measure link predictor." alt="" coords="307,184,503,225"/>
+<area shape="rect" id="node4" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="165,631,302,657"/>
+<area shape="rect" id="node6" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="255,273,430,315"/>
+<area shape="rect" id="node7" href="$predictors_8hpp.html" title="Includes the headers of link predictors." alt="" coords="256,363,429,404"/>
+<area shape="rect" id="node8" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="271,452,415,493"/>
+<area shape="rect" id="node9" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="271,541,415,583"/>
+</map>

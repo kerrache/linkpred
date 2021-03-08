@@ -18,12 +18,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <algorithm>
 #include <chrono>
 
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 2) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName\n";

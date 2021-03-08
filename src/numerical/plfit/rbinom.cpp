@@ -47,6 +47,8 @@
 #include "linkpred/numerical/plfit/sampling.h"
 #include "linkpred/numerical/plfit/platform.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 
 #define repeat for(;;)
@@ -240,3 +242,5 @@ double plfit_rbinom(double nin, double pp, mt_rng_t* rng) {
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

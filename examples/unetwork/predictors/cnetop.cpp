@@ -18,15 +18,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 
 using namespace LinkPred;
 
 int main(int argc, char*argv[]) {
 	if (argc != 3) {
-		std::cerr << "Bad arguments\nUsage: " << argv[0]
-				<< " netFileName k\n";
+		std::cerr << "Bad arguments\nUsage: " << argv[0] << " netFileName k\n";
 		exit(1);
 	}
 	std::string netFileName(argv[1]);
@@ -37,7 +36,7 @@ int main(int argc, char*argv[]) {
 	predictor.init();
 	predictor.learn();
 
-	std::vector<typename UNetwork<>::EdgeType> edges;
+	std::vector<typename UNetwork<>::Edge> edges;
 	edges.resize(k);
 	std::vector<double> scores;
 	scores.resize(k);

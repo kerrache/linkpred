@@ -1,0 +1,4 @@
+<map id="LinkPred::L2Sim" name="LinkPred::L2Sim">
+<area shape="rect" id="node1" title="L2 similarity (negative the Euclidean distance)." alt="" coords="23,80,142,107"/>
+<area shape="rect" id="node2" href="$classLinkPred_1_1SimMeasure.html" title="Interface of a similarity measure." alt="" coords="5,5,160,32"/>
+</map>

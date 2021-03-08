@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 #include <algorithm>
 #include <chrono>
@@ -26,7 +26,7 @@
 using namespace LinkPred;
 
 int main(int argc, char*argv[]) {
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Init(&argc, &argv);
 #endif
 	if (argc != 3) {
@@ -40,25 +40,25 @@ int main(int argc, char*argv[]) {
 
 	auto net = UNetwork<>::read(netFileName, false, true);
 	UCNEPredictor<> predictor(net);
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	predictor.setComm(MPI_COMM_WORLD); // Optional when using the default communicator MPI_COMM_WORLD
 	predictor.setDistributed(true);
 #endif
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	predictor.setParallel(true);
 #endif
 
 	predictor.init();
 	predictor.learn();
 
-	std::vector<typename UNetwork<>::EdgeType> edges;
+	std::vector<typename UNetwork<>::Edge> edges;
 	edges.resize(k);
 	std::vector<double> scores;
 	scores.resize(k);
 	k = predictor.top(k, edges.begin(), scores.begin());
 
 	int procID = 0;
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Comm_rank(MPI_COMM_WORLD, &procID);
 #endif
 
@@ -69,7 +69,7 @@ int main(int argc, char*argv[]) {
 				<< std::chrono::duration<double, std::milli>(diff).count()
 				<< " ms" << std::endl;
 	}
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	MPI_Finalize();
 #endif
 	return 0;

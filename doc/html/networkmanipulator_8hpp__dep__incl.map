@@ -1,0 +1,11 @@
+<map id="include/linkpred/perf/networkmanipulator.hpp" name="include/linkpred/perf/networkmanipulator.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of test data related classes." alt="" coords="151,5,313,47"/>
+<area shape="rect" id="node2" href="$perf_8hpp.html" title="Includes the headers related to performance evaluation classes." alt="" coords="248,363,387,404"/>
+<area shape="rect" id="node6" href="$perfevaluator_8hpp.html" title="Includes the headers related to core classes." alt="" coords="5,273,144,315"/>
+<area shape="rect" id="node7" href="$predresults_8hpp.html" title="Contains the implementation of a class to store and manage prediction results." alt="" coords="163,95,301,136"/>
+<area shape="rect" id="node3" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="191,452,335,493"/>
+<area shape="rect" id="node5" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="249,631,386,657"/>
+<area shape="rect" id="node4" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="191,541,335,583"/>
+<area shape="rect" id="node8" href="$perfmeasure_8hpp.html" title="Contains the implementation of several performance measures." alt="" coords="163,184,301,225"/>
+<area shape="rect" id="node9" href="$umpspredictor_8hpp.html" title="Contains the implementation of a scalable popularity similarity link predictor." alt="" coords="219,273,415,315"/>
+</map>

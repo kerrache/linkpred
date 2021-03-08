@@ -1,0 +1,6 @@
+<map id="include/linkpred/simp/edgescore.hpp" name="include/linkpred/simp/edgescore.hpp">
+<area shape="rect" id="node1" title="Contains the definition of a structure to store the score of an edge." alt="" coords="60,5,204,47"/>
+<area shape="rect" id="node2" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="5,95,149,136"/>
+<area shape="rect" id="node3" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="60,184,204,225"/>
+<area shape="rect" id="node4" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="63,273,201,300"/>
+</map>

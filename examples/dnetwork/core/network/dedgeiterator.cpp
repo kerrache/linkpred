@@ -18,10 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
-int main(int argc, char*argv[]) {
+int main() {
 	int n = 8;
 	DNetwork<unsigned int> net;
 	for (int i = 1; i <= n; i++) {

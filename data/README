@@ -1,8 +1,6 @@
 This directory contains sample networks that can be used with the example programs:
 
-net*.edges: Small networks that can be used for debugging purposes.
+ex-net.pairs: A very small network that can be used for debugging purposes.
 
-Zakarays_Karate_Club.edges: Zakary's Karate Club, a social network that represents friendships between members of a karate club at an American university. The data was collected in the 1970s by Wayne Zachary and is available at http://konect.uni-koblenz.de/networks/ucidata-zachary. Reference: Zachary, W. W. An information flow model for conflict and fission in small groups. J. anthropological research 33, 452–473 (1977).
-
-Infectious.edges: & Face-to-face interaction between visitors of the exhibition INFECTIOUS: STAY AWAY in 2009 at the Science Gallery in Dublin. A link indicates that a face-to-face interaction took place for more than 20 seconds. The dataset is available at http://konect.uni-koblenz.de/networks/sociopatterns-infectious. Reference: Isella, L. et al. What’s in a crowd? analysis of face-to-face behavioral networks. J. Theor. Biol. 271, 166 – 180 (2011).
+karate.pairs: Zakary's Karate Club, a social network that represents friendships between members of a karate club at an American university. The data was collected in the 1970s by Wayne Zachary and is available at http://konect.uni-koblenz.de/networks/ucidata-zachary (Zachary, W. W. An information flow model for conflict and fission in small groups. J. anthropological research 33, 452–473 (1977).).
 

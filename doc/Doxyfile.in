@@ -10,7 +10,13 @@ FILE_PATTERNS		= *.h \
 RECURSIVE		= YES
 EXCLUDE_PATTERNS	= */plfit/* \
 			  */cg/* \
-			  */hrgpredictor/* \
-			  */sbmpredictor/* \
-			  */hyppredictor/* \			
+			  */uhrgpredictor/* \
+			  */usbmpredictor/* \
+			  */uhyppredictor/* \
+			  fibheap.hpp			
 USE_MDFILE_AS_MAINPAGE = @doxy_main_page@
+USE_MATHJAX            = YES
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
+PREDEFINED             = protected=private

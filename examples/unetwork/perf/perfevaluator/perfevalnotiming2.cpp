@@ -18,9 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 4) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0]
@@ -37,13 +38,12 @@ int main(int argc, char*argv[]) {
 		for (double ratio = 0.1; ratio <= 0.9; ratio += 0.1) {
 			auto testData = NetworkManipulator<>::createTestData(fullNet, ratio,
 					0, false, true, 0, true, 0, FN, TN, rng.getInt());
-			testData.lock();
 			PerfEvaluator<> perf(testData);
 
 			{
 				auto predictor = std::make_shared<UADAPredictor<>>(
 						testData.getObsNet());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 				predictor->setParallel(true);
 #endif
 				perf.addPredictor(predictor);
@@ -51,7 +51,7 @@ int main(int argc, char*argv[]) {
 			{
 				auto predictor = std::make_shared<UCNEPredictor<>>(
 						testData.getObsNet());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 				predictor->setParallel(true);
 #endif
 				perf.addPredictor(predictor);
@@ -59,7 +59,7 @@ int main(int argc, char*argv[]) {
 			{
 				auto predictor = std::make_shared<USHPPredictor<>>(
 						testData.getObsNet(), rng.getInt());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 				predictor->setParallel(true);
 #endif
 				perf.addPredictor(predictor);

@@ -1,0 +1,8 @@
+<map id="include/linkpred/predictors/undirected/undirected.hpp" name="include/linkpred/predictors/undirected/undirected.hpp">
+<area shape="rect" id="node1" title="Includes the headers of link predictors for undirected networks." alt="" coords="158,5,333,47"/>
+<area shape="rect" id="node2" href="$predictors_8hpp.html" title="Includes the headers of link predictors." alt="" coords="159,95,332,136"/>
+<area shape="rect" id="node3" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="5,184,149,225"/>
+<area shape="rect" id="node5" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="231,363,369,389"/>
+<area shape="rect" id="node6" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="173,184,317,225"/>
+<area shape="rect" id="node4" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="173,273,317,315"/>
+</map>

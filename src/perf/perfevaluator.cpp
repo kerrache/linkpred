@@ -18,12 +18,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <linkpred/utils/miscutils.hpp>
 #include "linkpred/perf/perfevaluator.hpp"
-#include "linkpred/utils/utilities.hpp"
 #include <iostream>
 #include <limits>
 
 namespace LinkPred {
+
 
 template<typename TestDataT, typename LPredictorT, typename PredResultsT,
 		typename PerfMeasureT> void PerfEvaluator<TestDataT, LPredictorT,
@@ -32,7 +33,7 @@ template<typename TestDataT, typename LPredictorT, typename PredResultsT,
 
 	std::vector<PerfResults> tmpRes;
 	tmpRes.resize(predictors.size());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 	for (std::size_t i = 0; i < predictors.size(); i++) {
@@ -68,7 +69,7 @@ template<typename TestDataT, typename LPredictorT, typename PredResultsT,
 
 	std::vector<PerfResults> tmpRes;
 	tmpRes.resize(predictors.size());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parallel)
 #endif
 	for (std::size_t i = 0; i < predictors.size(); i++) {
@@ -112,7 +113,8 @@ template<typename TestDataT, typename LPredictorT, typename PredResultsT,
 		}
 
 		tmpRes[i]["TTN" + predictor->getName()] = tmpRes[i]["ITN"
-				+ predictor->getName()] + tmpRes[i]["LTN" + predictor->getName()]
+				+ predictor->getName()]
+				+ tmpRes[i]["LTN" + predictor->getName()]
 				+ tmpRes[i]["PTN" + predictor->getName()];
 
 		for (std::size_t j = 0; j < measures.size(); j++) {
@@ -135,8 +137,8 @@ template<typename TestDataT, typename LPredictorT, typename PredResultsT,
 	logger(logDebug, "Done")
 }
 
-template<typename NetworkT, typename TestDataT, typename LPredictorT,
-		typename PredResultsT, typename PerfMeasureT> void PerfEvalExp<NetworkT,
+template<typename Network, typename TestDataT, typename LPredictorT,
+		typename PredResultsT, typename PerfMeasureT> void PerfEvalExp<Network,
 		TestDataT, LPredictorT, PredResultsT, PerfMeasureT>::run() {
 	logger(logDebug, "Computing performance measures...")
 	if (ped.timingEnabled) {
@@ -147,8 +149,8 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	logger(logDebug, "Done")
 }
 
-template<typename NetworkT, typename TestDataT, typename LPredictorT,
-		typename PredResultsT, typename PerfMeasureT> void PerfEvalExp<NetworkT,
+template<typename Network, typename TestDataT, typename LPredictorT,
+		typename PredResultsT, typename PerfMeasureT> void PerfEvalExp<Network,
 		TestDataT, LPredictorT, PredResultsT, PerfMeasureT>::runNoTiming() {
 	logger(logDebug, "Computing performance measures without timing...")
 
@@ -161,11 +163,11 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	double ratioStep = ped.ratioStep;
 	auto nbTestRuns = ped.nbTestRuns;
 	auto out = ped.out;
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	bool parTestRuns = ped.parTestRuns;
 	bool parPredictors = ped.parPredictors;
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	bool distributed = ped.distributed;
 	auto comm = ped.comm;
 #endif
@@ -174,7 +176,7 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	std::size_t m = refNet->getNbEdges();
 //The size of the range must be equal to the number of threads
 	int procID = 0;
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	int nbProcs = 1;
 	if (distributed) {
 		MPI_Comm_size(comm, &nbProcs);
@@ -191,7 +193,7 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	results.resize(nbTestRuns);
 	bool first = true;
 	auto start = std::chrono::steady_clock::now();
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parTestRuns)
 #endif
 	for (std::size_t k = 0; k < nbTestRuns; k++) {
@@ -225,7 +227,7 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 
 			std::vector<PerfResults> tmpRes;
 			tmpRes.resize(predictors.size());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parPredictors)
 #endif
 			for (std::size_t i = 0; i < predictors.size(); i++) {
@@ -264,8 +266,8 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 				(*out) << std::fixed << std::setprecision(2) << ratio << "\t";
 				for (auto it = results[k].begin(); it != results[k].end();
 						++it) {
-					(*out) << std::fixed << std::setprecision(outPrec) << it->second
-							<< "\t";
+					(*out) << std::fixed << std::setprecision(outPrec)
+							<< it->second << "\t";
 				}
 				(*out) << std::endl;
 			}
@@ -286,8 +288,8 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	logger(logDebug, "Done")
 }
 
-template<typename NetworkT, typename TestDataT, typename LPredictorT,
-		typename PredResultsT, typename PerfMeasureT> void PerfEvalExp<NetworkT,
+template<typename Network, typename TestDataT, typename LPredictorT,
+		typename PredResultsT, typename PerfMeasureT> void PerfEvalExp<Network,
 		TestDataT, LPredictorT, PredResultsT, PerfMeasureT>::runTiming() {
 	logger(logDebug, "Computing performance measures with timing...")
 
@@ -300,11 +302,11 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	double ratioStep = ped.ratioStep;
 	auto nbTestRuns = ped.nbTestRuns;
 	auto out = ped.out;
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 	bool parTestRuns = ped.parTestRuns;
 	bool parPredictors = ped.parPredictors;
 #endif
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	bool distributed = ped.distributed;
 	auto comm = ped.comm;
 #endif
@@ -313,7 +315,7 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	std::size_t m = refNet->getNbEdges();
 	//The size of the range must be equal to the number of threads
 	int procID = 0;
-#ifdef WITH_MPI
+#ifdef LINKPRED_WITH_MPI
 	int nbProcs = 1;
 	if (distributed) {
 		MPI_Comm_size(comm, &nbProcs);
@@ -330,7 +332,7 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 	results.resize(nbTestRuns);
 	bool first = true;
 	auto start = std::chrono::steady_clock::now();
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parTestRuns)
 #endif
 	for (std::size_t k = 0; k < nbTestRuns; k++) {
@@ -363,7 +365,7 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 			auto predictors = factory->getPredictors(testData.getObsNet());
 			std::vector<PerfResults> tmpRes;
 			tmpRes.resize(predictors.size());
-#ifdef WITH_OPENMP
+#ifdef LINKPRED_WITH_OPENMP
 #pragma omp parallel for if (parPredictors)
 #endif
 			for (std::size_t i = 0; i < predictors.size(); i++) {
@@ -470,5 +472,5 @@ template<typename NetworkT, typename TestDataT, typename LPredictorT,
 #include "linkpred/instantiations.hpp"
 #undef PERFEVALUATOR_CPP
 
-}
-/* namespace LinkPred */
+
+} /* namespace LinkPred */

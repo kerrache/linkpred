@@ -20,18 +20,20 @@
 
 /**
  * \file
+ * @ingroup Core
  * @brief Includes the headers related to core classes.
  */
 
-#ifndef INCLUDE_CORE_HPP_
-#define INCLUDE_CORE_HPP_
+#ifndef CORE_HPP_
+#define CORE_HPP_
 
-#include "linkpred/core/unetwork.hpp"
-#include "linkpred/core/dnetwork.hpp"
-#include "linkpred/core/bheap.hpp"
-#include "linkpred/core/dijkstra.hpp"
-#include "linkpred/core/netdistcalculator.hpp"
-#include "linkpred/core/graphtraversal.hpp"
-#include "linkpred/core/lmapqueue.hpp"
+/**
+ * @defgroup Core Core classes
+ * This group contains core classes.
+ */
 
-#endif /* INCLUDE_CORE_HPP_ */
+#include "linkpred/core/unetwork/unetwork.hpp"
+#include "linkpred/core/dnetwork/dnetwork.hpp"
+#include "linkpred/core/ds/ds.hpp"
+
+#endif /* CORE_HPP_ */

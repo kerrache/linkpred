@@ -1,0 +1,11 @@
+<map id="include/linkpred/ml/simmeasures/l2sim.hpp" name="include/linkpred/ml/simmeasures/l2sim.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of L2 similarity." alt="" coords="285,5,449,47"/>
+<area shape="rect" id="node2" href="$simmeasure_8hpp.html" title="Contains the interface of a similarity measure." alt="" coords="283,95,450,136"/>
+<area shape="rect" id="node3" href="$vec_8hpp.html" title="Contains the implementation of a vector (in the sense of linear algebra)." alt="" coords="253,184,379,225"/>
+<area shape="rect" id="node7" title=" " alt="" coords="492,273,551,300"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,273,72,300"/>
+<area shape="rect" id="node5" title=" " alt="" coords="96,273,168,300"/>
+<area shape="rect" id="node6" title=" " alt="" coords="192,273,261,300"/>
+<area shape="rect" id="node8" title=" " alt="" coords="286,273,346,300"/>
+<area shape="rect" id="node9" title=" " alt="" coords="370,273,467,300"/>
+</map>

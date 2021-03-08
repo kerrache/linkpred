@@ -18,9 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "linkpred.hpp"
+#include <linkpred.hpp>
 #include <iostream>
 using namespace LinkPred;
+
 int main(int argc, char*argv[]) {
 	if (argc != 4) {
 		std::cerr << "Bad arguments\nUsage: " << argv[0]
@@ -36,7 +37,6 @@ int main(int argc, char*argv[]) {
 	for (std::size_t i = 0; i < nbTests; i++) {
 		auto testData = NetworkManipulator<>::createTestData(fullNet, 0.1, 0,
 				true, true, 0, true, 0, FN, TN, rng.getInt());
-		testData.lock();
 		PerfEvaluator<> perf(testData);
 
 		perf.addPredictor(

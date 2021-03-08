@@ -32,6 +32,8 @@
 #include "linkpred/numerical/plfit/sampling.h"
 #include "linkpred/numerical/plfit/zeta.h"
 
+namespace LinkPred {
+
 namespace PLFit {
 /* #define PLFIT_DEBUG */
 
@@ -1331,3 +1333,5 @@ int plfit_calculate_p_value_discrete(double* xs, size_t n,
 }
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */

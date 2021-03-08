@@ -1,0 +1,52 @@
+<map id="include/linkpred/utils/loglevel.hpp" name="include/linkpred/utils/loglevel.hpp">
+<area shape="rect" id="node1" title="Contains the definition of log levels." alt="" coords="3719,5,3859,47"/>
+<area shape="rect" id="node2" href="$log_8hpp.html" title="Contains the implementation of a log class." alt="" coords="2740,95,2880,136"/>
+<area shape="rect" id="node50" href="$utils_8hpp.html" title="Includes the headers related to utility classes." alt="" coords="5369,363,5509,404"/>
+<area shape="rect" id="node3" href="$dnetwork_8hpp.html" title="Contains the implementation of a directed network data structure." alt="" coords="3239,184,3400,225"/>
+<area shape="rect" id="node9" href="$ukabpredictor_8hpp.html" title="Contains the implementation of a scalable popularity&#45;similarity link predictor." alt="" coords="1246,452,1438,493"/>
+<area shape="rect" id="node11" href="$umpspredictor_8hpp.html" title="Contains the implementation of a scalable popularity similarity link predictor." alt="" coords="2127,631,2323,672"/>
+<area shape="rect" id="node12" href="$ushppredictor_8hpp.html" title="Contains the implementation of a shortest path link predictor." alt="" coords="1945,452,2137,493"/>
+<area shape="rect" id="node13" href="$graphtraversal_8hpp.html" title="Contains the implementation of graph traversal algorithms." alt="" coords="4739,273,4926,315"/>
+<area shape="rect" id="node15" href="$networkmanipulator_8hpp.html" title="Contains the implementation of test data related classes." alt="" coords="4979,363,5142,404"/>
+<area shape="rect" id="node17" href="$perfevaluator_8hpp.html" title="Includes the headers related to core classes." alt="" coords="4690,631,4829,672"/>
+<area shape="rect" id="node19" href="$perfmeasure_8hpp.html" title="Contains the implementation of several performance measures." alt="" coords="4477,541,4615,583"/>
+<area shape="rect" id="node33" href="$bheap_8hpp.html" title="Contains the implementation of a templated binary heap." alt="" coords="1670,184,1811,225"/>
+<area shape="rect" id="node35" href="$unetwork_8hpp.html" title="Contains the implementation of an undirected network data structure." alt="" coords="2248,184,2409,225"/>
+<area shape="rect" id="node48" href="$unedpredictor_8hpp.html" title="Contains the implementation of a link prediction algorithm based on the degrees of neighbors." alt="" coords="766,452,958,493"/>
+<area shape="rect" id="node49" href="$miscutils_8hpp.html" title="Contains the implementation of miscellaneous useful methods." alt="" coords="5132,273,5272,315"/>
+<area shape="rect" id="node4" href="$core_8hpp.html" title="Includes the headers related to core classes." alt="" coords="1521,363,1662,404"/>
+<area shape="rect" id="node6" href="$dijkstra_8hpp.html" title="Contains an implementation of Dijkstra&#39;s algorithm." alt="" coords="2241,273,2417,315"/>
+<area shape="rect" id="node7" href="$netdistcalculator_8hpp.html" title="Contains the implementation of classes for computing distances in network." alt="" coords="2039,363,2267,404"/>
+<area shape="rect" id="node18" href="$predresults_8hpp.html" title="Contains the implementation of a class to store and manage prediction results." alt="" coords="4582,452,4721,493"/>
+<area shape="rect" id="node20" href="$dlpredictor_8hpp.html" title="Contains the interface of a link predictor." alt="" coords="3487,273,3661,315"/>
+<area shape="rect" id="node5" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="4637,809,4775,836"/>
+<area shape="rect" id="node8" href="$shortestpaths_8hpp.html" title="Includes the headers related to shortest paths algorithms." alt="" coords="2313,452,2526,493"/>
+<area shape="rect" id="node10" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="1255,541,1429,583"/>
+<area shape="rect" id="node14" href="$traversal_8hpp.html" title="Includes the headers related to graph traversal algorithms." alt="" coords="4790,363,4955,404"/>
+<area shape="rect" id="node16" href="$perf_8hpp.html" title="Includes the headers related to performance evaluation classes." alt="" coords="4637,720,4775,761"/>
+<area shape="rect" id="node21" href="$dadapredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="3586,363,3765,404"/>
+<area shape="rect" id="node22" href="$directed_8hpp.html" title="Includes the headers of link predictors for directed networks." alt="" coords="3487,452,3661,493"/>
+<area shape="rect" id="node23" href="$dcnepredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="3839,363,4018,404"/>
+<area shape="rect" id="node24" href="$dhdipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="4043,363,4217,404"/>
+<area shape="rect" id="node25" href="$dhpipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="4241,363,4416,404"/>
+<area shape="rect" id="node26" href="$djidpredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="4441,363,4614,404"/>
+<area shape="rect" id="node27" href="$dlcppredictor_8hpp.html" title="Contains the implementation of a directed LCP link predictor." alt="" coords="2393,363,2568,404"/>
+<area shape="rect" id="node28" href="$dlhnpredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="2592,363,2767,404"/>
+<area shape="rect" id="node29" href="$dpatpredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="2791,363,2965,404"/>
+<area shape="rect" id="node30" href="$dpstpredictor_8hpp.html" title="Contains the implementation of a link predictor that prestores the scores of edges." alt="" coords="2989,363,3164,404"/>
+<area shape="rect" id="node31" href="$dsaipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="3188,363,3363,404"/>
+<area shape="rect" id="node32" href="$dsoipredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="3387,363,3561,404"/>
+<area shape="rect" id="node34" href="$ds_8hpp.html" title="Includes the headers related to data structures." alt="" coords="1621,273,1762,315"/>
+<area shape="rect" id="node36" href="$encoder_8hpp.html" title="Contains the interface of a network encoder." alt="" coords="633,273,798,315"/>
+<area shape="rect" id="node44" href="$ulpredictor_8hpp.html" title="Contains the interface of a link predictor." alt="" coords="1687,363,1861,404"/>
+<area shape="rect" id="node37" href="$deepwalk_8hpp.html" title="DeepWalk encoder." alt="" coords="5,363,228,404"/>
+<area shape="rect" id="node38" href="$encoders_8hpp.html" title="Includes the headers related to network encoders." alt="" coords="526,452,691,493"/>
+<area shape="rect" id="node39" href="$hmsm_8hpp.html" title="Contains the implementation of an algorithm for embedding a network using a a hidden metric space mod..." alt="" coords="302,363,486,404"/>
+<area shape="rect" id="node40" href="$largevis_8hpp.html" title="LargeVis encoder." alt="" coords="510,363,713,404"/>
+<area shape="rect" id="node41" href="$line_8hpp.html" title="The LINE (Large&#45;scale Information Network Embedding) encoder." alt="" coords="737,363,902,404"/>
+<area shape="rect" id="node42" href="$matfact_8hpp.html" title="Contains the implementation of an algorithm for embedding a network using matrix factorization...." alt="" coords="926,363,1126,404"/>
+<area shape="rect" id="node43" href="$node2vec_8hpp.html" title="A node2vec encoder." alt="" coords="1150,363,1374,404"/>
+<area shape="rect" id="node45" href="$uadapredictor_8hpp.html" title="Contains the implementation of an Adamic Adar index link predictor." alt="" coords="1462,452,1654,493"/>
+<area shape="rect" id="node46" href="$ucnepredictor_8hpp.html" title="Contains the implementation of a common neighbor link predictor." alt="" coords="1678,452,1870,493"/>
+<area shape="rect" id="node47" href="$ucrapredictor_8hpp.html" title="Contains the implementation of the Cannistraci Resource Allocation link predictor." alt="" coords="982,452,1171,493"/>
+</map>

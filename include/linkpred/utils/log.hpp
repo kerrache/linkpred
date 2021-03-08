@@ -20,11 +20,12 @@
 
 /**
  * \file
+ * @ingroup Utils
  * @brief Contains the implementation of a log class.
  */
 
-#ifndef INCLUDE_LOG_HPP_
-#define INCLUDE_LOG_HPP_
+#ifndef LOG_HPP_
+#define LOG_HPP_
 
 #include "linkpred/utils/loglevel.hpp"
 #include <sstream>

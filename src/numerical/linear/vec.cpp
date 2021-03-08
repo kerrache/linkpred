@@ -27,11 +27,12 @@
 #include <cfloat>
 #include <cstdlib>
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 #include "linkpred/mkl.h"
 #endif
 
 namespace LinkPred {
+
 // TODO change new to std::malloc in order to use std::realloc
 Vec::Vec() {
 	n = 0;
@@ -41,7 +42,7 @@ Vec::Vec() {
 
 Vec::Vec(int _n) {
 	n = _n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(n * sizeof(double), 64);
 #else
 	values = new double[n];
@@ -51,7 +52,7 @@ Vec::Vec(int _n) {
 
 Vec::Vec(int n, double * vals) {
 	this->n = n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(n * sizeof(double), 64);
 	cblas_dcopy(n, vals, 1, values, 1);
 #else
@@ -63,9 +64,23 @@ Vec::Vec(int n, double * vals) {
 	constant = false;
 }
 
+Vec::Vec(std::initializer_list<double> l) {
+	n = l.size();
+#ifdef LINKPRED_WITH_MKL
+	values = (double *) mkl_malloc(n * sizeof(double), 64);
+#else
+	values = new double[n];
+#endif
+	int i = 0;
+	for (auto it = l.begin(); it != l.end(); ++it) {
+		values[i++] = *it;
+	}
+	constant = false;
+}
+
 Vec::Vec(Vec const & v, std::shared_ptr<std::vector<int>> ind) {
 	n = ind->size();
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(n * sizeof(double), 64);
 	cblas_dgthr(n, v.values, values, ind->data());
 #else
@@ -79,7 +94,7 @@ Vec::Vec(Vec const & v, std::shared_ptr<std::vector<int>> ind) {
 
 Vec::Vec(Vec const & v1, Vec const & v2) {
 	n = v1.n + v2.n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(n * sizeof(double), 64);
 	cblas_dcopy(v1.n, v1.values, 1, values, 1);
 	cblas_dcopy(v2.n, v2.values, 1, &(values[v1.n]), 1);
@@ -100,7 +115,7 @@ Vec::Vec(Vec const & v1, Vec const & v2) {
 Vec::Vec(Vec const & that) {
 	logger(logDebug, "Vec copy constructor...")
 	n = that.n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	values = (double *) mkl_malloc(n * sizeof(double), 64);
 	cblas_dcopy(n, that.values, 1, values, 1);
 #else
@@ -124,7 +139,7 @@ Vec& Vec::operator =(Vec const & that) {
 
 	if (n != that.n) {
 		n = that.n;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		if (values != nullptr) {
 			mkl_free(values);
 		}
@@ -137,7 +152,7 @@ Vec& Vec::operator =(Vec const & that) {
 #endif
 	}
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dcopy(n, that.values, 1, values, 1);
 #else
 	double* tv = that.values;
@@ -168,7 +183,7 @@ Vec& Vec::operator =(Vec && that) {
 		return *this;
 	}
 	if (values != nullptr) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		mkl_free(values);
 #else
 		delete[] values;
@@ -215,7 +230,7 @@ bool Vec::operator!=(const Vec &that) const {
 void Vec::resize(int newSize) {
 
 	if (newSize > n) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		values = (double *) mkl_realloc(values, newSize * sizeof(double));
 		if (values == nullptr) {
 			logger(logError, "Cannot reallocate memory. Abort.")
@@ -256,7 +271,7 @@ void Vec::resize(int newSize, double val) {
 
 	if (newSize > n) {
 		double* oldV = values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		values = (double *) mkl_malloc(newSize * sizeof(double), 64);
 		cblas_dcopy(n, oldV, 1, values, 1);
 		mkl_free(oldV);
@@ -296,7 +311,7 @@ std::vector<int> Vec::find(double val) const {
 }
 
 void Vec::reset() {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	double val = 0;
 	cblas_dcopy(n, &val, 0, values, 1);
 #else
@@ -307,7 +322,7 @@ void Vec::reset() {
 }
 
 void Vec::reset(double val) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dcopy(n, &val, 0, values, 1);
 #else
 	for (int i = 0; i < n; i++) {
@@ -358,7 +373,7 @@ void Vec::write(std::string fileName) const {
 }
 
 double Vec::norm() const {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	return cblas_dnrm2(n, values, 1) / sqrt(n);
 #else
 	double sum = 0;
@@ -380,7 +395,7 @@ double Vec::mean() const {
 }
 
 double Vec::amin() const {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	return values[cblas_idamin(n, values, 1)];
 #else
 	double m = values[0];
@@ -394,7 +409,7 @@ double Vec::amin() const {
 }
 
 double Vec::amax() const {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	return values[cblas_idamax(n, values, 1)];
 #else
 	double m = values[0];
@@ -484,7 +499,7 @@ void Vec::center() {
 }
 
 double Vec::norm(int lim) const {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	return cblas_dnrm2(lim, values, 1) / sqrt(lim);
 #else
 	double sum = 0;
@@ -507,7 +522,7 @@ double Vec::mean(int lim) const {
 }
 
 double Vec::amin(int lim) const {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	return values[cblas_idamin(lim, values, 1)];
 #else
 	double m = values[0];
@@ -521,7 +536,7 @@ double Vec::amin(int lim) const {
 }
 
 double Vec::amax(int lim) const {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	return values[cblas_idamax(lim, values, 1)];
 #else
 	double m = values[0];
@@ -567,7 +582,7 @@ void Vec::axpy(double a, Vec const & x) {
 				"Nonconformant arguments: vectors must have the same size.");
 	}
 
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_daxpy(n, a, x.values, 1, values, 1);
 #else
 	double*xv = x.values;
@@ -578,7 +593,7 @@ void Vec::axpy(double a, Vec const & x) {
 }
 
 void Vec::scale(double a) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dscal(n, a, values, 1);
 #else
 	for (int i = 0; i < n; i++) {
@@ -588,7 +603,7 @@ void Vec::scale(double a) {
 }
 
 void Vec::partScale(int start, int nb, double a) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dscal(nb, a, &(values[start]), 1);
 #else
 	for (int i = start; i < start + nb; i++) {
@@ -601,7 +616,7 @@ void Vec::scatter(int start, Vec const & v, int const * ind) {
 //	for (int i = 0; i < v.n; i++) {
 //		logger(logError, "ind: " << ind[i])
 //	}
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	cblas_dsctr(v.n, v.values, ind, &(values[start]));
 #else
 	double* vv1 = &(values[start]);
@@ -622,7 +637,7 @@ double Vec::sum() const {
 }
 
 void Vec::print() const {
-	print(std::cout);
+	print (std::cout);
 }
 
 void Vec::print(std::string header) const {
@@ -642,7 +657,7 @@ void Vec::print(std::ostream & out, std::string header) const {
 
 Vec::~Vec() {
 	if (values != nullptr) {
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 		mkl_free(values);
 #else
 		delete[] values;
@@ -667,7 +682,7 @@ Vec operator +(Vec const & v1, Vec const & v2) {
 	double *vv1 = v1.values;
 	double *vv2 = v2.values;
 	double *vv3 = v3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdAdd(n, vv1, vv2, vv3);
 #else
 	for (int i = 0; i < n; i++) {
@@ -696,7 +711,7 @@ Vec operator -(Vec const & v1, Vec const & v2) {
 	double *vv1 = v1.values;
 	double *vv2 = v2.values;
 	double *vv3 = v3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdSub(n, vv1, vv2, vv3);
 #else
 	for (int i = 0; i < n; i++) {
@@ -725,7 +740,7 @@ Vec operator *(Vec const & v1, Vec const & v2) {
 	double *vv1 = v1.values;
 	double *vv2 = v2.values;
 	double *vv3 = v3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdMul(n, vv1, vv2, vv3);
 #else
 	for (int i = 0; i < n; i++) {
@@ -754,7 +769,7 @@ Vec operator/(Vec const & v1, Vec const & v2) {
 	double *vv1 = v1.values;
 	double *vv2 = v2.values;
 	double *vv3 = v3.values;
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	vdDiv(n, vv1, vv2, vv3);
 #else
 	for (int i = 0; i < n; i++) {
@@ -876,7 +891,7 @@ double operator ^(Vec const & v1, Vec const & v2) {
 		throw std::invalid_argument(
 				"Nonconformant arguments: vectors must have the same size.");
 	}
-#ifdef WITH_MKL
+#ifdef LINKPRED_WITH_MKL
 	dotProd = cblas_ddot(v1.n, v1.values, 1, v2.values, 1);
 #else
 	double * vv1 = v1.values;
@@ -890,5 +905,6 @@ double operator ^(Vec const & v1, Vec const & v2) {
 	logger(logDebug, "Done")
 	return dotProd;
 }
+
 
 } /* namespace LinkPred */

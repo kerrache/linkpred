@@ -1,0 +1,6 @@
+<map id="include/linkpred/perf/perf.hpp" name="include/linkpred/perf/perf.hpp">
+<area shape="rect" id="node1" title="Includes the headers related to performance evaluation classes." alt="" coords="63,5,201,47"/>
+<area shape="rect" id="node2" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="5,95,149,136"/>
+<area shape="rect" id="node4" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="63,273,201,300"/>
+<area shape="rect" id="node3" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="5,184,149,225"/>
+</map>

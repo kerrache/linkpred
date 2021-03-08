@@ -1,0 +1,12 @@
+<map id="include/linkpred/ml/classifiers/logistic/logisticregresser.hpp" name="include/linkpred/ml/classifiers/logistic/logisticregresser.hpp">
+<area shape="rect" id="node1" title="Contains the implementation of a logistic regression algorithm." alt="" coords="175,5,321,61"/>
+<area shape="rect" id="node2" href="$classifiers_8hpp.html" title="Includes the headers related to classifiers." alt="" coords="161,109,335,151"/>
+<area shape="rect" id="node3" href="$ml_8hpp.html" title="Includes the headers related to learning&#45;based predictors." alt="" coords="5,288,136,329"/>
+<area shape="rect" id="node5" href="$ueclpredictor_8hpp.html" title="Contains the implementation of an encoder&#45;classifier link predictor." alt="" coords="154,199,342,240"/>
+<area shape="rect" id="node10" href="$predictor_8hpp.html" title="Contains the definition of a class that simplifies the use of link prediction algorithms." alt="" coords="327,467,471,508"/>
+<area shape="rect" id="node4" href="$linkpred_8hpp.html" title="Includes all headers of the library." alt="" coords="53,645,190,672"/>
+<area shape="rect" id="node6" href="$undirected_8hpp.html" title="Includes the headers of link predictors for undirected networks." alt="" coords="161,288,335,329"/>
+<area shape="rect" id="node7" href="$predictors_8hpp.html" title="Includes the headers of link predictors." alt="" coords="152,377,325,419"/>
+<area shape="rect" id="node8" href="$evaluator_8hpp.html" title="Contains the definition of a class that simplifies the evaluation of link prediction algorithms." alt="" coords="159,467,303,508"/>
+<area shape="rect" id="node9" href="$simp_8hpp.html" title="Includes all headers of the essential interface." alt="" coords="159,556,303,597"/>
+</map>

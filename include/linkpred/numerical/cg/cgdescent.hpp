@@ -16,7 +16,13 @@
 #include <cmath>
 #include "linkpred/numerical/cg/cgblas.hpp"
 
+namespace LinkPred {
+
+/**
+ * Contains routines of a conjugate gradient method.
+ */
 namespace CG {
+
 typedef long int INT;
 const INT INT_INF = LONG_MAX;
 constexpr double INF = DBL_MAX;
@@ -500,5 +506,8 @@ public:
 	 */
 	virtual ~CGDescent() = default;
 };
-} // namespace
+} /* namespace CG */
+
+} /* namespace LinkPred */
+
 #endif /* CGDESCENT_HPP_ */

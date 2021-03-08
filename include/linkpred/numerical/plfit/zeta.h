@@ -26,6 +26,8 @@
 #ifndef __ZETA_H__
 #define __ZETA_H__
 
+namespace LinkPred {
+
 namespace PLFit {
 /* Hurwitz Zeta Function
  * zeta(s,q) = Sum[ (k+q)^(-s), {k,0,Infinity} ]
@@ -35,6 +37,8 @@ namespace PLFit {
 double gsl_sf_hzeta(const double s, const double q);
 
 } /* namespace PLFit */
+
+} /* namespace LinkPred */
 
 #endif /* __ZETA_H__ */
 
